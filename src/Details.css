@@ -1,0 +1,37 @@
+h1.name{
+    font-size: 2rem;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: 
+    "wdth" 150,
+    "XOPQ" 175,
+    "YOPQ" 25,
+    "XTRA" 350,
+    "YTLC" 550,
+    "YTAS" 850,
+    "YTDE" -300;
+    margin-bottom: 0;
+}
+  
+p.role{
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+}
+
+p.contact{
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}
+
+.social-links{
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link{
+    font-size: 1.5rem;
+    color: inherit;
+}
