@@ -26,7 +26,7 @@ function Details(){
 
     return (
         <>
-            <header>
+            <section>
                 <h1 className="name">Esparza Lopez</h1>
                 <p className="role">Full Stack Developer</p>
                 <p className="contact">christian@esparzalopez.com</p>
@@ -36,10 +36,11 @@ function Details(){
                         <SocialLink key={index} link={link}/>
                     ))}
                     <a className="resume" href="#" onClick={()=> handleClick("/api/resume")}>
-                        <i className="fa-solid fa-file-lines"></i><p>Resume</p>
+                        <i className="fa-solid fa-file-lines"></i>
+                        <p>CV</p>
                     </a>
                 </div>
-            </header>
+            </section>
         </>
     )
 }
