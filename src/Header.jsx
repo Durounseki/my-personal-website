@@ -1,5 +1,6 @@
 import './Header.css'
 import { useState, useEffect, useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 
 function Header(){
     const navLinks = [
@@ -30,6 +31,7 @@ function Header(){
     });
     const bubbleRef = useRef(null);
     const tabsRef = useRef([]);
+
 
     const handleClick = (index) => {
         setActiveTab(index)
@@ -65,9 +67,7 @@ function Header(){
                                 ref={el => tabsRef.current[index] = el}
                                 onClick={() => handleClick(index)}
                             >
-                                {/* <a href={link.url}> */}
-                                    {link.name}
-                                {/* </a> */}
+                                    <NavLink to={link.url}>{link.name}</NavLink>
                             </li>
                         ))}
                         <li
