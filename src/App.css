@@ -1,4 +1,19 @@
 #root {
   max-width: 1280px;
   padding: 2rem;
+  flex: 1;
+}
+
+main{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  height: 200vh;
+}
+
+header{
+  position: sticky;
+  top: 32px;
+  z-index: 1;
 }

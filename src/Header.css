@@ -2,20 +2,26 @@ nav{
     display: flex;
     justify-content: center;
     position: relative;
+    z-index: 3;
 }
-ul{
+
+nav ul{
     list-style: none;
     display: flex;
     gap: 36px;
     align-items: center;
-    padding: 0;
+    padding: 8px 16px;
     margin: 0;
+    background-color: transparent;
+    border-radius: 48px;
+    backdrop-filter: blur(20px);
 }
 
 .menu-tab{
-    padding: 8px 16px;
+    padding: 4px 16px;
     box-sizing: border-box;
     border-radius: 48px;
+    z-index: 3;
 }
 
 .menu-tab.active{
@@ -35,7 +41,6 @@ ul{
     border-radius: 48px;
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
-    background-color: var(--teal-600);
-    z-index: -1;
-    opacity: 20%;
+    background-color: var(--teal-800);
+    z-index: 2;
 }

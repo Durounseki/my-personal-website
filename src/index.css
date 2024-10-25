@@ -11,6 +11,7 @@
   --teal-800: #115e59;
   --teal-900: #134e4a;
   --teal-950: #042f2e;
+  --nav-background: #134e4a55;
   --main-accent: #e879f9;
   font-family: "Roboto Flex", sans-serif;
   line-height: 1.5;
@@ -18,7 +19,7 @@
 
   color-scheme: light dark;
   color: var(--teal-100);
-  background-image: linear-gradient(240deg, var(--teal-800), var(--teal-950));
+  background-image: linear-gradient(80deg, var(--teal-800), var(--teal-950));
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -29,7 +30,6 @@
 body {
   margin: 0;
   display: flex;
-  min-width: 320px;
   min-height: 100dvh;
 }
 

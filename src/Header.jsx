@@ -1,6 +1,7 @@
 import './Header.css'
 import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function Header(){
     const navLinks = [
@@ -31,11 +32,17 @@ function Header(){
     });
     const bubbleRef = useRef(null);
     const tabsRef = useRef([]);
-
+    const location = useLocation();
 
     const handleClick = (index) => {
         setActiveTab(index)
     }
+
+    useEffect(() => {
+        const path = location.pathname;
+        const activeIndex = navLinks.findIndex(link => link.url === path);
+        setActiveTab(activeIndex !== -1 ? activeIndex : 0);
+    }, [location.pathname]);
 
     useEffect(() => {
         const bubble = bubbleRef.current;
