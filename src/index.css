@@ -19,7 +19,7 @@
 
   color-scheme: light dark;
   color: var(--teal-100);
-  background-image: linear-gradient(80deg, var(--teal-800), var(--teal-950));
+  background-image: linear-gradient(80deg, var(--teal-900), var(--teal-950));
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

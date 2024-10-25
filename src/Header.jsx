@@ -64,7 +64,7 @@ function Header(){
 
     return (
         <>
-            <header>
+            <header className='menu'>
                 <nav>
                     <ul>
                         {navLinks.map((link, index) => (

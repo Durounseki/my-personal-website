@@ -3,23 +3,23 @@ import './Skills.css';
 function Skills(){
     const techStack = [
         {
-            name: "html",
+            name: "HTML",
             faClass: "fa-brands fa-html5"
         },
         {
-            name: "css",
+            name: "CSS",
             faClass: "fa-brands fa-css3-alt"
         },
         {
-            name: "javascript",
+            name: "JavaScript",
             faClass: "fa-brands fa-js"
         },
         {
-            name: "react",
+            name: "React",
             faClass: "fa-brands fa-react"
         },
         {
-            name: "node",
+            name: "Node",
             faClass: "fa-brands fa-node"
         },
     ]
@@ -27,18 +27,21 @@ function Skills(){
 
         <>
             <section className="skills">
-                <ul>
-                    {techStack.map((icon, index) => (
-                        <li className="skill">
-                            <i
-                                key={index}
-                                className={icon.faClass}
-                            >
-                            </i>
-                            <p>{icon.name}</p>
-                        </li>
-                    ))}
-                </ul>
+                <h2>TECHSTACK</h2>
+                <article>
+                    <ul>
+                        {techStack.map((icon, index) => (
+                            <li className="skill">
+                                <i
+                                    key={index}
+                                    className={icon.faClass}
+                                >
+                                </i>
+                                <p>{icon.name}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </article>
             </section>
         </>
     )
