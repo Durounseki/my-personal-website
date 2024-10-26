@@ -1,7 +1,7 @@
 import SocialLink from "./SocialLink.jsx"
 import './Details.css'
 
-function Details(){
+function Details({details}){
     
     const apiRootUrl = "http://localhost:8080";
 
@@ -13,26 +13,15 @@ function Details(){
         }
     }
 
-    const socialLinks = [
-        {
-            href: "https://github.com/Durounseki",
-            faClass: "fa-brands fa-github",
-        },
-        {
-            href: "https://www.linkedin.com/in/christian-esparza-115128200/",
-            faClass: "fa-brands fa-linkedin",
-        }
-    ]
-
     return (
         <>
-            <section>
-                <h1 className="name">Esparza Lopez</h1>
-                <p className="role">Full Stack Developer</p>
-                <p className="contact">christian@esparzalopez.com</p>
-                <p className="location"><i className="fa-solid fa-location-dot"></i> Japan</p>
+            <section className="details">
+                <h1 className="name">{details.name}</h1>
+                <p className="role">{details.role}</p>
+                <p className="contact">{details.contact}</p>
+                <p className="location"><i className="fa-solid fa-location-dot"></i> {details.location}</p>
                 <div className="social-links">
-                    {socialLinks.map((link, index) => (
+                    {details.socialLinks.map((link, index) => (
                         <SocialLink key={index} link={link}/>
                     ))}
                     <a className="resume" href="#" onClick={()=> handleClick("/api/resume")}>
