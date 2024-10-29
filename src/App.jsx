@@ -14,7 +14,7 @@ function App() {
   return (
     <main>
       <Header/>
-      <div className="content">
+      <article className="content">
         <Routes>
           <Route path="/" element={<Home/>}></Route>
           <Route path="/research" element={<Research/>}></Route>
@@ -25,7 +25,7 @@ function App() {
           <Route path="/about" element={<>About</>}></Route>
           <Route path="/resume" element={<Resume/>}></Route>
         </Routes>
-      </div>
+      </article>
       <Footer/>
     </main>
   )
