@@ -1,5 +1,8 @@
+.publication{
+    padding: 0 24px;
+}
 .publication-date, .publication-description, .publication-info{
-    color: var(--teal-200);
+    color: var(--teal-300);
 }
 
 .publication-title{
@@ -38,7 +41,7 @@
 .publication-keywords li{
     list-style: none;
     font-size: smaller;
-    background-color: var(--teal-700);
+    background-color: var(--teal-800);
     padding: 4px 16px;
     border-radius: 16px;
 }

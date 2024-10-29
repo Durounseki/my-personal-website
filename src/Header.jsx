@@ -39,8 +39,9 @@ function Header(){
     }
 
     useEffect(() => {
-        const path = location.pathname;
-        const activeIndex = navLinks.findIndex(link => link.url === path);
+        const path = location.pathname.split("/")[1] || "/";
+        console.log(path);
+        const activeIndex = navLinks.findIndex(link => link.url === `/${path}`);
         setActiveTab(activeIndex !== -1 ? activeIndex : 0);
     }, [location.pathname]);
 

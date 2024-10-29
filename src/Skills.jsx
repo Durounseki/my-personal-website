@@ -31,12 +31,8 @@ function Skills(){
                 <article>
                     <ul>
                         {techStack.map((icon, index) => (
-                            <li className="skill">
-                                <i
-                                    key={index}
-                                    className={icon.faClass}
-                                >
-                                </i>
+                            <li key={index} className="skill">
+                                <i className={icon.faClass}></i>
                                 <p>{icon.name}</p>
                             </li>
                         ))}

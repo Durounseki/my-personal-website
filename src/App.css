@@ -23,8 +23,21 @@ header.menu{
   z-index: 1;
 }
 
-article{
-  padding: 0 24px;
+h1{
+  color: var(--teal-300);
+  font-size: 2rem;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: normal;
+  font-variation-settings: 
+  "wdth" 150,
+  "XOPQ" 175,
+  "YOPQ" 25,
+  "XTRA" 350,
+  "YTLC" 550,
+  "YTAS" 850,
+  "YTDE" -300;
+  margin-bottom: 0;
 }
 
 h2{
