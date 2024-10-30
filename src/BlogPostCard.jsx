@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 function BlogPostCard({post}){
-    const postDate = new Date(post.date);
+    const postDate = new Date(post.createdAt);
     const [day, weekday] = postDate.toLocaleDateString('en-JP', {day: 'numeric', weekday: 'long'}).split(' ');
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ function BlogPostCard({post}){
                 <footer className="post-keywords">
                     <ul>
                         {post.keywords.map((keyword) => (
-                            <li key={keyword}>{keyword}</li>
+                            <li key={keyword.id}>{keyword.name}</li>
                         ))}
                     </ul>
                 </footer>

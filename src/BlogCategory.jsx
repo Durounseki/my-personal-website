@@ -24,8 +24,11 @@ const useLatestPosts = (categoryId) => {
 }
 
 function BlogCategory({category}){
-    console.log(category);
+    console.log("category: ", category);
     const {posts, loading, error} = useLatestPosts(category.id);
+    for(let i = 0; i < posts.length; i++){
+        console.log("id", posts[i].id);
+    }
 
     if(loading){
         return <p>Loading...</p>
