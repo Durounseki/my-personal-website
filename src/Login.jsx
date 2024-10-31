@@ -1,14 +1,70 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './Login.css'
+
+const apiRootUrl = "http://localhost:8080";
+
+const api = axios.create({
+    baseURL: apiRootUrl,
+    withCredentials: true,
+});
 
 function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(email, password, rememberMe);
+        try{
+            const response = await api.post("/api/users/login", {
+                email,
+                password,
+                rememberMe
+            });
+            if(response.status === 200){
+                console.log("Login successful:", response.data);
+            }else{
+                console.error("Login failed:", response.data);
+            }
+        }catch(error){
+            console.error("Login error:", error);
+        }
     }
+
+    const handleProfileGet = async () => {
+        try {
+          const response = await api.get("/profile");
+          console.log("Profile GET response:", response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                console.error("Unauthorized access:", error.response.data); 
+              } else {
+                console.error("Profile GET error:", error);
+              }
+        }
+      };
+    
+      const handleRefreshPost = async () => {
+        try {
+          const response = await api.post("/api/users/refresh");
+          console.log("Refresh POST response:", response.data);
+        } catch (error) {
+          console.error("Refresh POST error:", error);
+        }
+      };
+    
+      const handleLogoutPost = async () => {
+        try {
+          const response = await api.post("/api/users/logout");
+          console.log("Logout POST response:", response.data);
+        } catch (error) {
+          console.error("Logout POST error:", error);
+        }
+      };
+
     const handleGithubSubmit = (event) => {
         event.preventDefault();
     }
@@ -50,7 +106,19 @@ function Login(){
                                 onChange={(e)=> setPassword(e.target.value)}
                                 required
                             />
-                            <Link to="/users/reset-password">Forgot password</Link>
+                            <div className="forgot-or-remember">
+                                <label for="remember-me">
+                                    <input
+                                        type="checkbox"
+                                        id="remember-me"
+                                        name="remember-me"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                    />
+                                    Remember me
+                                </label>
+                                <Link to="/users/reset-password">Forgot password</Link>
+                            </div>
                         </div>
                         <button type="submit" className="submit-user">Log in</button>
                     </form>
@@ -65,6 +133,11 @@ function Login(){
                             <button><i className='fa-brands fa-google'></i></button>
                         </form>
                     </div>
+                    <div>
+                            <button onClick={handleProfileGet}>GET /profile</button>
+                            <button onClick={handleRefreshPost}>POST /api/users/refresh</button>
+                            <button onClick={handleLogoutPost}>POST /api/users/logout</button>
+                        </div>
 
                 </div>
                 <p>Don't have an account? <Link to="/users/signup">Sign up</Link></p>

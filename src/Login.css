@@ -46,6 +46,7 @@ input{
 
 .login-form-container button:hover{
     background-color: #cd3a3a;
+    cursor: pointer;
 }
 
 .form-group{
@@ -77,6 +78,11 @@ input{
     gap: 16px;
     align-items: center;
 }
+.forgot-or-remember{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .social-login button{
     outline: 1px solid var(--teal-800);
@@ -85,4 +91,5 @@ input{
 
 .social-login button:hover{
     background-color: var(--teal-900);
+    cursor: pointer;
 }
