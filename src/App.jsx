@@ -4,11 +4,14 @@ import Research from './Research.jsx';
 import Blog from './Blog.jsx';
 import BlogIndex from './BlogIndex.jsx';
 import Header from './Header.jsx';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Resume from './Resume.jsx';
 import Footer from './Footer.jsx';
 import BlogPost from './BlogPost.jsx';
 import Login from './Login.jsx';
+import SignUp from './SignUp.jsx';
+import ResetPassword from './ResetPassword.jsx';
+import Profile from './Profile.jsx'
 
 function App() {
   
@@ -25,7 +28,11 @@ function App() {
           </Route>
           <Route path="/about" element={<>About</>}></Route>
           <Route path="/resume" element={<Resume/>}></Route>
-          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/users" element={<Navigate to="/users/login"/>}></Route>
+          <Route path="/users/login" element={<Login/>}></Route>
+          <Route path="/users/signup" element={<SignUp/>}></Route>
+          <Route path="/users/reset-password" element={<ResetPassword/>}></Route>
+          <Route path="/users/profile" element={<Profile/>}></Route>
         </Routes>
       </article>
       <Footer/>

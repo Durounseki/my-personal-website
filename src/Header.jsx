@@ -26,7 +26,7 @@ function Header(){
         },
         {
             name: "Login",
-            url: "/login",
+            url: "/users",
             faClass: "fa-solid fa-right-to-bracket"
         }
     ]
