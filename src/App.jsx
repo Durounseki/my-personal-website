@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Resume from './Resume.jsx';
 import Footer from './Footer.jsx';
 import BlogPost from './BlogPost.jsx';
+import Login from './Login.jsx';
 
 function App() {
   
@@ -24,6 +25,7 @@ function App() {
           </Route>
           <Route path="/about" element={<>About</>}></Route>
           <Route path="/resume" element={<Resume/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
         </Routes>
       </article>
       <Footer/>

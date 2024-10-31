@@ -23,6 +23,11 @@ function Header(){
             name: "About",
             url: "/about",
             faClass: "fa-solid fa-circle-info"
+        },
+        {
+            name: "Login",
+            url: "/login",
+            faClass: "fa-solid fa-right-to-bracket"
         }
     ]
     const [activeTab, setActiveTab] = useState(0)
