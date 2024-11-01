@@ -93,3 +93,63 @@ input{
     background-color: var(--teal-900);
     cursor: pointer;
 }
+
+.alert-message{
+    min-width: 20px;
+    min-height: 20px;
+    position: fixed;
+    right: 50px;
+    top: 50px;
+    padding: 0 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background-color: var(--teal-1100);
+    border-radius: 8px;
+    z-index: 4;
+    animation: slide-in-out 3s forwards;
+}
+
+.alert-message.fail{
+    outline: 2px solid #cd5c5c;
+}
+
+.alert-message.success{
+    outline: 2px solid #367c39;
+}
+
+.alert-message.warning{
+    outline: 2px solid #cc7a00;
+}
+
+.alert-message.fail i{
+    font-size: medium;
+    color: #cd5c5c;
+}
+.alert-message.success i{
+    font-size: medium;
+    color: #367c39;
+}
+.alert-message.warning i{
+    font-size: medium;
+    color: #cc7a00;
+}
+
+@keyframes slide-in-out{
+    0%{
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    10%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+    90%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100%{
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

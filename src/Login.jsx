@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AlertMessage from './AlertMessage.jsx';
+
 import axios from 'axios';
 import './Login.css'
 
@@ -14,54 +16,90 @@ function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState('');
+
+    const handleDeleteMessage = () => {
+        setMessage('');
+        setMessageType('');
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(email, password, rememberMe);
+        setMessage('');
         try{
             const response = await api.post("/api/users/login", {
                 email,
                 password,
                 rememberMe
             });
+            console.log(response);
             if(response.status === 200){
-                console.log("Login successful:", response.data);
+                setMessage("Login successful!");
+                setMessageType("success");
+                setIsAuthenticated(true);
             }else{
-                console.error("Login failed:", response.data);
+                setMessage("Invalid email or password.");
+                setMessageType("warning");
             }
         }catch(error){
-            console.error("Login error:", error);
+            if( 400 <= error.response.status < 500){
+                setMessage("Invalid email or password.")
+                setMessageType("fail");
+            }else{
+                setMessage("An unexpected error occurred, please try again.")
+                setMessageType("fail");
+            }
         }
     }
 
     const handleProfileGet = async () => {
-        try {
-          const response = await api.get("/profile");
-          console.log("Profile GET response:", response.data);
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                console.error("Unauthorized access:", error.response.data); 
-              } else {
-                console.error("Profile GET error:", error);
-              }
+        if(isAuthenticated){
+            try {
+                const response = await api.get("/profile");
+                if (response) { 
+                    console.log("Profile GET response:", response.data);
+                } else {
+                    console.log("Profile GET: Unauthorized"); // Or handle it differently
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    console.error("Unauthorized access:", error.response.data); 
+                } else {
+                    console.error("Profile GET error:", error);
+                }
+            }
+        }else{
+            console.log("Not authenticated. Skipping /profile request");
         }
-      };
+    };
     
       const handleRefreshPost = async () => {
-        try {
-          const response = await api.post("/api/users/refresh");
-          console.log("Refresh POST response:", response.data);
-        } catch (error) {
-          console.error("Refresh POST error:", error);
+        if(isAuthenticated){
+            try {
+                const response = await api.post("/api/users/refresh");
+                console.log("Refresh POST response:", response.data);
+            } catch (error) {
+                console.error("Refresh POST error:", error);
+            }
+        }else{
+            console.log("Not authenticated. Skipping /profile request");
         }
       };
     
       const handleLogoutPost = async () => {
-        try {
-          const response = await api.post("/api/users/logout");
-          console.log("Logout POST response:", response.data);
-        } catch (error) {
-          console.error("Logout POST error:", error);
+        if(isAuthenticated){
+
+            try {
+                const response = await api.post("/api/users/logout");
+                console.log("Logout POST response:", response.data);
+                setIsAuthenticated(false);
+            } catch (error) {
+                console.error("Logout POST error:", error);
+            }
+        }else{
+            console.log("Not authenticated. Skipping /profile request");
         }
       };
 
@@ -73,6 +111,7 @@ function Login(){
     }
     return (
         <>
+            <AlertMessage message={message} type={messageType} onDeleteMessage={handleDeleteMessage}/>
             <div className="login-form-container">
                 <h1>Welcome back</h1>
                 <p>Log in to your account to continue.</p>
@@ -107,7 +146,7 @@ function Login(){
                                 required
                             />
                             <div className="forgot-or-remember">
-                                <label for="remember-me">
+                                <label htmlFor="remember-me">
                                     <input
                                         type="checkbox"
                                         id="remember-me"
