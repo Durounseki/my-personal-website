@@ -21,7 +21,7 @@ function AlertMessage({ message, type, onDeleteMessage}) {
     <>
       {showModal && (
         <div className={alertClass}> 
-            <i class="fa-solid fa-circle-exclamation"></i><p>{message}</p>
+            <i className="fa-solid fa-circle-exclamation"></i><p>{message}</p>
         </div>
       )}
     </>

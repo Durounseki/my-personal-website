@@ -1,24 +1,28 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import AlertMessage from './AlertMessage.jsx';
+import {useAuth} from './AuthContext';
 
-import axios from 'axios';
+// import axios from 'axios';
 import './Login.css'
 
-const apiRootUrl = "http://localhost:8080";
+// const apiRootUrl = "http://localhost:8080";
 
-const api = axios.create({
-    baseURL: apiRootUrl,
-    withCredentials: true,
-});
+// const api = axios.create({
+//     baseURL: apiRootUrl,
+//     withCredentials: true,
+// });
 
 function Login(){
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    // const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState('');
+
+    const navigate = useNavigate();
 
     const handleDeleteMessage = () => {
         setMessage('');
@@ -29,24 +33,17 @@ function Login(){
         event.preventDefault();
         setMessage('');
         try{
-            const response = await api.post("/api/users/login", {
+            await login({
                 email,
                 password,
                 rememberMe
             });
-            console.log(response);
-            if(response.status === 200){
-                setMessage("Login successful!");
-                setMessageType("success");
-                setIsAuthenticated(true);
-            }else{
-                setMessage("Invalid email or password.");
-                setMessageType("warning");
-            }
+            setMessage("Login successful!");
+            setMessageType("success");
         }catch(error){
             if( 400 <= error.response.status < 500){
                 setMessage("Invalid email or password.")
-                setMessageType("fail");
+                setMessageType("warning");
             }else{
                 setMessage("An unexpected error occurred, please try again.")
                 setMessageType("fail");

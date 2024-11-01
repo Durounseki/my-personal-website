@@ -13,30 +13,47 @@ import SignUp from './SignUp.jsx';
 import ResetPassword from './ResetPassword.jsx';
 import Profile from './Profile.jsx'
 
+import { AuthProvider } from './AuthContext';
+import ProtectedRoute from './ProtectedRoute.jsx';
+
 function App() {
   
   return (
-    <main>
-      <Header/>
-      <article className="content">
-        <Routes>
-          <Route path="/" element={<Home/>}></Route>
-          <Route path="/research" element={<Research/>}></Route>
-          <Route path="/blog" element={<Blog/>}>
-            <Route index element={<BlogIndex/>}></Route>
-            <Route path=":id" element={<BlogPost/>}></Route>
-          </Route>
-          <Route path="/about" element={<>About</>}></Route>
-          <Route path="/resume" element={<Resume/>}></Route>
-          <Route path="/users" element={<Navigate to="/users/login"/>}></Route>
-          <Route path="/users/login" element={<Login/>}></Route>
-          <Route path="/users/signup" element={<SignUp/>}></Route>
-          <Route path="/users/reset-password" element={<ResetPassword/>}></Route>
-          <Route path="/users/profile" element={<Profile/>}></Route>
-        </Routes>
-      </article>
-      <Footer/>
-    </main>
+    <AuthProvider>
+      <main>
+        <Header/>
+        <article className="content">
+          <Routes>
+            <Route path="/" element={<Home/>}></Route>
+            <Route path="/research" element={<Research/>}></Route>
+            <Route path="/blog" element={<Blog/>}>
+              <Route index element={<BlogIndex/>}></Route>
+              <Route path=":id" element={<BlogPost/>}></Route>
+            </Route>
+            <Route path="/about" element={<>About</>}></Route>
+            <Route path="/resume" element={<Resume/>}></Route>
+            <Route path="/users/*" element={<UserRoutes/>}/>
+          </Routes>
+        </article>
+        <Footer/>
+      </main>
+    </AuthProvider>
+  )
+}
+
+const UserRoutes = () => {
+  return (
+    <Routes>
+        <Route path="/" element={<Navigate to="login"/>}></Route>
+        <Route path="login" element={<Login/>}></Route>
+        <Route path="signup" element={<SignUp/>}></Route>
+        <Route path="reset-password" element={<ResetPassword/>}></Route>
+        <Route path="profile" element={
+          <ProtectedRoute>
+            <Profile/>
+          </ProtectedRoute>
+        }></Route>
+    </Routes>
   )
 }
 
