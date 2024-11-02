@@ -1,109 +1,169 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from './AuthContext.jsx';
+import './Profile.css';
+
+const useUserInfo = (userId) => {
+    console.log("fetching data");
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const apiRootUrl = "http://localhost:8080";
+    const hasFetched = useRef(false);
+
+    useEffect(() => {
+        if(userId && !hasFetched.current){
+            hasFetched.current = true;
+            fetch(`${apiRootUrl}/api/users/${userId}`, {mode: "cors"})
+            .then((response) => {
+                console.log("something went bad");
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("data:", data);
+                setUser(data)
+            })
+            .catch((error) => setError(error))
+            .finally(() => setLoading(false));
+        }
+    },[userId]);
+    
+    return {user, loading, error};
+}
 
 function Profile() {
   const { userId } = useAuth();
+  console.log(userId);
+  const {user, loading, error} = useUserInfo(userId);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(`/api/users/${userId}`); // Fetch user data
-        if (response.ok) {
-          const userData = await response.json();
-          setUsername(userData.username);
-          setEmail(userData.email);
-          console.log(username);
-        } else {
-          console.error('Failed to fetch user data');
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+  const handleGeneralSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Info saved")
+  }
+  const handleSecuritySubmit = async (event) => {
+    event.preventDefault();
+    console.log("Password changed")
+  }
+  const handleDeleteAccount = async (event) => {
+    event.preventDefault();
+    console.log("Account deleted")
+  }
 
-    if (userId) {
-      fetchUserData();
+  useEffect(() =>{
+    if(user){
+        setUsername(user.username);
+        setEmail(user.email);
     }
-  }, [userId]);
+  },[user]);
 
-  const handleGeneralSubmit = (event) => {
-    event.preventDefault();
-    // Handle saving general information (username, email)
-    console.log('General form submitted:', { username, email });
-  };
+  if(error){
+    return <p>A network error was encountered</p>
+}
+  
+  if(loading){
+    console.log("Loading")
+    return <p>Loading...</p>
+}else{
 
-  const handleSecuritySubmit = (event) => {
-    event.preventDefault();
-    // Handle saving security information (password)
-    console.log('Security form submitted:', { currentPassword, newPassword, confirmNewPassword });
-  };
-
-  const handleDeleteAccount = () => {
-    // Handle account deletion
-    console.log('Delete account clicked');
-  };
-
-  return (
-    <div>
-      <h1>Profile</h1>
-
-      {/* General Information */}
-      <form onSubmit={handleGeneralSubmit}>
-        <h2>General</h2>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <span id="username">{username}</span> {/* Display username */}
+    console.log("user profile", user)
+return (
+<div className="profile-container">
+    <div className="profile-form">
+        <div className="general-info">
+            <h2>General</h2>
+            <form onSubmit={handleGeneralSubmit}>
+                <div className="form-group">
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                    />
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                    <input
+                        type="email"
+                        id="email-confirm"
+                        name="email-confirm"
+                        autoComplete="off"
+                        style={{visibility: 'hidden', position: 'absolute'}}
+                    />
+                </div>
+                <button type="submit" className="submit-user">Save</button>
+            </form>
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <span id="email">{email}</span> {/* Display email */}
+        <div className="security">
+            <h2>Security</h2>
+            <form onSubmit={handleSecuritySubmit}>
+                <div className="form-group">
+                    <label htmlFor="current-password">Current Password:</label>
+                    <input
+                        type="password"
+                        id="`current-password"
+                        name="current-password"
+                        value={currentPassword}
+                        onChange={e => setCurrentPassword(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        id="confirm-password"
+                        name="confirm-password"
+                        autoComplete="off"
+                        style={{visibility: 'hidden', position: 'absolute'}}
+                    />
+                    <label htmlFor="new-password">New Password:</label>
+                    <input
+                        type="password"
+                        id="new-password"
+                        name="new-password"
+                        value={newPassword}
+                        onChange={e => setNewPassword(e.target.value)}
+                    />
+                    <label htmlFor="confirm-new-password">Confirm new password:</label>
+                    <input
+                        type="password"
+                        id="confirm-new-password"
+                        name="confirm-new-password"
+                        value={confirmNewPassword}
+                        onChange={e => setConfirmNewPassword(e.target.value)}
+                    />
+                </div>
+                <button type="submit" className="submit-user">Save</button>
+            </form>
         </div>
-        <button type="submit">Save</button>
-      </form>
-
-      {/* Security Information */}
-      <form onSubmit={handleSecuritySubmit}>
-        <h2>Security</h2>
-        <div>
-          <label htmlFor="currentPassword">Current Password:</label>
-          <input
-            type="password"
-            id="currentPassword"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-          />
+        <div className="danger-zone">
+            <h2>Delete your account</h2>
+            <p>This operation can't be undone</p>
+            <form onSubmit={handleDeleteAccount}>
+                <input
+                    type="text"
+                    id="username-confirm"
+                    name="username-confirm"
+                    autoComplete="off"
+                    style={{visibility: 'hidden', position: 'absolute'}}
+                />
+                <button type="submit" className="submit-user">Delete</button>
+            </form>
         </div>
-        <div>
-          <label htmlFor="newPassword">New Password:</label>
-          <input
-            type="password"
-            id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="confirmNewPassword">Confirm New Password:</label>
-          <input
-            type="password"
-            id="confirmNewPassword"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Save</button>
-      </form>
-
-      {/* Danger Zone */}
-      <h2>Danger Zone</h2>
-      <button onClick={handleDeleteAccount}>Delete Account</button>
     </div>
-  );
+</div>
+)
+}
 }
 
 export default Profile;
