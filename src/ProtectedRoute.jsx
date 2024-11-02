@@ -20,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
         };
         authenticate();
     }
-  }, [checkAuthentication]);
+  }, []);
 
   if (isLoading){
     return <div>Loading...</div>

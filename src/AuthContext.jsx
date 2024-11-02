@@ -43,15 +43,15 @@ export const AuthProvider = ({ children }) => {
     
     const checkAuthentication = async () =>{
         try{
-            console.log("authenticating");
+            // console.log("authenticating");
             const response = await api.get('/api/users/checkAuth');
             if(response.status === 200){
-                console.log("authenticated");
+                // console.log("authenticated");
                 setIsAuthenticated(true);
                 setUserId(response.data);
-                console.log("response:", response.data);
+                // console.log("response:", response.data);
             }else{
-                console.log("something went wrong")
+                // console.log("something went wrong")
                 setIsAuthenticated(false);
                 setUserId(null)
             }

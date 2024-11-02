@@ -8,7 +8,7 @@
     margin: 0;
 }
 
-.general-info, .security, .danger-zone{
+.profile-form{
     display: flex;
     flex-direction: column;
     gap: 32px;
@@ -45,3 +45,34 @@
     flex-direction: column;
     gap: 8px;
 }
+
+.input-message{
+    font-size: smaller;
+    color: #cd5c5c;
+}
+
+.input-error{
+    outline: 1px solid #cd5c5c;
+    color: #cd5c5c;
+}
+
+input:focus{
+    outline: 2px solid var(--teal-500);
+    color: inherit;
+}
+
+.warning{
+    color: #cd5c5c;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.warning i{
+    font-size: medium;
+}
+
+.warning p{
+    margin-top: 8px;
+}
+
