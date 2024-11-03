@@ -2,53 +2,21 @@ import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AlertMessage from './AlertMessage.jsx';
 import {useAuth} from './AuthContext';
-
-// import axios from 'axios';
 import './Login.css'
-
-// const apiRootUrl = "http://localhost:8080";
-
-// const api = axios.create({
-//     baseURL: apiRootUrl,
-//     withCredentials: true,
-// });
 
 function Login(){
     const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    // const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [message, setMessage] = useState('');
-    const [messageType, setMessageType] = useState('');
-
-    const navigate = useNavigate();
-
-    const handleDeleteMessage = () => {
-        setMessage('');
-        setMessageType('');
-    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setMessage('');
-        try{
-            await login({
-                email,
-                password,
-                rememberMe
-            });
-            setMessage("Login successful!");
-            setMessageType("success");
-        }catch(error){
-            if( 400 <= error.response.status < 500){
-                setMessage("Invalid email or password.")
-                setMessageType("warning");
-            }else{
-                setMessage("An unexpected error occurred, please try again.")
-                setMessageType("fail");
-            }
-        }
+        await login({
+            email,
+            password,
+            rememberMe
+        });
     }
 
     const handleProfileGet = async () => {
@@ -108,7 +76,6 @@ function Login(){
     }
     return (
         <>
-            <AlertMessage message={message} type={messageType} onDeleteMessage={handleDeleteMessage}/>
             <div className="login-form-container">
                 <h1>Welcome back</h1>
                 <p>Log in to your account to continue.</p>

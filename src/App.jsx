@@ -15,6 +15,7 @@ import Profile from './Profile.jsx'
 
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute.jsx';
+import AuthRoute from './AuthRoute.jsx'
 
 function App() {
   
@@ -45,9 +46,21 @@ const UserRoutes = () => {
   return (
     <Routes>
         <Route path="/" element={<Navigate to="login"/>}></Route>
-        <Route path="login" element={<Login/>}></Route>
-        <Route path="signup" element={<SignUp/>}></Route>
-        <Route path="reset-password" element={<ResetPassword/>}></Route>
+        <Route path="login" element={
+          <AuthRoute>
+            <Login/>
+          </AuthRoute>
+        }></Route>
+        <Route path="signup" element={
+          <AuthRoute>
+            <SignUp/>
+          </AuthRoute>
+        }></Route>
+        <Route path="reset-password" element={
+          <AuthRoute>
+            <ResetPassword/>
+          </AuthRoute>
+        }></Route>
         <Route path="profile" element={
           <ProtectedRoute>
             <Profile/>

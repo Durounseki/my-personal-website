@@ -1,9 +1,8 @@
-// ProtectedRoute.jsx
 import { useEffect, useState, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const ProtectedRoute = ({ children }) => {
+const AuthRoute = ({ children }) => {
   const { isAuthenticated, checkAuthentication } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const hasRun = useRef(false);
@@ -27,11 +26,11 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (isAuthenticated) {
-      return children;
+      return <Navigate to="/users/profile" replace />
   }else{
-    return <Navigate to="/users/login" replace />;
+    return children;
   }
 
 };
 
-export default ProtectedRoute;
+export default AuthRoute;

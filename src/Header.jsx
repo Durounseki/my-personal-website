@@ -2,8 +2,10 @@ import './Header.css'
 import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 function Header(){
+    const { isAuthenticated } = useAuth();
     const navLinks = [
         {
             name: "E L",
@@ -25,9 +27,9 @@ function Header(){
             faClass: "fa-solid fa-circle-info"
         },
         {
-            name: "Login",
+            name: isAuthenticated ? "Profile" : "Login",
             url: "/users",
-            faClass: "fa-solid fa-right-to-bracket"
+            faClass: isAuthenticated ? "fa-solid fa-user" : "fa-solid fa-right-to-bracket"
         }
     ]
     const [activeTab, setActiveTab] = useState(0)
@@ -45,7 +47,6 @@ function Header(){
 
     useEffect(() => {
         const path = location.pathname.split("/")[1] || "/";
-        console.log(path);
         const activeIndex = navLinks.findIndex(link => link.url === `/${path}`);
         setActiveTab(activeIndex !== -1 ? activeIndex : 0);
     }, [location.pathname]);

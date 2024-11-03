@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import AlertMessage from './AlertMessage';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -37,21 +38,23 @@ api.interceptors.response.use(
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [alertMessage, setAlertMessage] = useState('');
+    const [messageType, setMessageType] = useState('');
 
     const navigate = useNavigate();
 
+    const handleDeleteMessage = () => {
+        setAlertMessage('');
+        setMessageType('');
+    }
     
     const checkAuthentication = async () =>{
         try{
-            // console.log("authenticating");
             const response = await api.get('/api/users/checkAuth');
             if(response.status === 200){
-                // console.log("authenticated");
                 setIsAuthenticated(true);
                 setUserId(response.data);
-                // console.log("response:", response.data);
             }else{
-                // console.log("something went wrong")
                 setIsAuthenticated(false);
                 setUserId(null)
             }
@@ -62,15 +65,36 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const signup = async (credentials) => {
+        try{
+            const response = await api.post('/api/users/signup', credentials);
+            if(response.status === 200){
+                navigate('/users/login');
+            }
+        }catch(error){
+            console.error("Signup failed:", error);
+            throw error;
+        }
+    };
+
     const login = async(credentials) => {
+        setAlertMessage('');
+        setMessageType('');
         try{
             const response = await api.post('/api/users/login', credentials);
             if(response.status === 200){
+                setAlertMessage("Login successful!");
+                setMessageType("success");
                 navigate('/users/profile');
             }
         }catch(error){
-            console.error("Login failed:", error);
-            throw error;
+            if( 400 <= error.response.status < 500){
+                setAlertMessage("Invalid email or password.")
+                setMessageType("warning");
+            }else{
+                setAlertMessage("An unexpected error occurred, please try again.")
+                setMessageType("fail");
+            }
         }
     };
 
@@ -86,16 +110,58 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const updateUser = async (userId, data) => { 
+        try {
+            console.log("sending data");
+            console.log("route:", `/api/users/${userId}`)
+            const response = await api.put(`/api/users/${userId}`, data);
+            if (response.status === 200) {
+                console.log("User updated successfully"); 
+                return response.data;
+            }
+        } catch (error) {
+            console.error("Failed to update user:", error);
+            throw error;
+        }
+    };
+
+    const deleteAccount = async (userId,data) => {
+        try {
+            console.log("deleting user data:",data);
+            const response = await api.delete(`/api/users/${userId}`,{data});
+            if (response.status === 200) {
+                console.log("Account deleted successfully");
+                setIsAuthenticated(false);
+                setUserId(null);
+                navigate('/users/login');
+            }
+        } catch (error) {
+            console.error("Failed to delete account:", error);
+            throw error; 
+        }
+    };
+
+
     const contextValue = {
         isAuthenticated,
         userId,
         checkAuthentication,
+        signup,
         login,
-        logout
+        logout,
+        updateUser,
+        deleteAccount
     };
     
     return (
         <AuthContext.Provider value={contextValue}>
+            {alertMessage !== '' && (
+                <AlertMessage
+                    message={alertMessage}
+                    type={messageType}
+                    onDeleteMessage={handleDeleteMessage}
+                />
+            ) }
             {children}
         </AuthContext.Provider>
     );
