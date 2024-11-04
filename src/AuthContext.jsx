@@ -15,16 +15,11 @@ const api = axios.create({
 api.interceptors.response.use(
     response => response,
     async error => {
-        // console.log("error:", error.response.status)
         const originalRequest = error.config;
-        // console.log("retried:", originalRequest._retry)
         if(error.response.status === 401 && !originalRequest._retry){
             originalRequest._retry = true;
-            // console.log("retried:", originalRequest._retry)
             try{
-                // console.log("trying to refresh");
                 const response = await api.post('/api/users/refresh');
-                // console.log("refresh successful");
                 return api(originalRequest);
             }catch(refreshError){
                 console.error('Invalid token', refreshError);
@@ -66,14 +61,23 @@ export const AuthProvider = ({ children }) => {
     };
 
     const signup = async (credentials) => {
+        setAlertMessage('');
+        setMessageType('');
         try{
             const response = await api.post('/api/users/signup', credentials);
-            if(response.status === 200){
-                navigate('/users/login');
+            if(response.status === 201){
+                setAlertMessage("Account created!");
+                setMessageType("success");
+                navigate('/users/profile');
             }
         }catch(error){
-            console.error("Signup failed:", error);
-            throw error;
+            if(error.response.status === 400){
+                setAlertMessage("Email already registered.")
+                setMessageType("warning");
+            }else{
+                setAlertMessage("An unexpected error occurred, please try again.")
+                setMessageType("fail");
+            }
         }
     };
 
@@ -99,45 +103,52 @@ export const AuthProvider = ({ children }) => {
     };
 
     const logout = async () => {
+        setAlertMessage('');
+        setMessageType('');
         try {
             await api.post('/api/users/logout');
             setIsAuthenticated(false);
             setUserId(null);
+            setAlertMessage('Logout successful!');
+            setMessageType('success');
             navigate('/users/login');
         }catch(error){
-            console.error("Logout failed:", error);
-            throw error;
+            setAlertMessage("An unexpected error occurred, please try again.")
+            setMessageType("fail");
         }
     };
 
     const updateUser = async (userId, data) => { 
+        setAlertMessage('');
+        setMessageType('');
         try {
-            console.log("sending data");
-            console.log("route:", `/api/users/${userId}`)
             const response = await api.put(`/api/users/${userId}`, data);
             if (response.status === 200) {
-                console.log("User updated successfully"); 
+                setAlertMessage('Account updated');
+                setMessageType('success');
                 return response.data;
             }
         } catch (error) {
-            console.error("Failed to update user:", error);
-            throw error;
+            setAlertMessage("An unexpected error occurred, please try again.")
+            setMessageType("fail");
         }
     };
 
     const deleteAccount = async (userId,data) => {
+        setAlertMessage('')
+        setMessageType('');
         try {
-            console.log("deleting user data:",data);
             const response = await api.delete(`/api/users/${userId}`,{data});
             if (response.status === 200) {
-                console.log("Account deleted successfully");
                 setIsAuthenticated(false);
                 setUserId(null);
+                setAlertMessage('Account deleted.')
+                setMessageType('success');
                 navigate('/users/login');
             }
         } catch (error) {
-            console.error("Failed to delete account:", error);
-            throw error; 
+            setAlertMessage("An unexpected error occurred, please try again.")
+            setMessageType("fail");
         }
     };
 

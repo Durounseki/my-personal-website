@@ -19,21 +19,6 @@ function Login(){
         console.log("data:", data);
         await login(data);
     }
-    
-      const handleLogoutPost = async () => {
-        if(isAuthenticated){
-
-            try {
-                const response = await api.post("/api/users/logout");
-                console.log("Logout POST response:", response.data);
-                setIsAuthenticated(false);
-            } catch (error) {
-                console.error("Logout POST error:", error);
-            }
-        }else{
-            console.log("Not authenticated. Skipping /profile request");
-        }
-      };
 
     const handleGithubSubmit = (event) => {
         event.preventDefault();
@@ -103,9 +88,6 @@ function Login(){
                             <button><i className='fa-brands fa-google'></i></button>
                         </form>
                     </div>
-                    <div>
-                            <button onClick={handleLogoutPost}>POST /api/users/logout</button>
-                        </div>
 
                 </div>
                 <p>Don't have an account? <Link to="/users/signup">Sign up</Link></p>

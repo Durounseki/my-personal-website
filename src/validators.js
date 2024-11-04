@@ -41,7 +41,13 @@ const validatePassword = (password) => {
 
 const validateConfirmPassword = (password, confirmPassword) => {
     if (password !== confirmPassword) {
-        return "Passwords do not match.";
+        return "Password doesn't match.";
+    }
+    return null;
+};
+const validateConfirmEmail = (email, confirmEmail) => {
+    if (email !== confirmEmail) {
+        return "Email doesn't match.";
     }
     return null;
 };
@@ -50,5 +56,6 @@ export {
     validateUsername,
     validateEmail,
     validatePassword,
-    validateConfirmPassword
+    validateConfirmPassword,
+    validateConfirmEmail
 };

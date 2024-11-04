@@ -242,7 +242,7 @@ function Profile() {
             <div className="profile-form">
                 <div>
                     <h2>Delete your account</h2>
-                    <div className={confirmDelete ? "warning" : "warning hidden"}>
+                    <div className={confirmDelete ? "delete-warning" : "delete-warning hidden"}>
                         <i className="fa-solid fa-circle-exclamation"></i><p>Are you sure you want to delete your account?</p>
                     </div>
                 </div>

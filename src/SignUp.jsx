@@ -1,14 +1,50 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import * as validators from './validators.js';
+import { useAuth } from './AuthContext.jsx';
 
 function SignUp(){
+    const { signup } = useAuth();
     const [email, setEmail] = useState('');
     const [emailConfirm, setEmailConfirm] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [emailMessage, setEmailMessage] = useState('');
+    const [confirmEmailMessage, setConfirmEmailMessage] = useState('');
+    const [passwordMessage, setPasswordMessage] = useState('');
+    const [confirmPasswordMessage, setConfirmPasswordMessage] = useState('');
+    
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        setEmailMessage('');
+        setConfirmEmailMessage('');
+        setPasswordMessage('');
+        setConfirmPasswordMessage('');
+        const emailError = validators.validateEmail(email);
+        const confirmEmailError = validators.validateConfirmEmail(email,emailConfirm);
+        const passwordError = validators.validatePassword(password);
+        const confirmPasswordError = validators.validateConfirmPassword(password,passwordConfirm);
+
+        if(emailError || passwordError || confirmPasswordError || confirmEmailError){
+            setEmailMessage(emailError ? emailError : "");
+            setConfirmEmailMessage(confirmEmailError ? confirmEmailError : "");
+            setPasswordMessage(passwordError ? passwordError : "");
+            setConfirmPasswordMessage(confirmPasswordError ? confirmPasswordError : "");
+            return;
+        }else{
+            try{
+                const data = {}
+                for(const [key, value] of new FormData(event.target)){
+                    data[key] = value;
+                }
+                console.log("data:", data);
+                await signup(data);
+                console.log("User account created successfully");
+            }catch(error){
+                console.error("Failed to update user:", error);
+            }
+        }
     }
     const handleGithubSubmit = (event) => {
         event.preventDefault();
@@ -36,6 +72,7 @@ function SignUp(){
                             />
                             <label htmlFor="email">Email:</label>
                             <input
+                                className={emailMessage === "" ? "" : "input-error"}
                                 type="email"
                                 id="email"
                                 name="email"
@@ -43,8 +80,12 @@ function SignUp(){
                                 onChange={(e)=> setEmail(e.target.value)}
                                 required
                             />
+                            <p className='input-message'>
+                                {emailMessage}
+                            </p>
                             <label htmlFor="email-confirm">Confirm Email:</label>
                             <input
+                                className={confirmEmailMessage === "" ? "" : "input-error"}
                                 type="email"
                                 id="email-confirm"
                                 name="email-confirm"
@@ -52,8 +93,12 @@ function SignUp(){
                                 onChange={(e)=> setEmailConfirm(e.target.value)}
                                 required
                             />
+                            <p className='input-message'>
+                                {confirmEmailMessage}
+                            </p>
                             <label htmlFor="password">Password:</label>
                             <input
+                                className={passwordMessage === "" ? "" : "input-error"}
                                 type="password"
                                 id="password"
                                 name="password"
@@ -61,8 +106,12 @@ function SignUp(){
                                 onChange={(e)=> setPassword(e.target.value)}
                                 required
                             />
+                            <p className='input-message'>
+                                {passwordMessage}
+                            </p>
                             <label htmlFor="password-confirm">Confirm Password:</label>
                             <input
+                                className={confirmPasswordMessage === "" ? "" : "input-error"}
                                 type="password"
                                 id="password-confirm"
                                 name="password-confirm"
@@ -70,6 +119,9 @@ function SignUp(){
                                 onChange={(e)=> setPasswordConfirm(e.target.value)}
                                 required
                             />
+                            <p className='input-message'>
+                                {confirmPasswordMessage}
+                            </p>
 
                         </div>
                         <button type="submit" className="submit-user">Sign up</button>

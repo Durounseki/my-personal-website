@@ -121,19 +121,20 @@ function Header(){
                             style={bubbleStyle}
                         >
                         </li>
+                        <div className="account" ref={ accountRef }>
+                            <ul>
+                                <li onClick={() => {
+                                    handleClick(navLinks.length-1)
+                                    navigate('/users/profile')
+                                }
+                                }>
+                                    Settings
+                                </li>
+                                <li onClick={handleLogout}>Logout</li>
+                            </ul>
+                        </div>
                     </ul>
-                    <div className="account" ref={ accountRef }>
-                        <ul>
-                            <li onClick={() => {
-                                handleClick(navLinks.length-1)
-                                navigate('/users/profile')
-                            }
-                            }>
-                                Settings
-                            </li>
-                            <li onClick={handleLogout}>Logout</li>
-                        </ul>
-                    </div>
+                    
                 </nav>
             </header>
         </>

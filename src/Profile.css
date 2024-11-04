@@ -61,22 +61,22 @@ input:focus{
     color: inherit;
 }
 
-.warning.hidden{
+.delete-warning.hidden{
     display: none;
 }
 
-.warning{
+.delete-warning{
     color: #cd5c5c;
     display: flex;
     gap: 8px;
     align-items: center;
 }
 
-.warning i{
+.delete-warning i{
     font-size: medium;
 }
 
-.warning p{
+.delete-warning p{
     margin-top: 8px;
 }
 
