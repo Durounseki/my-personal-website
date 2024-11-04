@@ -1,11 +1,11 @@
 import './Header.css'
 import { useState, useEffect, useRef } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
 function Header(){
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const navLinks = [
         {
             name: "E L",
@@ -39,10 +39,41 @@ function Header(){
     });
     const bubbleRef = useRef(null);
     const tabsRef = useRef([]);
+    const accountRef = useRef(null);
     const location = useLocation();
+    const navigate = useNavigate();
 
-    const handleClick = (index) => {
-        setActiveTab(index)
+    const handleClick = (index,url) => {
+        if(url === "/users" && isAuthenticated){
+            accountRef.current.classList.toggle('show');
+        }else{
+            setActiveTab(index);
+            if(accountRef.current.classList.contains('show')){
+                accountRef.current.classList.remove('show');
+            }
+        }
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (accountRef.current && !accountRef.current.contains(event.target)) {
+                accountRef.current.classList.remove('show');
+            }
+        };
+
+        if (isAuthenticated) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isAuthenticated]);
+
+    const handleLogout = async (event) =>{
+        await logout();
+        accountRef.current.classList.remove('show');
+        console.log("logout");
     }
 
     useEffect(() => {
@@ -75,14 +106,14 @@ function Header(){
                 <nav>
                     <ul>
                         {navLinks.map((link, index) => (
-                            <li 
-                                key={index}
-                                className={`menu-tab ${index === activeTab ? 'active' : ''}`}
-                                ref={el => tabsRef.current[index] = el}
-                                onClick={() => handleClick(index)}
-                            >
-                                    <NavLink to={link.url}>{link.name}</NavLink>
-                            </li>
+                                <li 
+                                    key={index}
+                                    className={`menu-tab ${index === activeTab ? 'active' : ''}`}
+                                    ref={el => tabsRef.current[index] = el}
+                                    onClick={() => handleClick(index,link.url) }
+                                    >
+                                    {(isAuthenticated && link.url === "/users") ? <span>{link.name}</span> : <NavLink to={link.url}>{link.name}</NavLink>}
+                                </li>
                         ))}
                         <li
                             className="tab-bubble"
@@ -91,6 +122,18 @@ function Header(){
                         >
                         </li>
                     </ul>
+                    <div className="account" ref={ accountRef }>
+                        <ul>
+                            <li onClick={() => {
+                                handleClick(navLinks.length-1)
+                                navigate('/users/profile')
+                            }
+                            }>
+                                Settings
+                            </li>
+                            <li onClick={handleLogout}>Logout</li>
+                        </ul>
+                    </div>
                 </nav>
             </header>
         </>

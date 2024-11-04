@@ -12,46 +12,13 @@ function Login(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await login({
-            email,
-            password,
-            rememberMe
-        });
+        const data = {}
+        for(const [key, value] of new FormData(event.target)){
+            data[key] = value;
+        }
+        console.log("data:", data);
+        await login(data);
     }
-
-    const handleProfileGet = async () => {
-        if(isAuthenticated){
-            try {
-                const response = await api.get("/profile");
-                if (response) { 
-                    console.log("Profile GET response:", response.data);
-                } else {
-                    console.log("Profile GET: Unauthorized"); // Or handle it differently
-                }
-            } catch (error) {
-                if (error.response && error.response.status === 401) {
-                    console.error("Unauthorized access:", error.response.data); 
-                } else {
-                    console.error("Profile GET error:", error);
-                }
-            }
-        }else{
-            console.log("Not authenticated. Skipping /profile request");
-        }
-    };
-    
-      const handleRefreshPost = async () => {
-        if(isAuthenticated){
-            try {
-                const response = await api.post("/api/users/refresh");
-                console.log("Refresh POST response:", response.data);
-            } catch (error) {
-                console.error("Refresh POST error:", error);
-            }
-        }else{
-            console.log("Not authenticated. Skipping /profile request");
-        }
-      };
     
       const handleLogoutPost = async () => {
         if(isAuthenticated){
@@ -137,8 +104,6 @@ function Login(){
                         </form>
                     </div>
                     <div>
-                            <button onClick={handleProfileGet}>GET /profile</button>
-                            <button onClick={handleRefreshPost}>POST /api/users/refresh</button>
                             <button onClick={handleLogoutPost}>POST /api/users/logout</button>
                         </div>
 

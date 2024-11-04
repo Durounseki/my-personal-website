@@ -44,3 +44,21 @@ nav ul{
     background-color: var(--teal-800);
     z-index: 2;
 }
+
+.account ul{
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    transform: translate(-100%,50%);
+    outline: 1px solid var(--teal-600);
+    border-radius: 8px;
+}
+
+.account.show ul{
+    display: flex;
+}
+
+.menu-tab, .account.show li{
+    cursor: pointer;
+}
