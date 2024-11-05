@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Resume from './Resume.jsx';
 import Footer from './Footer.jsx';
 import BlogPost from './BlogPost.jsx';
+import CreatePost from './CreatePost.jsx'
 import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import ResetPassword from './ResetPassword.jsx';
@@ -30,6 +31,7 @@ function App() {
             <Route path="/blog" element={<Blog/>}>
               <Route index element={<BlogIndex/>}></Route>
               <Route path=":id" element={<BlogPost/>}></Route>
+              <Route path="create" element={<CreatePost/>}></Route>
             </Route>
             <Route path="/about" element={<>About</>}></Route>
             <Route path="/resume" element={<Resume/>}></Route>

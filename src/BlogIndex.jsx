@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { useOutletContext, Link } from 'react-router-dom';
 import BlogCategory from './BlogCategory.jsx';
 import './Blog.css';
 
@@ -26,6 +27,7 @@ const useCategories = () => {
 
 function Blog(){
 
+    const {isAuthenticated, isAdmin} = useOutletContext();
     const {categories, loading, error} = useCategories();
 
     if(loading){
@@ -39,7 +41,14 @@ function Blog(){
     return (
 
         <>
-            <h1>Blog</h1>
+            {isAdmin ?
+            <div className="admin-controls">
+                <h1>Blog</h1>
+                <Link to='create'>Create Post</Link>
+            </div>
+            :
+            <h1>Blog</h1> 
+            }
             <section className="blog-intro">
             <p>
                 I started learning web development at the beginning of 2023. I was hooked from the moment I was able to see <b>"Hello World!"</b> displayed on my browser. I still

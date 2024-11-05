@@ -33,6 +33,7 @@ api.interceptors.response.use(
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [messageType, setMessageType] = useState('');
 
@@ -48,15 +49,18 @@ export const AuthProvider = ({ children }) => {
             const response = await api.get('/api/users/checkAuth');
             if(response.status === 200){
                 setIsAuthenticated(true);
-                setUserId(response.data);
+                setUserId(response.data.id);
+                setIsAdmin(response.data.isAdmin);
             }else{
                 setIsAuthenticated(false);
-                setUserId(null)
+                setUserId(null);
+                setIsAdmin(false);
             }
         }catch(error){
             console.error("Authentication check failed:", error);
             setIsAuthenticated(false);
             setUserId(null);
+            setIsAdmin(false);
         }
     };
 
@@ -156,6 +160,7 @@ export const AuthProvider = ({ children }) => {
     const contextValue = {
         isAuthenticated,
         userId,
+        isAdmin,
         checkAuthentication,
         signup,
         login,
