@@ -9,6 +9,7 @@ function Blog(){
     const [isLoading, setIsLoading] = useState(true);
     const hasRun = useRef(false);
     const location = useLocation().pathname;
+    console.log(location);
 
     useEffect(() => {
         if(!hasRun.current){
@@ -28,7 +29,7 @@ function Blog(){
         return <div>Loading...</div>
     }
 
-    if(location.pathname === '/blog/create'){
+    if(location === '/blog/create'){
         if(isAuthenticated && isAdmin){
             return <Outlet/>
         }else{
