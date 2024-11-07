@@ -5,6 +5,7 @@ import List from '@editorjs/list';
 import Paragraph from '@coolbytes/editorjs-paragraph';
 import CodeTool from '@editorjs/code';
 
+
 export const EditorContext = createContext()
 
 function EditorContextProvider(props){

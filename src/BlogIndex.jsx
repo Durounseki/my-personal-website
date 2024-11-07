@@ -1,5 +1,5 @@
-import { useEffect, useState, useContext } from 'react';
-import { useOutletContext, Link } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import BlogCategory from './BlogCategory.jsx';
 import './Blog.css';
 
@@ -29,6 +29,16 @@ function Blog(){
 
     const {isAuthenticated, isAdmin} = useOutletContext();
     const {categories, loading, error} = useCategories();
+    const newPostRef = useRef(null)
+    const createPostRef = useRef(null);
+    const [postTitle, setPostTitle] = useState('');
+    const navigate = useNavigate();
+
+    const createPost = (event) => {
+        event.preventDefault();
+        localStorage.setItem('currentPost-title', postTitle);
+        navigate('create')
+    }
 
     if(loading){
         return <p>Loading...</p>
@@ -42,19 +52,36 @@ function Blog(){
 
         <>
             {isAdmin ?
-            <div className="admin-controls">
+            <>
                 <h1>Blog</h1>
-                <Link to='create'>Create Post</Link>
-            </div>
+                <div className="new-post-form">
+                    <form ref={createPostRef} onSubmit={createPost}>
+                        <h2>New Post</h2>
+                        <div className="form-group">
+                            <label for="title">Title:</label>
+                            <input
+                                id="title"
+                                name="title"
+                                value={postTitle}
+                                onChange={e => setPostTitle(e.target.value)}
+                            />
+                        </div>
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
+            </>
             :
+            <>
             <h1>Blog</h1> 
+                <section className="blog-intro">
+                <p>
+                    I started learning web development at the beginning of 2023. I was hooked from the moment I was able to see <b>"Hello World!"</b> displayed on my browser. I still
+                    have much to learn but I would like to share some of my notes and thoughts with you. Feel free to explore and don't hesitate to reach out!
+                </p>
+                </section>
+            </>
             }
-            <section className="blog-intro">
-            <p>
-                I started learning web development at the beginning of 2023. I was hooked from the moment I was able to see <b>"Hello World!"</b> displayed on my browser. I still
-                have much to learn but I would like to share some of my notes and thoughts with you. Feel free to explore and don't hesitate to reach out!
-            </p>
-            </section>
+            
             {categories.map((category) => (
                 <BlogCategory key={category.id} category={category}/>
             ))}

@@ -1,12 +1,8 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import { EditorContext } from './EditorContext.jsx'
-import EditorJS from "@editorjs/editorjs";
-import Header from "@editorjs/header";
-import List from "@editorjs/list";
-import CodeTool from "@editorjs/code";
-import InlineCode from "@editorjs/inline-code";
-// import LinkTool from "@editorjs/link";
-import Paragraph from "@coolbytes/editorjs-paragraph";
+import { useLocation } from 'react-router-dom';
+
+import './CreatePost.css';
 
 const defaultData = {
     blocks: [
@@ -27,8 +23,11 @@ const defaultData = {
 }
 
 function CreatePost(){
-    const {initEditor} = useContext(EditorContext);
+    const {initEditor, editorInstanceRef} = useContext(EditorContext);
     const editorRef =  useRef(null);
+    const location =  useLocation();
+    const title = localStorage.getItem('currentPost-title') === "" ? 'Title' : localStorage.getItem('currentPost-title');
+
     useEffect(()=>{
         if(!editorRef.current){
             initEditor();
@@ -36,9 +35,20 @@ function CreatePost(){
         }
     },[]);
 
+    const savePost = async (event) => {
+        event.preventDefault();
+        const body = await editorInstanceRef.current.save();
+        console.log("title:", title, "body:", body);
+        
+    }
+
     return (
         <>
+        <h1>{title}</h1>
         <div className="editorjs" id="editorjs"></div>
+        <form action="" className="save-post" onSubmit={savePost}>
+            <button type="submit">Save</button>
+        </form>
         </>
     )
 }
