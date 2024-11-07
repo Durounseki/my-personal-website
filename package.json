@@ -10,6 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coolbytes/editorjs-paragraph": "^1.0.2",
+    "@editorjs/code": "^2.9.2",
+    "@editorjs/editorjs": "^2.30.6",
+    "@editorjs/header": "^2.8.8",
+    "@editorjs/inline-code": "^1.5.1",
+    "@editorjs/link": "^2.6.2",
+    "@editorjs/list": "^1.10.0",
+    "@editorjs/paragraph": "^2.11.6",
     "axios": "^1.7.7",
     "dompurify": "^3.1.7",
     "react": "^18.3.1",

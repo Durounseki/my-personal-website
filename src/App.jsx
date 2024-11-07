@@ -17,6 +17,7 @@ import Profile from './Profile.jsx'
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import AuthRoute from './AuthRoute.jsx'
+import EditorContextProvider from './EditorContext.jsx';
 
 function App() {
   
@@ -31,7 +32,11 @@ function App() {
             <Route path="/blog" element={<Blog/>}>
               <Route index element={<BlogIndex/>}></Route>
               <Route path=":id" element={<BlogPost/>}></Route>
-              <Route path="create" element={<CreatePost/>}></Route>
+              <Route path="create" element={
+                  <EditorContextProvider>
+                    <CreatePost/>
+                  </EditorContextProvider>
+                }></Route>
             </Route>
             <Route path="/about" element={<>About</>}></Route>
             <Route path="/resume" element={<Resume/>}></Route>
