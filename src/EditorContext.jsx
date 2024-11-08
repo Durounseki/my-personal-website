@@ -9,12 +9,12 @@ import CodeTool from '@editorjs/code';
 export const EditorContext = createContext()
 
 function EditorContextProvider(props){
-    const editorInstanceRef = useRef(null);
+    const editorInstanceRef = useRef({});
     const [editorData, setEditorData] = useState(null);
     // const [savedData, setSavedData] = useState(null);
-    const initEditor = () => {
+    const initEditor = (holderId) => {
         const editor = new EditorJS({
-            holder: "editorjs",
+            holder: holderId,
             placeholder: "Start your post here.",
             tools: {
                 header: {
@@ -37,13 +37,13 @@ function EditorContextProvider(props){
             autofocus: true,
             onChange: async () => {
                 const content = await editor.save();
-                localStorage.setItem('editorjs-content',JSON.stringify(content));
+                localStorage.setItem(holderId,JSON.stringify(content));
                 setEditorData(content);
             },
             onReady: async () => {
-                editorInstanceRef.current = editor;
+                editorInstanceRef.current[holderId] = editor;
                 try{
-                    const savedData = localStorage.getItem('editorjs-content');
+                    const savedData = localStorage.getItem(holderId);
                     if(savedData){
                         await editor.render(JSON.parse(savedData));
                     }

@@ -156,6 +156,24 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const createPost = async (data,willClose) => {
+        setAlertMessage('')
+        setMessageType('');
+        try{
+            const response = await api.post(`/api/blog/posts`,{data});
+            if(response.status === 200){
+                setAlertMessage('Post created.')
+                setMessageType('success');
+                if(willClose){
+                    navigate('/blog');
+                }
+            }
+        }catch (error){
+            setAlertMessage("An unexpected error occurred, please try again.")
+            setMessageType("fail");
+        }
+    }
+
 
     const contextValue = {
         isAuthenticated,

@@ -91,3 +91,7 @@
     background-color: #cd3a3a;
     cursor: pointer;
 }
+
+.codex-editor__redactor {
+    padding-bottom: 0px !important; 
+  }

@@ -1,4 +1,4 @@
-#editorjs{
+.postEditor-container{
     position: relative;
     background-color: var(--teal-1100);
     outline: 2px solid #cd5c5c;
@@ -10,11 +10,11 @@
     margin-top: 32px;
 }
 
-#editorjs h2{
+.postEditor-container h2{
     color: #cd5c5c;
 }
 
-#editorjs a{
+.postEditor-container a{
     color: var(--main-accent);
 }
 
@@ -23,4 +23,109 @@ textarea.ce-code__textarea.cdx-input{
     border: 1px solid var(--teal-500);
     color: var(--teal-300);
     min-height: 0;
+}
+
+.ce-toolbar__plus, .ce-toolbar__settings-btn{
+    color: var(--teal-300);
+
+}
+
+.codex-editor ::selection, .ce-block.ce-block--selected{
+    color: var(--teal-1100);
+}
+
+.codex-editor ::selection{
+    background-color: var(--teal-300);
+}
+
+.ce-block.ce-block--selected .ce-block__content{
+    background-color: var(--teal-300);
+}
+
+.ce-popover__container{
+    background: var(--teal-900);
+    --color-border: var(--teal-600);
+}
+.ce-popover.ce-popover--inline.ce-popover--opened{
+    --color-border: var(--teal-600);
+    --color-text-primary: var(--teal-300);
+}
+
+.ce-inline-tool-input.ce-inline-tool-input--showed{
+    background: var(--teal-1100);
+    border-color: var(--teal-800);
+    /* --color-text-primary: var(--teal-300); */
+}
+
+.save-post{
+    display: flex;
+    justify-content: end;
+    gap: 32px;
+    padding-top: 32px;
+}
+
+.save-post button{
+    padding: 8px 16px;
+    font-size: medium;
+    border-radius: 8px;
+    border: none;
+    background-color: #cd5c5c;
+    margin-left: auto;
+}
+
+.save-post button:hover{
+    background-color: #cd3a3a;
+    cursor: pointer;
+}
+
+.postEditor-container span{
+    font-size: smaller;
+    color: var(--teal-500);
+    padding-left: 8px;
+    margin-bottom: -8px;
+}
+
+.summary-container, .keywords-container{
+    outline: 1px solid var(--teal-700);
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.keywords-container ul{
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.keywords-container li{
+    list-style: none;
+    font-size: smaller;
+    background-color: var(--teal-800);
+    padding: 4px 16px;
+    padding-left: 16px;
+    padding-right: 12px;
+    border-radius: 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.keywords-container i{
+    font-size: 8px;
+    cursor: pointer;
+}
+
+.post-details form{
+    display: flex;
+}
+.post-details input{
+    flex:1;
+    padding: 16px 32px;
+}
+
+.post-details{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }

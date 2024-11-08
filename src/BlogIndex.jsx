@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
 import BlogCategory from './BlogCategory.jsx';
+import DOMPurify from "dompurify";
 import './Blog.css';
 
 const useCategories = () => {
@@ -32,11 +33,14 @@ function Blog(){
     const newPostRef = useRef(null)
     const createPostRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');
+    const [postCategory, setPostCategory] = useState('');
     const navigate = useNavigate();
 
     const createPost = (event) => {
         event.preventDefault();
-        localStorage.setItem('currentPost-title', postTitle);
+        localStorage.setItem('post-title', DOMPurify.sanitize(postTitle));
+        localStorage.setItem('post-category', DOMPurify.sanitize(postCategory));
+        localStorage.setItem('post-keywords');
         navigate('create')
     }
 
@@ -60,10 +64,21 @@ function Blog(){
                         <div className="form-group">
                             <label for="title">Title:</label>
                             <input
+                                type="text"
                                 id="title"
                                 name="title"
                                 value={postTitle}
                                 onChange={e => setPostTitle(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label for="category">Category:</label>
+                            <input
+                                type="text"
+                                id="category"
+                                name="category"
+                                value={postCategory}
+                                onChange={e => setPostCategory(e.target.value)}
                             />
                         </div>
                         <button type="submit">Create</button>
