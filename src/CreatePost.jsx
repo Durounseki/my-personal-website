@@ -1,6 +1,7 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import { EditorContext } from './EditorContext.jsx'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext.jsx';
 import './CreatePost.css';
 
 const defaultData = {
@@ -21,7 +22,9 @@ const defaultData = {
     ]
 }
 
-function CreatePost(){
+function CreatePost({postId}){
+    const { savePost } = useAuth();
+    // const [postId, setPostId] = useState(null);
     const {initEditor, editorInstanceRef} = useContext(EditorContext);
     const bodyRef =  useRef(null);
     const summaryRef = useRef(null);
@@ -46,24 +49,41 @@ function CreatePost(){
         }
     },[]);
 
-    const savePost = async (event, published=false) => {
+    const estimateReadingTime= (data,wpm=250,lpm=30) => {
+        let wordCount = 0;
+        let linesOfCode = 0;
+        let readingTime;
+        data.blocks.forEach(block => {
+            if(block.type === 'paragraph' || block.type === 'header'){
+                const text = block.data.text || '';
+                wordCount += text.trim().split(/\s+/).length;
+            }else if(block.type === 'code'){
+                const code = block.data.code || '';
+                linesOfCode += code.split('\n').filter(line => line.trim() !== '').length;
+            }
+        });
+        readingTime = Math.ceil(wordCount / wpm) + Math.ceil(linesOfCode / lpm);
+        return readingTime;
+    }
+
+    const handleSavePost = async (event, published=false) => {
         event.preventDefault();
-        const body = await editorInstanceRef.current.save();
-        const readingTime = 0;
+        const body = await editorInstanceRef.current['post-body'].save();
+        const readingTime = estimateReadingTime(body);
+        const summary = await editorInstanceRef.current['post-summary'].save();
         const data = {
             categoryName: category,
             title: title,
-            summary: summary,
-            body: body,
+            summary: JSON.stringify(summary),
+            body: JSON.stringify(body),
             published: published,
             readingTime: readingTime,
             keywords: keywords,
         }
-        console.log("title:", title, "body:", body);
-        
+        await savePost('cm38xonwc000514xt8l2hg4nx', data, false);
     }
 
-    const savePostAndClose = async (event) => {
+    const handleSavePostAndClose = async (event) => {
         savePost();
         navigate('/blog');
     }
@@ -90,10 +110,10 @@ function CreatePost(){
             <div id="post-body"></div>
             
             <div className="save-post">
-                <form onSubmit={savePost}>
+                <form onSubmit={handleSavePost}>
                     <button type="submit">Save</button>
                 </form>
-                <form onSubmit={savePostAndClose}>
+                <form onSubmit={handleSavePostAndClose}>
                     <button type="submit">Save & Close</button>
                 </form>
             </div>
@@ -139,10 +159,10 @@ function CreatePost(){
                 </div>
             </div>
             <div className="save-post">
-                <form onSubmit={savePost}>
+                <form onSubmit={handleSavePost}>
                     <button type="submit">Save</button>
                 </form>
-                <form onSubmit={savePostAndClose}>
+                <form onSubmit={handleSavePostAndClose}>
                     <button type="submit">Save & Close</button>
                 </form>
             </div>

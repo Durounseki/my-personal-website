@@ -156,18 +156,39 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const createPost = async (data,willClose) => {
+    // const createPost = async (postId data, willClose) => {
+    //     setAlertMessage('')
+    //     setMessageType('');
+    //     try{
+    //         const response = await api.post(`/api/blog/posts`,{data});
+    //         if(response.status === 200){
+    //             setAlertMessage('Post created.')
+    //             setMessageType('success');
+    //             if(willClose){
+    //                 navigate('/blog');
+    //             }
+    //         }
+    //         console.log("post created",response.data.postId);
+    //         return response.data.postId;
+    //     }catch (error){
+    //         setAlertMessage("An unexpected error occurred, please try again.")
+    //         setMessageType("fail");
+    //     }
+    // }
+
+    const savePost = async (postId, data, willClose) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            const response = await api.post(`/api/blog/posts`,{data});
+            const response = await api.post(`/api/blog/posts`,{postId: postId, data: data});
             if(response.status === 200){
-                setAlertMessage('Post created.')
+                setAlertMessage('Post saved.')
                 setMessageType('success');
                 if(willClose){
                     navigate('/blog');
                 }
             }
+            console.log("post created",response);
         }catch (error){
             setAlertMessage("An unexpected error occurred, please try again.")
             setMessageType("fail");
@@ -184,7 +205,8 @@ export const AuthProvider = ({ children }) => {
         login,
         logout,
         updateUser,
-        deleteAccount
+        deleteAccount,
+        savePost
     };
     
     return (
