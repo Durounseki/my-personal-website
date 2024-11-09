@@ -44,6 +44,10 @@ function Blog(){
         navigate('create')
     }
 
+    const handleClick = () => {
+        navigate()
+    }
+
     if(loading){
         return <p>Loading...</p>
     }
@@ -84,6 +88,7 @@ function Blog(){
                         <button type="submit">Create</button>
                     </form>
                 </div>
+                <BlogCategory category={"UNPUBLISHED"}/>
             </>
             :
             <>

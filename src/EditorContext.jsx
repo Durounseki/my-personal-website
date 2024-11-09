@@ -11,8 +11,9 @@ export const EditorContext = createContext()
 function EditorContextProvider(props){
     const editorInstanceRef = useRef({});
     const [editorData, setEditorData] = useState(null);
-    // const [savedData, setSavedData] = useState(null);
-    const initEditor = (holderId) => {
+    const [savedData, setSavedData] = useState(null);
+
+    const initEditor = (holderId,initialData,published) => {
         const editor = new EditorJS({
             holder: holderId,
             placeholder: "Start your post here.",
@@ -34,6 +35,7 @@ function EditorContextProvider(props){
                     shortcut: 'CMD+SHIFT+C'
                 }
             },
+            readOnly: published,
             autofocus: true,
             onChange: async () => {
                 const content = await editor.save();
@@ -43,13 +45,16 @@ function EditorContextProvider(props){
             onReady: async () => {
                 editorInstanceRef.current[holderId] = editor;
                 try{
-                    const savedData = localStorage.getItem(holderId);
-                    if(savedData){
-                        await editor.render(JSON.parse(savedData));
+                    if(initialData){
+                        await editor.render(JSON.parse(initialData));
+                    }else{
+                        const savedData = localStorage.getItem(holderId);
+                        if(savedData){
+                            await editor.render(JSON.parse(savedData));
+                        }
+                        const initialData = await editor.save();
+                        setEditorData(initialData);
                     }
-                    const initialData = await editor.save();
-                    setEditorData(initialData);
-                    
                 }catch(error){
                     console.log("Error initializing or loading data:", error)
                 }

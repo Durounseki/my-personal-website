@@ -31,7 +31,11 @@ function App() {
             <Route path="/research" element={<Research/>}></Route>
             <Route path="/blog" element={<Blog/>}>
               <Route index element={<BlogIndex/>}></Route>
-              <Route path=":id" element={<BlogPost/>}></Route>
+              <Route path=":id" element={
+                <EditorContextProvider>
+                  <CreatePost/>
+                </EditorContextProvider>
+              }></Route>
               <Route path="create" element={
                   <EditorContextProvider>
                     <CreatePost/>

@@ -1,53 +1,74 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import { EditorContext } from './EditorContext.jsx'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext.jsx';
 import './CreatePost.css';
 
-const defaultData = {
-    blocks: [
-        {
-            type: 'header',
-            data: {
-                text: 'Title',
-                level: 1
-            }
-        },
-        {
-            type: 'paragraph',
-            data: {
-                text: 'Begin here...'
-            }
-        }
-    ]
-}
-
-function CreatePost({postId}){
-    const { savePost } = useAuth();
-    // const [postId, setPostId] = useState(null);
-    const {initEditor, editorInstanceRef} = useContext(EditorContext);
+const useEditor = (postId) =>{
+    const {initEditor} = useContext(EditorContext);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [initialCategory, setInitialCategory] = useState(null);
+    const [initialKeywords, setInitialKeywords] = useState([]);
+    const [published, setPublished] = useState(false);
+    const titleRef = useRef(null)
     const bodyRef =  useRef(null);
     const summaryRef = useRef(null);
-    const location =  useLocation();
+    const apiRootUrl = "http://localhost:8080";
+
+    useEffect(() => {
+        fetch(`${apiRootUrl}/api/blog/posts/${postId}`, {mode: "cors"})
+        .then((response) => {
+            if (response.status >= 400) {
+                throw new Error("Bad response from server");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            // if(!titleRef.current){
+            //     initEditor('post-title',data.title);
+            //     titleRef.current = true;
+            // }
+            if(!bodyRef.current){
+                initEditor('post-body',data.body,data.published);
+                bodyRef.current = true;
+            }
+            if(!summaryRef.current){
+                initEditor('post-summary',data.summary,data.published);
+                summaryRef.current = true;
+            }
+            setTitle(data.title);
+            setInitialCategory(data.category.name);
+            setInitialKeywords(data.keywords.map(keyword => keyword.name));
+            setPublished(data.published);
+        })
+        .catch((error) => setError(error))
+        .finally(() => setLoading(false));
+    },[]);
+
+    return {title, initialCategory, initialKeywords, published, loading, error};
+}
+
+function CreatePost(){
+    const {id} = useParams();
+    const { savePost } = useAuth();
+    const { editorInstanceRef} = useContext(EditorContext);
+    const { title, initialCategory, initialKeywords, published, loading, error} = useEditor(id);
+    console.log("initial category", initialCategory, "initial keywords", initialKeywords);
+    const [keywords, setKeywords] = useState([]);
+    const [category, setCategory] = useState('');
+    // const [postId, setPostId] = useState(null);
+    // const location =  useLocation();
     const navigate = useNavigate();
-    const title = localStorage.getItem('currentPost-title') === "" ? 'Title' : localStorage.getItem('currentPost-title');
-    const [keywords,setKeywords] = useState(localStorage.getItem('post-keywords').split(", "));
+    // const title = localStorage.getItem('currentPost-title') === "" ? 'Title' : localStorage.getItem('currentPost-title');
+    // const [keywords,setKeywords] = useState(localStorage.getItem('post-keywords').split(", "));
     const keywordsRef = useRef(null);
-    const [category,setCategory] = useState(localStorage.getItem('post-category'));
 
-    useEffect(()=>{
-        if(!bodyRef.current){
-            initEditor('post-body');
-            bodyRef.current = true;
-        }
-    },[]);
-
-    useEffect(()=>{
-        if(!summaryRef.current){
-            initEditor('post-summary');
-            summaryRef.current = true;
-        }
-    },[]);
+    useEffect(() => {
+        setKeywords(initialKeywords);
+        setCategory(initialCategory);
+    },[initialKeywords,initialCategory]);
 
     const estimateReadingTime= (data,wpm=250,lpm=30) => {
         let wordCount = 0;
@@ -80,7 +101,7 @@ function CreatePost({postId}){
             readingTime: readingTime,
             keywords: keywords,
         }
-        await savePost('cm38xonwc000514xt8l2hg4nx', data, false);
+        await savePost(postId, data, false);
     }
 
     const handleSavePostAndClose = async (event) => {
@@ -103,121 +124,85 @@ function CreatePost({postId}){
         setKeywords(filteredKeywords);
     }
 
+    // if(loading){
+    //     return <p>Loading...</p>
+    // }
+
+    // if(error){
+    //     return <p>A network error was encountered</p>
+    // }
+
     return (
         <>
         <h1>{title}</h1>
+        {/* <div id="post-title"></div> */}
         <div className="postEditor-container">
             <div id="post-body"></div>
             
-            <div className="save-post">
-                <form onSubmit={handleSavePost}>
-                    <button type="submit">Save</button>
-                </form>
-                <form onSubmit={handleSavePostAndClose}>
-                    <button type="submit">Save & Close</button>
-                </form>
-            </div>
-        </div>
-        <div className="postEditor-container">
-            <div className="post-details">
-                <span>Category</span>
-                <div className="category-container">
-                    <form>
-                        <input
-                            id="category"
-                            name="category"
-                            type="text"
-                            value={category}
-                            onChange= {e => setCategory(e.target.value)}
-                        />
+            {!published && (
+                <div className="save-post">
+                    <form onSubmit={handleSavePost}>
+                        <button type="submit">Save</button>
+                    </form>
+                    <form onSubmit={handleSavePostAndClose}>
+                        <button type="submit">Save & Close</button>
                     </form>
                 </div>
-                <span>Summary</span>
-                <div className="summary-container">
-                    <div id="post-summary"></div>
+            )}
+        </div>
+        {!published && (
+            <div className="postEditor-container">
+                <div className="post-details">
+                    <span>Category</span>
+                    <div className="category-container">
+                        <form>
+                            <input
+                                id="category"
+                                name="category"
+                                type="text"
+                                value={category}
+                                onChange= {e => setCategory(e.target.value)}
+                            />
+                        </form>
+                    </div>
+                    <span>Summary</span>
+                    <div className="summary-container">
+                        <div id="post-summary"></div>
+                    </div>
+                    <span>Keywords</span>
+                    <div className="keywords-container">
+                        <ul>
+                            {keywords.map((keyword,index) => (
+                                <li key={index} className="keyword">
+                                    {keyword}
+                                    <i className="fa-solid fa-x" onClick={(event) => removeKeyword(event,word)}></i>
+                                </li>
+                            ))}
+                        </ul>
+                        <form>
+                            <input
+                                id="keywords"
+                                name="keywords"
+                                type="text"
+                                value={keywords.join(", ")}
+                                onChange= {handleKeywords}
+                                ref={keywordsRef}
+                            />
+                        </form>
+                    </div>
                 </div>
-                <span>Keywords</span>
-                <div className="keywords-container">
-                    <ul>
-                        {keywords.map((word,index) => (
-                            <li key={index} className="keyword">
-                                {word}
-                                <i className="fa-solid fa-x" onClick={(event) => removeKeyword(event,word)}></i>
-                            </li>
-                        ))}
-                    </ul>
-                    <form>
-                        <input
-                            id="keywords"
-                            name="keywords"
-                            type="text"
-                            value={keywords.join(", ")}
-                            onChange= {handleKeywords}
-                            ref={keywordsRef}
-                        />
+                <div className="save-post">
+                    <form onSubmit={handleSavePost}>
+                        <button type="submit">Save</button>
+                    </form>
+                    <form onSubmit={handleSavePostAndClose}>
+                        <button type="submit">Save & Close</button>
                     </form>
                 </div>
             </div>
-            <div className="save-post">
-                <form onSubmit={handleSavePost}>
-                    <button type="submit">Save</button>
-                </form>
-                <form onSubmit={handleSavePostAndClose}>
-                    <button type="submit">Save & Close</button>
-                </form>
-            </div>
-        </div>
+        )}
         </>
     )
 }
 
 export default CreatePost;
-
-// let editor = null;
-        // if(!isReady){
-            
-        //     editor = new EditorJS({
-        //         holder: "editorjs",
-        //         tools: {
-        //             header: {
-        //                 class: Header,
-        //                 inlineToolbar: ['link']
-        //             },
-        //             list: {
-        //                 class: List,
-        //                 inlineToolbar: ['bold', 'italic', 'link']
-        //             },
-        //             paragraph: {
-        //                 class: Paragraph,
-        //                 inlineToolbar: true
-        //             },
-        //             code: {
-        //                 class: CodeTool,
-        //                 shortcut: 'CMD+SHIFT+C'
-        //             },
-        //             inlineCode: {
-        //                 class: InlineCode
-        //             }
-        //         },
-        //         autofocus: true,
-        //         onChange: async () => {
-        //             const content = await editor.save();
-        //             localStorage.setItem('editorjs-content',JSON.stringify(content));
-        //             setEditorData(content);
-        //         },
-        //         onReady: async () => {
-        //             editorRef.current = editor;
-        //             try{
-        //                 const savedData = localStorage.getItem('editorjs-content');
-        //                 if(savedData){
-        //                     await editor.render(JSON.parse(savedData));
-        //                 }
-        //                 const initialData = await editor.save();
-        //                 setEditorData(initialData);
-                        
-        //             }catch(error){
-        //                 console.log("Error initializing or loading data:", error)
-        //             }
-        //         }
-        //     });
-            // initEditor();
