@@ -62,7 +62,7 @@ function Blog(){
             {isAdmin ?
             <>
                 <h1>Blog</h1>
-                <div className="new-post-form">
+                <section className="new-post-form">
                     <form ref={createPostRef} onSubmit={createPost}>
                         <h2>New Post</h2>
                         <div className="form-group">
@@ -87,8 +87,8 @@ function Blog(){
                         </div>
                         <button type="submit">Create</button>
                     </form>
-                </div>
-                <BlogCategory category={"UNPUBLISHED"}/>
+                </section>
+                <BlogCategory category={"UNPUBLISHED"} isAdmin={isAdmin}/>
             </>
             :
             <>
@@ -103,7 +103,7 @@ function Blog(){
             }
             
             {categories.map((category) => (
-                <BlogCategory key={category.id} category={category}/>
+                <BlogCategory key={category.id} category={category} isAdmin={isAdmin}/>
             ))}
         </>
     )

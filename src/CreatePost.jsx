@@ -101,7 +101,7 @@ function CreatePost(){
             readingTime: readingTime,
             keywords: keywords,
         }
-        await savePost(postId, data, false);
+        await savePost(id, data, false);
     }
 
     const handleSavePostAndClose = async (event) => {

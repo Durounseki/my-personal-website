@@ -25,7 +25,7 @@ header.menu{
 
 h1{
   color: var(--teal-300);
-  font-size: 2rem;
+  font-size: clamp(32px, 4rem,72px);
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
@@ -37,7 +37,7 @@ h1{
   "YTLC" 550,
   "YTAS" 850,
   "YTDE" -300;
-  margin-bottom: 0;
+  /* margin-bottom: 0; */
 }
 
 h2{

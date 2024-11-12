@@ -8,7 +8,7 @@ const useLatestPosts = (categoryId) => {
     const apiRootUrl = "http://localhost:8080";
 
     useEffect(() => {
-        fetch(`${apiRootUrl}/api/blog/posts?categoryId=${categoryId}`, {mode: "cors"})
+        fetch(`${apiRootUrl}/api/blog/posts?categoryId=${categoryId}&published=true`, {mode: "cors"})
         .then((response) => {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
@@ -45,7 +45,7 @@ const useUnpublished = () => {
     return {posts, loading, error};
 }
 
-function BlogCategory({category}){
+function BlogCategory({category,isAdmin}){
     console.log("category: ", category);
     const {posts, loading, error} = category.id ? useLatestPosts(category.id) : useUnpublished(category.id);
     console.log("posts, loading, error", posts, loading, error)
@@ -74,7 +74,7 @@ function BlogCategory({category}){
             <h2 className="blog-category-name">{category.name ? category.name.toUpperCase() : category.toUpperCase()}</h2>
             <div className="latest-posts">
                 {posts.map((post) => (
-                    <BlogPostCard key={post.id} post={post}/>
+                    <BlogPostCard key={post.id} post={post} isAdmin={isAdmin}/>
                 ))}
             </div>
         </section>

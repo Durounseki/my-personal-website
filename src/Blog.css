@@ -1,7 +1,9 @@
 .blog-post{
-    padding: 8px 24px;
+    padding: 12px 24px;
     margin: 8px 24px;
     border-radius: 16px;
+    background-color: var(--teal-1100);
+    outline: 1px solid var(--teal-900);
 }
 
 .blog-post:hover{
@@ -9,6 +11,31 @@
     outline: var(--teal-900) 1px solid;
     background-image: linear-gradient(210deg, var(--teal-800), var(--teal-1000));
     box-shadow: 2px -2px 2px var(--teal-900), -2px 2px 2px var(--teal-900);
+}
+
+.blog-post header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.post-actions ul{
+    list-style: none;
+    display: flex;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+}
+.post-actions li{
+    padding: 4px 8px;
+    border-radius: 4px;
+    outline: 1px solid var(--teal-800);
+    background-color: var(--teal-1100);
+}
+
+.post-actions li:hover{
+    background-color: var(--teal-900);
+    cursor: pointer;
 }
 
 .post-date, .post-description, .post-summary{

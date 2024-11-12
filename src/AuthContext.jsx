@@ -180,7 +180,7 @@ export const AuthProvider = ({ children }) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            const response = await api.post(`/api/blog/posts`,{postId: postId, data: data});
+            const response = await api.post(`/api/blog/posts/${postId}`,{data: data});
             if(response.status === 200){
                 setAlertMessage('Post saved.')
                 setMessageType('success');
@@ -195,6 +195,24 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const deletePost = async (postId) => {
+        setAlertMessage('')
+        setMessageType('');
+        try{
+            const response = await api.delete(`/api/blog/posts/${postId}`);
+            if(response.status === 200){
+                setAlertMessage('Post deleted.')
+                setMessageType('success');
+            }
+            console.log("post deleted",response);
+            return true;
+        }catch (error){
+            setAlertMessage("An unexpected error occurred, please try again.")
+            setMessageType("fail");
+            return false;
+        }
+    }
+
 
     const contextValue = {
         isAuthenticated,
@@ -206,7 +224,8 @@ export const AuthProvider = ({ children }) => {
         logout,
         updateUser,
         deleteAccount,
-        savePost
+        savePost,
+        deletePost
     };
     
     return (
