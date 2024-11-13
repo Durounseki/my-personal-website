@@ -173,7 +173,17 @@ function CreatePost(){
 
     return (
         <>
-        <h1 id="post-title" contentEditable={!published} onInput={(e) => setTitle(DOMPurify.sanitize(e.target.textContent))}>{title}</h1>
+        {published ?
+            <h1 id="post-title">{title}</h1>
+            :
+            <input
+                id="post-title"
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(DOMPurify.sanitize(e.target.value))}
+            >
+            </input>
+        }
         {/* <div id="post-title"></div> */}
         <div className="postEditor-container">
             <div id="post-body"></div>

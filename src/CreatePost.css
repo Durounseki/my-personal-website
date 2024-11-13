@@ -135,3 +135,24 @@ code.inline-code{
     flex-direction: column;
     gap: 16px;
 }
+
+#post-title{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: var(--teal-300);
+    font-size: clamp(32px, 4rem,72px);
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+    font-variation-settings: 
+    "wdth" 150,
+    "XOPQ" 175,
+    "YOPQ" 25,
+    "XTRA" 350,
+    "YTLC" 550,
+    "YTAS" 850,
+    "YTDE" -300;
+    /* margin-bottom: 0; */
+  }
