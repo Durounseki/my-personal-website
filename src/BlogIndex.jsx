@@ -40,12 +40,10 @@ function Blog(){
         event.preventDefault();
         localStorage.setItem('post-title', DOMPurify.sanitize(postTitle));
         localStorage.setItem('post-category', DOMPurify.sanitize(postCategory));
-        localStorage.setItem('post-keywords');
+        localStorage.setItem('post-body',"");
+        localStorage.setItem('post-keywords',"");
+        localStorage.setItem('post-summary',"");
         navigate('create')
-    }
-
-    const handleClick = () => {
-        navigate()
     }
 
     if(loading){

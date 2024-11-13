@@ -2,75 +2,112 @@ import { useContext, useRef, useEffect, useState } from "react";
 import { EditorContext } from './EditorContext.jsx'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext.jsx';
+import DOMPurify from "dompurify";
 import './CreatePost.css';
 
-const useEditor = (postId) =>{
+const usePostData = (postId) =>{
+    console.log("using db data")
     const {initEditor} = useContext(EditorContext);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    // const [title, setTitle] = useState(null);
+    const [initialTitle, setInitialTitle] = useState(null);
     const [initialCategory, setInitialCategory] = useState(null);
     const [initialKeywords, setInitialKeywords] = useState([]);
     const [published, setPublished] = useState(false);
-    const titleRef = useRef(null)
     const bodyRef =  useRef(null);
     const summaryRef = useRef(null);
     const apiRootUrl = "http://localhost:8080";
 
     useEffect(() => {
-        fetch(`${apiRootUrl}/api/blog/posts/${postId}`, {mode: "cors"})
-        .then((response) => {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            if(!titleRef.current){
-                initEditor('post-title',data.title);
-                titleRef.current = true;
-            }
+        if(postId){
+            fetch(`${apiRootUrl}/api/blog/posts/${postId}`, {mode: "cors"})
+            .then((response) => {
+                if (response.status >= 400) {
+                    throw new Error("Bad response from server");
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log("title:", data.title);
+                if(!bodyRef.current){
+                    initEditor('post-body',data.body,data.published);
+                    bodyRef.current = true;
+                }
+                if(!summaryRef.current){
+                    initEditor('post-summary',data.summary,data.published);
+                    summaryRef.current = true;
+                }
+                setInitialTitle(data.title);
+                setInitialCategory(data.category.name);
+                setInitialKeywords(data.keywords.map(keyword => keyword.name));
+                setPublished(data.published);
+                console.log("initial title:", initialTitle, "initial category:", initialCategory, "initial Keywords:", initialKeywords)
+            })
+            .catch((error) => setError(error));
+        }else{
             if(!bodyRef.current){
-                initEditor('post-body',data.body,data.published);
+                initEditor('post-body',null,false);
                 bodyRef.current = true;
             }
             if(!summaryRef.current){
-                initEditor('post-summary',data.summary,data.published);
+                initEditor('post-summary',null,false);
                 summaryRef.current = true;
             }
-            // setTitle(data.title);
-            setInitialCategory(data.category.name);
-            setInitialKeywords(data.keywords.map(keyword => keyword.name));
-            setPublished(data.published);
-        })
-        .catch((error) => setError(error))
-        .finally(() => setLoading(false));
+            setInitialTitle(localStorage.getItem('post-title'));
+            setInitialCategory(localStorage.getItem('post-category'));
+        }
+    },[postId]);
+
+    return {initialTitle, initialCategory, initialKeywords, published};
+}
+
+const useLocalData = () =>{
+    console.log("using local data");
+    const {initEditor} = useContext(EditorContext);
+    const [initialTitle, setInitialTitle] = useState(null);
+    const [initialCategory, setInitialCategory] = useState(null);
+    const [initialKeywords, setInitialKeywords] = useState([]);
+    const published = false;
+    const bodyRef =  useRef(null);
+    const summaryRef = useRef(null);
+    const apiRootUrl = "http://localhost:8080";
+    useEffect(() => {
+        if(!bodyRef.current){
+            initEditor('post-body',null,false);
+            bodyRef.current = true;
+        }
+        if(!summaryRef.current){
+            initEditor('post-summary',null,false);
+            summaryRef.current = true;
+        }
+        setInitialTitle(localStorage.getItem('post-title'));
+        setInitialCategory(localStorage.getItem('post-category'));
     },[]);
 
-    return {initialCategory, initialKeywords, published, loading, error};
+
+    return {initialTitle, initialCategory, initialKeywords, published};
 }
 
 function CreatePost(){
     const {id} = useParams();
+    console.log("id:",id);
     const { savePost } = useAuth();
-    const { editorInstanceRef} = useContext(EditorContext);
-    const { initialCategory, initialKeywords, published, loading, error} = useEditor(id);
-    console.log("initial category", initialCategory, "initial keywords", initialKeywords);
+    const { editorInstanceRef } = useContext(EditorContext);
+    const { initialTitle, initialCategory, initialKeywords, published} = usePostData(id);
+    const keywordsRef = useRef(null);
     const [keywords, setKeywords] = useState([]);
     const [category, setCategory] = useState('');
     // const [postId, setPostId] = useState(null);
     // const location =  useLocation();
     const navigate = useNavigate();
+    const [title, setTitle] = useState(''); 
     // const title = localStorage.getItem('currentPost-title') === "" ? 'Title' : localStorage.getItem('currentPost-title');
     // const [keywords,setKeywords] = useState(localStorage.getItem('post-keywords').split(", "));
-    const keywordsRef = useRef(null);
 
     useEffect(() => {
         setKeywords(initialKeywords);
         setCategory(initialCategory);
-    },[initialKeywords,initialCategory]);
-
-    console.log("initial keywords:", initialKeywords)
+        setTitle(initialTitle);
+    },[initialTitle, initialCategory, initialKeywords]);
+    console.log("initial title:", title, "initial category:", category, "initial Keywords:", keywords)
 
     const estimateReadingTime= (data,wpm=250,lpm=30) => {
         let wordCount = 0;
@@ -91,18 +128,17 @@ function CreatePost(){
 
     const handleSavePost = async (event, willClose=false) => {
         event.preventDefault();
-        const title = await editorInstanceRef.current['post-title'].save();
         const body = await editorInstanceRef.current['post-body'].save();
         const readingTime = estimateReadingTime(body);
         const summary = await editorInstanceRef.current['post-summary'].save();
         const data = {
-            categoryName: category,
-            title: JSON.stringify(title),
+            categoryName: DOMPurify.sanitize(category),
+            title: title,
             summary: JSON.stringify(summary),
             body: JSON.stringify(body),
             published: published,
             readingTime: readingTime,
-            keywords: keywords,
+            keywords: keywords.map(keyword => DOMPurify.sanitize(keyword)),
         }
         await savePost(id, data, willClose);
     }
@@ -137,8 +173,8 @@ function CreatePost(){
 
     return (
         <>
-        {/* <h1>{title}</h1> */}
-        <div id="post-title"></div>
+        <h1 id="post-title" contentEditable={!published} onInput={(e) => setTitle(DOMPurify.sanitize(e.target.textContent))}>{title}</h1>
+        {/* <div id="post-title"></div> */}
         <div className="postEditor-container">
             <div id="post-body"></div>
             

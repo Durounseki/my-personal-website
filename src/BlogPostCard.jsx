@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from './AuthContext';
 
 function BlogPostCard({post, isAdmin}){
-    const { deletePost } = useAuth();
+    const { publishPost, deletePost } = useAuth();
     const postDate = new Date(post.createdAt);
     const [day, weekday] = postDate.toLocaleDateString('en-JP', {day: 'numeric', weekday: 'long'}).split(' ');
     const cardRef = useRef(null);
@@ -18,15 +18,16 @@ function BlogPostCard({post, isAdmin}){
         console.log("Editing post");
     }
 
-    const handlePublish = (event) => {
+    const handlePublish = async (event) => {
         event.stopPropagation();
         console.log("Publishing post");
+        await publishPost(post.id);
     }
 
-    const handleDelete = (event) => {
+    const handleDelete = async (event) => {
         event.stopPropagation();
         console.log("Deleting post");
-        const success = deletePost(post.id);
+        const success = await deletePost(post.id);
         if(success){
             cardRef.current.remove();
         }
@@ -55,7 +56,7 @@ function BlogPostCard({post, isAdmin}){
                         </div>
                     }
                 </header>
-                <h2 className="post-title">{JSON.parse(post.title).blocks[0].data.text}</h2>
+                <h2 className="post-title">{post.title}</h2>
                 <p className="post-summary">{JSON.parse(post.summary).blocks[0].data.text}</p>
                 <footer className="post-keywords">
                     <ul>

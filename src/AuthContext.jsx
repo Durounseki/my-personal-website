@@ -185,10 +185,31 @@ export const AuthProvider = ({ children }) => {
                 setAlertMessage('Post saved.')
                 setMessageType('success');
                 if(willClose){
+                    localStorage.clear();
                     navigate('/blog');
+                }else if(response.data.newPost){
+                    localStorage.clear();
+                    navigate(`/blog/${response.data.postId}`);
                 }
             }
-            console.log("post created",response);
+        }catch (error){
+            console.error(error);
+            setAlertMessage("An unexpected error occurred, please try again.")
+            setMessageType("fail");
+        }
+    }
+
+    const publishPost = async (postId) => {
+        setAlertMessage('')
+        setMessageType('');
+        try{
+            const response = await api.patch(`/api/blog/posts/${postId}`,{published: true});
+            if(response.status === 200){
+                setAlertMessage('Post published.')
+                setMessageType('success');
+                navigate('/blog');
+            }
+            console.log("post published",response);
         }catch (error){
             console.error(error);
             setAlertMessage("An unexpected error occurred, please try again.")
@@ -226,6 +247,7 @@ export const AuthProvider = ({ children }) => {
         updateUser,
         deleteAccount,
         savePost,
+        publishPost,
         deletePost
     };
     
