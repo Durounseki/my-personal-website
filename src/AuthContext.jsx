@@ -190,6 +190,7 @@ export const AuthProvider = ({ children }) => {
             }
             console.log("post created",response);
         }catch (error){
+            console.error(error);
             setAlertMessage("An unexpected error occurred, please try again.")
             setMessageType("fail");
         }

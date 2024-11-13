@@ -22,7 +22,12 @@ textarea.ce-code__textarea.cdx-input{
     background-color: var(--teal-800);
     border: 1px solid var(--teal-500);
     color: var(--teal-300);
-    min-height: 0;
+}
+
+code.inline-code{
+    background-color: var(--teal-800);
+    border: 1px solid var(--teal-500);
+    color: var(--teal-300);
 }
 
 .ce-toolbar__plus, .ce-toolbar__settings-btn{
@@ -45,13 +50,14 @@ textarea.ce-code__textarea.cdx-input{
 .ce-popover__container{
     background: var(--teal-900);
     --color-border: var(--teal-600);
+    --color-text-primary: var(--teal-300);
 }
 .ce-popover.ce-popover--inline.ce-popover--opened{
     --color-border: var(--teal-600);
     --color-text-primary: var(--teal-300);
 }
 
-.ce-inline-tool-input.ce-inline-tool-input--showed{
+.ce-inline-tool-input.ce-inline-tool-input--showed, .cdx-search-field.ce-popover__search{
     background: var(--teal-1100);
     border-color: var(--teal-800);
     /* --color-text-primary: var(--teal-300); */

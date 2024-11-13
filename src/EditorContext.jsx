@@ -4,6 +4,7 @@ import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Paragraph from '@coolbytes/editorjs-paragraph';
 import CodeTool from '@editorjs/code';
+import InlineCode from '@editorjs/inline-code';
 
 
 export const EditorContext = createContext()
@@ -32,7 +33,14 @@ function EditorContextProvider(props){
                 },
                 code: {
                     class: CodeTool,
-                    shortcut: 'CMD+SHIFT+C'
+                    shortcut: 'CMD+SHIFT+C',
+                    config: {
+                        minHeight: 20
+                    }
+                },
+                inlineCode: {
+                    class: InlineCode,
+                    shortcut: 'CMD+M'
                 }
             },
             readOnly: published,

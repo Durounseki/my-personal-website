@@ -8,7 +8,7 @@ const useEditor = (postId) =>{
     const {initEditor} = useContext(EditorContext);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [title, setTitle] = useState(null);
+    // const [title, setTitle] = useState(null);
     const [initialCategory, setInitialCategory] = useState(null);
     const [initialKeywords, setInitialKeywords] = useState([]);
     const [published, setPublished] = useState(false);
@@ -26,10 +26,10 @@ const useEditor = (postId) =>{
             return response.json();
         })
         .then((data) => {
-            // if(!titleRef.current){
-            //     initEditor('post-title',data.title);
-            //     titleRef.current = true;
-            // }
+            if(!titleRef.current){
+                initEditor('post-title',data.title);
+                titleRef.current = true;
+            }
             if(!bodyRef.current){
                 initEditor('post-body',data.body,data.published);
                 bodyRef.current = true;
@@ -38,7 +38,7 @@ const useEditor = (postId) =>{
                 initEditor('post-summary',data.summary,data.published);
                 summaryRef.current = true;
             }
-            setTitle(data.title);
+            // setTitle(data.title);
             setInitialCategory(data.category.name);
             setInitialKeywords(data.keywords.map(keyword => keyword.name));
             setPublished(data.published);
@@ -47,14 +47,14 @@ const useEditor = (postId) =>{
         .finally(() => setLoading(false));
     },[]);
 
-    return {title, initialCategory, initialKeywords, published, loading, error};
+    return {initialCategory, initialKeywords, published, loading, error};
 }
 
 function CreatePost(){
     const {id} = useParams();
     const { savePost } = useAuth();
     const { editorInstanceRef} = useContext(EditorContext);
-    const { title, initialCategory, initialKeywords, published, loading, error} = useEditor(id);
+    const { initialCategory, initialKeywords, published, loading, error} = useEditor(id);
     console.log("initial category", initialCategory, "initial keywords", initialKeywords);
     const [keywords, setKeywords] = useState([]);
     const [category, setCategory] = useState('');
@@ -69,6 +69,8 @@ function CreatePost(){
         setKeywords(initialKeywords);
         setCategory(initialCategory);
     },[initialKeywords,initialCategory]);
+
+    console.log("initial keywords:", initialKeywords)
 
     const estimateReadingTime= (data,wpm=250,lpm=30) => {
         let wordCount = 0;
@@ -87,26 +89,27 @@ function CreatePost(){
         return readingTime;
     }
 
-    const handleSavePost = async (event, published=false) => {
+    const handleSavePost = async (event, willClose=false) => {
         event.preventDefault();
+        const title = await editorInstanceRef.current['post-title'].save();
         const body = await editorInstanceRef.current['post-body'].save();
         const readingTime = estimateReadingTime(body);
         const summary = await editorInstanceRef.current['post-summary'].save();
         const data = {
             categoryName: category,
-            title: title,
+            title: JSON.stringify(title),
             summary: JSON.stringify(summary),
             body: JSON.stringify(body),
             published: published,
             readingTime: readingTime,
             keywords: keywords,
         }
-        await savePost(id, data, false);
+        await savePost(id, data, willClose);
     }
 
     const handleSavePostAndClose = async (event) => {
-        savePost();
-        navigate('/blog');
+        event.preventDefault();
+        await handleSavePost(event,true);
     }
 
     const publishPost = async (event) => {
@@ -134,8 +137,8 @@ function CreatePost(){
 
     return (
         <>
-        <h1>{title}</h1>
-        {/* <div id="post-title"></div> */}
+        {/* <h1>{title}</h1> */}
+        <div id="post-title"></div>
         <div className="postEditor-container">
             <div id="post-body"></div>
             

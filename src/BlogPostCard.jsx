@@ -40,9 +40,11 @@ function BlogPostCard({post, isAdmin}){
                     {isAdmin && 
                         <div className="post-actions">
                             <ul>
+                                {post.published &&
                                 <li>
                                     <a onClick={handleEdit}>Edit</a>
                                 </li>
+                                }
                                 <li>
                                     <a onClick={handlePublish}>Publish</a>
                                 </li>
@@ -53,7 +55,7 @@ function BlogPostCard({post, isAdmin}){
                         </div>
                     }
                 </header>
-                <h2 className="post-title">{post.title}</h2>
+                <h2 className="post-title">{JSON.parse(post.title).blocks[0].data.text}</h2>
                 <p className="post-summary">{JSON.parse(post.summary).blocks[0].data.text}</p>
                 <footer className="post-keywords">
                     <ul>
