@@ -1,11 +1,30 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import * as validators from './validators.js';
+import {useAuth} from './AuthContext';
 
 function ResetPassword(){
+    const {resetPassword} = useAuth();
     const [email, setEmail] = useState('');
+    const [emailMessage, setEmailMessage] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
+        setEmailMessage('');
+        const emailError = validators.validateEmail(email);
+        if(emailError){
+            setEmailMessage(emailError ? emailError : "");
+        }else{
+            try{
+                const data = {}
+                for(const [key, value] of new FormData(event.target)){
+                    data[key] = value;
+                }
+                await resetPassword(data);
+            }catch(error){
+                console.error("Failed to send password reset email:",error);
+            }
+        }
     }
 
     return (

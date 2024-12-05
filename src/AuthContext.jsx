@@ -156,6 +156,32 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const resetPassword = async (data) => {
+        setAlertMessage('')
+        setMessageType('');
+        try{
+            console.log("sending email",data);
+            const response = await api.post(`/api/users/reset-password`,data);
+            if(response.status === 202){
+                setAlertMessage('You will receive an email with a link to reset your password.')
+                setMessageType('success');
+            }
+        }catch(error){
+            console.log("error sending email");
+            if(error.response.status === 404){
+                if(error.response.data.message === 'User account not found'){
+                    setAlertMessage("Email not found");
+                    setMessageType("warning");
+                }else{
+                    console.log("Bot detected!");
+                }
+            }else{
+                setAlertMessage("An unexpected error occurred, please try again.");
+                setMessageType("fail");
+            }
+        }
+    }
+
     // const createPost = async (postId data, willClose) => {
     //     setAlertMessage('')
     //     setMessageType('');
@@ -246,6 +272,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         updateUser,
         deleteAccount,
+        resetPassword,
         savePost,
         publishPost,
         deletePost
