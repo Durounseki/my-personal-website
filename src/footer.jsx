@@ -1,6 +1,6 @@
 function Footer(){
     return (
-        <footer>
+        <footer className="main-footer">
             <p className="copyright">© 2024 エルウェブ</p>
         </footer>
     )

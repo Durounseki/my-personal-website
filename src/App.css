@@ -1,6 +1,7 @@
 #root {
   max-width: 800px;
   padding: 2rem;
+  padding-bottom: 0;
   flex: 1;
   margin: 0 auto;
 }
@@ -24,7 +25,6 @@ header.menu{
 }
 
 h1{
-  color: var(--teal-300);
   font-size: clamp(32px, 4rem,72px);
   font-optical-sizing: auto;
   font-weight: 900;
@@ -53,9 +53,29 @@ a:hover{
 }
 
 b{
-  color: var(--teal-300);
+  color: var(--slate-300);
 }
 
-footer{
-  margin: 32px 0;
+.main-footer{
+  margin-top: 32px;
+  position: relative;
+}
+
+.main-footer::after{
+  position: absolute;
+  content: "";
+  bottom: 0;
+  width: 100vw;
+  height: 100%;
+  left: 50%;
+  transform: translate(-50%,0);
+  background-color: var(--main-background);
+  z-index: 0;
+}
+
+.copyright{
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--secondary-text);
+  padding: 32px 0;
 }

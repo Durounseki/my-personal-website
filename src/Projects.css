@@ -2,30 +2,36 @@
     border-width: 1px;
     border-style: solid;
     border-image-slice: 1;
-    background: linear-gradient(var(--teal-800),var(--teal-800)) padding-box, linear-gradient(60deg, var(--teal-700), var(--teal-900)) border-box;
+    background: linear-gradient(var(--slate-800),var(--slate-800)) padding-box, linear-gradient(60deg, var(--slate-700), var(--slate-900)) border-box;
     padding: 16px 32px;
     border: 1px solid transparent;
     border-radius: 16px;
 } */
+.content-section h2{
+    color: var(--secondary-text);
+}
+
 .project{
-    padding: 8px 24px;
+    padding: 16px 24px;
     margin: 8px 24px;
     border-radius: 16px;
+    border: 2px solid var(--secondary-text);
+    background-color: var(--main-background);
 }
 
 .project:hover{
     cursor: pointer;
-    outline: var(--teal-900) 1px solid;
-    background-image: linear-gradient(210deg, var(--teal-800), var(--teal-1000));
-    box-shadow: 2px -2px 2px var(--teal-900), -2px 2px 2px var(--teal-900);
-}
-
-.project-date, .project-description, .project-info{
-    color: var(--teal-300);
+    background-color: var(--secondary-text);
+    color: var(--main-background);
 }
 
 .project-name{
     margin-top: 0;
+    color: var(--secondary-text);
+}
+
+.project:hover .project-name{
+    color: var(--main-background);
 }
 
 .project-info{
@@ -56,7 +62,13 @@
 .project-technologies li{
     list-style: none;
     font-size: smaller;
-    background-color: var(--teal-800);
+    background-color: var(--secondary-text);
+    color: var(--main-background);
     padding: 4px 16px;
     border-radius: 16px;
+}
+
+.project:hover .project-technologies li{
+    background-color: var(--main-background);
+    color: var(--secondary-text);
 }
