@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext} from 'react';
+import { createContext, useState, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import AlertMessage from './AlertMessage';
 import axios from 'axios';
@@ -19,7 +19,7 @@ api.interceptors.response.use(
         if(error.response.status === 401 && !originalRequest._retry){
             originalRequest._retry = true;
             try{
-                const response = await api.post('/api/users/refresh');
+                await api.post('/api/users/refresh');
                 return api(originalRequest);
             }catch(refreshError){
                 console.error('Invalid token', refreshError);
@@ -156,7 +156,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const resetPassword = async (data) => {
+    const requestResetPassword = async (data) => {
         setAlertMessage('')
         setMessageType('');
         try{
@@ -175,6 +175,32 @@ export const AuthProvider = ({ children }) => {
                 }else{
                     console.log("Bot detected!");
                 }
+            }else{
+                setAlertMessage("An unexpected error occurred, please try again.");
+                setMessageType("fail");
+            }
+        }
+    }
+
+    const resetPassword = async (tokenId,data) => {
+        setAlertMessage('')
+        setMessageType('');
+        try{
+            console.log("resetting password",data);
+            const response = await api.post(`/api/users/reset-password/${tokenId}`,data);
+            if(response.status === 200){
+                setIsAuthenticated(true);
+                setUserId(response.data.id);
+                setIsAdmin(response.data.isAdmin);
+            }else{
+                setIsAuthenticated(false);
+                setUserId(null);
+                setIsAdmin(false);
+            }
+        }catch(error){
+            console.log("error resetting password");
+            if(error.response.status === 404){
+                console.log("Bot detected!");
             }else{
                 setAlertMessage("An unexpected error occurred, please try again.");
                 setMessageType("fail");
@@ -272,6 +298,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         updateUser,
         deleteAccount,
+        requestResetPassword,
         resetPassword,
         savePost,
         publishPost,

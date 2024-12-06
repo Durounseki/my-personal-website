@@ -7,7 +7,6 @@ import Header from './Header.jsx';
 import { Routes, Route, Navigate } from "react-router-dom";
 import Resume from './Resume.jsx';
 import Footer from './Footer.jsx';
-import BlogPost from './BlogPost.jsx';
 import CreatePost from './CreatePost.jsx'
 import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
@@ -18,6 +17,8 @@ import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute.jsx';
 import AuthRoute from './AuthRoute.jsx'
 import EditorContextProvider from './EditorContext.jsx';
+import ResetRequestForm from './ResetRequestForm.jsx';
+import ResetForm from './ResetForm.jsx';
 
 function App() {
   
@@ -37,10 +38,10 @@ function App() {
                 </EditorContextProvider>
               }></Route>
               <Route path="create" element={
-                  <EditorContextProvider>
-                    <CreatePost/>
-                  </EditorContextProvider>
-                }></Route>
+                <EditorContextProvider>
+                  <CreatePost/>
+                </EditorContextProvider>
+              }></Route>
             </Route>
             <Route path="/about" element={<>About</>}></Route>
             <Route path="/resume" element={<Resume/>}></Route>
@@ -71,7 +72,12 @@ const UserRoutes = () => {
           <AuthRoute>
             <ResetPassword/>
           </AuthRoute>
-        }></Route>
+        }>
+          <Route index element = {<ResetRequestForm/>}></Route>
+          <Route path=":tokenId" element = {
+            <ResetForm/>
+          }></Route>
+        </Route>
         <Route path="profile" element={
           <ProtectedRoute>
             <Profile/>

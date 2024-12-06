@@ -1,6 +1,5 @@
-import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AlertMessage from './AlertMessage.jsx';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {useAuth} from './AuthContext';
 import './Login.css'
 
@@ -90,7 +89,7 @@ function Login(){
                     </div>
 
                 </div>
-                <p>Don't have an account? <Link to="/users/signup">Sign up</Link></p>
+                <p>Don&apos;t have an account? <Link to="/users/signup">Sign up</Link></p>
             </div>
         </>
     )
