@@ -57,7 +57,7 @@ function BlogPostCard({post, isAdmin}){
                     }
                 </header>
                 <h2 className="post-title">{post.title}</h2>
-                <p className="post-summary">{JSON.parse(post.summary).blocks[0].data.text}</p>
+                <p className="post-summary">{JSON.parse(post.summary).blocks[0] ? JSON.parse(post.summary).blocks[0].data.text : "Summary..."}</p>
                 <footer className="post-keywords">
                     <ul>
                         {post.keywords.map((keyword) => (

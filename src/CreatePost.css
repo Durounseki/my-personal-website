@@ -1,7 +1,7 @@
 .postEditor-container{
     position: relative;
-    background-color: var(--teal-1100);
-    outline: 2px solid #cd5c5c;
+    background-color: var(--main-background);
+    outline: 2px solid var(--secondary-text);
     border-radius: 16px;
     padding: 16px 32px;
     box-sizing: border-box;
@@ -11,7 +11,7 @@
 }
 
 .postEditor-container h2{
-    color: #cd5c5c;
+    color: var(--secondary-text);
 }
 
 .postEditor-container a{
@@ -19,48 +19,48 @@
 }
 
 textarea.ce-code__textarea.cdx-input{
-    background-color: var(--teal-800);
-    border: 1px solid var(--teal-500);
-    color: var(--teal-300);
+    background-color: var(--slate-800);
+    border: 1px solid var(--slate-500);
+    color: var(--slate-300);
 }
 
 code.inline-code{
-    background-color: var(--teal-800);
-    border: 1px solid var(--teal-500);
-    color: var(--teal-300);
+    background-color: var(--slate-800);
+    border: 1px solid var(--slate-500);
+    color: var(--slate-300);
 }
 
 .ce-toolbar__plus, .ce-toolbar__settings-btn{
-    color: var(--teal-300);
+    color: var(--slate-300);
 
 }
 
 .codex-editor ::selection, .ce-block.ce-block--selected{
-    color: var(--teal-1100);
+    color: var(--slate-1100);
 }
 
 .codex-editor ::selection{
-    background-color: var(--teal-300);
+    background-color: var(--slate-300);
 }
 
 .ce-block.ce-block--selected .ce-block__content{
-    background-color: var(--teal-300);
+    background-color: var(--slate-300);
 }
 
 .ce-popover__container{
-    background: var(--teal-900);
-    --color-border: var(--teal-600);
-    --color-text-primary: var(--teal-300);
+    background: var(--slate-900);
+    --color-border: var(--slate-600);
+    --color-text-primary: var(--slate-300);
 }
 .ce-popover.ce-popover--inline.ce-popover--opened{
-    --color-border: var(--teal-600);
-    --color-text-primary: var(--teal-300);
+    --color-border: var(--slate-600);
+    --color-text-primary: var(--slate-300);
 }
 
 .ce-inline-tool-input.ce-inline-tool-input--showed, .cdx-search-field.ce-popover__search{
-    background: var(--teal-1100);
-    border-color: var(--teal-800);
-    /* --color-text-primary: var(--teal-300); */
+    background: var(--slate-1100);
+    border-color: var(--slate-800);
+    /* --color-text-primary: var(--slate-300); */
 }
 
 .save-post{
@@ -75,24 +75,24 @@ code.inline-code{
     font-size: medium;
     border-radius: 8px;
     border: none;
-    background-color: #cd5c5c;
+    background-color: var(--secondary-text);
     margin-left: auto;
 }
 
 .save-post button:hover{
-    background-color: #cd3a3a;
+    background-color: var(--active-text);
     cursor: pointer;
 }
 
 .postEditor-container span{
     font-size: smaller;
-    color: var(--teal-500);
+    color: var(--slate-500);
     padding-left: 8px;
     margin-bottom: -8px;
 }
 
 .summary-container, .keywords-container{
-    outline: 1px solid var(--teal-700);
+    outline: 1px solid var(--slate-700);
     padding: 8px 16px;
     border-radius: 8px;
 }
@@ -107,7 +107,7 @@ code.inline-code{
 .keywords-container li{
     list-style: none;
     font-size: smaller;
-    background-color: var(--teal-800);
+    background-color: var(--slate-800);
     padding: 4px 16px;
     padding-left: 16px;
     padding-right: 12px;
@@ -141,8 +141,8 @@ code.inline-code{
     width: 100%;
     margin: 0;
     padding: 0;
-    color: var(--teal-300);
-    font-size: clamp(32px, 4rem,72px);
+    color: var(--active-text);
+    font-size: clamp(48px,9.65vw,84px);
     font-optical-sizing: auto;
     font-weight: 900;
     font-style: normal;
