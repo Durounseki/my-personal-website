@@ -6,7 +6,7 @@
 }
 .profile-container h2, .profile-container p{
     margin: 0;
-    color: var(--inactive-text);
+    color: var(--secondary-text);
 }
 
 .profile-form{
@@ -18,12 +18,8 @@
     padding: 16px 32px;
     border-radius: 16px;
     background-color: var(--main-background);
-    outline: 2px solid var(--inactive-text);
-    min-width: 400px;
-}
-
-.profile-form:hover, .profile-form:focus-within{
     outline: 2px solid var(--secondary-text);
+    min-width: 400px;
 }
 
 .profile-form form{
@@ -37,10 +33,6 @@
     font-size: medium;
     border-radius: 8px;
     border: none;
-    background-color: var(--inactive-text);
-}
-
-.profile-form:hover button, .profile-form:focus-within button{
     background-color: var(--secondary-text);
 }
 

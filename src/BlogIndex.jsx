@@ -59,7 +59,7 @@ function Blog(){
         <>
             {isAdmin ?
             <>
-                <h1>Blog</h1>
+                <h1 className='blog-index'>Blog</h1>
                 <section className="new-post-form">
                     <form ref={createPostRef} onSubmit={createPost}>
                         <h2>New Post</h2>

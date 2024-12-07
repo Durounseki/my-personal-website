@@ -19,7 +19,7 @@
   --secondary-background: hsl(187, 100%, 5%);
   --main-border: hsl(187, 100%, 12%);
   --focus-border: hsl(187, 100%, 24%);
-  --main-accent: #e879f9;
+  --main-accent: hsla(55, 94%, 76%, 1);
   --main-text: hsl(187, 100%, 95%);
   --active-text: hsl(12, 95%, 50%);
   --inactive-text: hsl(12, 60%, 50%);

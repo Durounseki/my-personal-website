@@ -121,7 +121,7 @@ function Header(){
                             style={bubbleStyle}
                         >
                         </li>
-                        <div className="account" ref={ accountRef }>
+                        <div className="account" ref={el => accountRef.current = el}>
                             <ul>
                                 <li onClick={() => {
                                     handleClick(navLinks.length-1)

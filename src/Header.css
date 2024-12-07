@@ -2,19 +2,22 @@ nav{
     display: flex;
     justify-content: center;
     position: relative;
-    z-index: 3;
+    z-index: 4;
 }
 
 nav ul{
     list-style: none;
     display: flex;
-    gap: 36px;
     align-items: center;
     padding: 8px 16px;
     margin: 0;
     background-color: transparent;
     border-radius: 48px;
     backdrop-filter: blur(20px);
+}
+
+header ul{
+    border: 1px solid var(--secondary-background);
 }
 
 .menu-tab{
@@ -41,7 +44,7 @@ nav ul{
     border-radius: 48px;
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
-    background-color: var(--teal-800);
+    background-color: var(--secondary-text);
     z-index: 2;
 }
 
@@ -50,10 +53,10 @@ nav ul{
     flex-direction: column;
     position: absolute;
     right: 0;
-    transform: translate(-50%,30%);
-    outline: 1px solid var(--teal-600);
+    transform: translate(-5%,30%);
+    outline: 1px solid var(--main-border);
     border-radius: 8px;
-    background-color: var(--teal-1100);
+    background-color: var(--main-background);
 }
 
 .account.show ul{

@@ -62,7 +62,7 @@ function BlogCategory({category,isAdmin}){
             <section className="blog-category">
                 <h2 className="blog-category-name">{category.name ? category.name.toUpperCase() : category.toUpperCase()}</h2>
                 <div className="latest-posts">
-                    <section className="blog-post">
+                    <section className="blog-post inactive">
                         <h3>Nothing here yet, stay tuned!</h3>
                     </section>
                 </div>

@@ -69,7 +69,7 @@
 }
 
 .publication-link:hover{
-    color: var(--main-text);
+    color: var(--main-accent);
 }
 
 .publication-link:hover i{
