@@ -90,7 +90,7 @@ function Blog(){
             </>
             :
             <>
-            <h1>Blog</h1> 
+            <h1 className='blog-index'>Blog</h1> 
                 <section className="blog-intro">
                 <p>
                     I started learning web development at the beginning of 2023. I was hooked from the moment I was able to see <b>"Hello World!"</b> displayed on my browser. I still

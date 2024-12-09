@@ -51,6 +51,7 @@ code.inline-code{
     background: var(--slate-900);
     --color-border: var(--slate-600);
     --color-text-primary: var(--slate-300);
+    z-index: 1;
 }
 .ce-popover.ce-popover--inline.ce-popover--opened{
     --color-border: var(--slate-600);

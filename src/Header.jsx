@@ -32,6 +32,7 @@ function Header(){
             faClass: isAuthenticated ? "fa-solid fa-user" : "fa-solid fa-right-to-bracket"
         }
     ]
+    const [isMobile, setIsMobile] = useState();
     const [activeTab, setActiveTab] = useState(0)
     const [bubbleStyle, setBubbleStyle] = useState({ 
         transform: 'translateX(0px)', 
@@ -53,6 +54,15 @@ function Header(){
             }
         }
     }
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 600);
+        }
+        window.addEventListener('resize',handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize',handleResize);
+    },[])
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -112,7 +122,7 @@ function Header(){
                                     ref={el => tabsRef.current[index] = el}
                                     onClick={() => handleClick(index,link.url) }
                                     >
-                                    {(isAuthenticated && link.url === "/users") ? <span>{link.name}</span> : <NavLink to={link.url}>{link.name}</NavLink>}
+                                    {(isAuthenticated && link.url === "/users") ? isMobile && link.faClass ? <i className={link.faClass}></i> : <span>{link.name}</span> : isMobile && link.faClass ? <NavLink to={link.url}><i className={link.faClass}></i></NavLink> : <NavLink to={link.url}>{link.name}</NavLink>}
                                 </li>
                         ))}
                         <li

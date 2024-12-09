@@ -1,3 +1,7 @@
+.login-form-container h1{
+    color: var(--active-text);
+    font-size: clamp(48px,9.25vw,80px);
+}
 .login-form-container{
     display: flex;
     flex-direction: column;
@@ -18,7 +22,7 @@
     padding: 16px 32px;
     border-radius: 16px;
     background-color: var(--slate-1100);
-    outline: 2px solid #cd5c5c;
+    outline: 2px solid var(--secondary-text);
     min-width: 400px;
 }
 
@@ -41,11 +45,11 @@ input{
     font-size: medium;
     border-radius: 8px;
     border: none;
-    background-color: #cd5c5c;
+    background-color: var(--secondary-text);
 }
 
 .login-form-container button:hover{
-    background-color: #cd3a3a;
+    background-color: var(--active-text);
     cursor: pointer;
 }
 
