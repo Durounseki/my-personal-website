@@ -23,7 +23,7 @@
     border-radius: 16px;
     background-color: var(--slate-1100);
     outline: 2px solid var(--secondary-text);
-    min-width: 400px;
+    min-width: clamp(200px, 80%, 400px);
 }
 
 .login-form form{
@@ -74,6 +74,7 @@ input{
     transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
+    min-width: 120px;
 }
 
 .social-login{
@@ -86,6 +87,7 @@ input{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .social-login button{

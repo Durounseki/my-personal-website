@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const AuthContext = createContext();
 
-const apiRootUrl = "http://localhost:8080";
+const apiRootUrl = "http://172.31.2.202:8080";
 
 const api = axios.create({
     baseURL: apiRootUrl,

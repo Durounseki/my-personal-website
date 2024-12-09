@@ -34,7 +34,7 @@
 
 .publication{
     padding: 16px 24px;
-    margin: 8px 24px;
+    margin: 8px 0px;
     border-radius: 16px;
     border: 2px solid var(--secondary-text);
     background-color: var(--main-background);
