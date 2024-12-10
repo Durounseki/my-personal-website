@@ -5,6 +5,10 @@
     text-align: justify;
 }
 
+.blog-intro{
+    margin-bottom: 64px;
+}
+
 .blog-category h2{
     color: var(--secondary-text);
 }

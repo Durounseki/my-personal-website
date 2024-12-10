@@ -1,36 +1,39 @@
 import { useEffect, useState, useRef } from 'react';
 import { useOutletContext, useNavigate } from 'react-router-dom';
-import BlogCategory from './BlogCategory.jsx';
 import DOMPurify from "dompurify";
 import './Blog.css';
+import BlogPostCard from "./BlogPostCard.jsx";
+import BlogCategory from "./BlogCategory.jsx";
 
-const useCategories = () => {
-    const [categories, setCategories] = useState([]);
+const usePosts = () => {
+    const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const apiRootUrl = "http://localhost:8080";
 
     useEffect(() => {
-        fetch(`${apiRootUrl}/api/blog/categories`,{mode: "cors"})
-        .then(response => {
-            if(response.status >= 400){
+        fetch(`${apiRootUrl}/api/blog/posts?published=true`, {mode: "cors"})
+        .then((response) => {
+            if (response.status >= 400) {
                 throw new Error("Bad response from server");
             }
             return response.json();
         })
-        .then(data => setCategories(data))
-        .catch(error => setError(error))
-        .finally(() => setLoading(false))
-    }, []);
-
-    return {categories, loading, error};
+        .then((data) => {
+            console.log(data);
+            setPosts(data);
+        })
+        .catch((error) => setError(error))
+        .finally(() => setLoading(false));
+    },[]);
+    
+    return {posts, loading, error};
 }
 
 function Blog(){
 
     const {isAuthenticated, isAdmin} = useOutletContext();
-    const {categories, loading, error} = useCategories();
-    const newPostRef = useRef(null)
+    const {posts, loading, error} = usePosts();
     const createPostRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');
     const [postCategory, setPostCategory] = useState('');
@@ -51,6 +54,7 @@ function Blog(){
     }
 
     if(error){
+        console.log(error);
         return <p>A network error was encountered</p>
     }
 
@@ -100,8 +104,8 @@ function Blog(){
             </>
             }
             
-            {categories.map((category) => (
-                <BlogCategory key={category.id} category={category} isAdmin={isAdmin}/>
+            {posts.map((post) => (
+                <BlogPostCard key={post.id} post={post} isAdmin={isAdmin}/>
             ))}
         </>
     )
