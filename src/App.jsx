@@ -11,7 +11,8 @@ import CreatePost from './CreatePost.jsx'
 import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import ResetPassword from './ResetPassword.jsx';
-import Profile from './Profile.jsx'
+import Profile from './Profile.jsx';
+import About from './About.jsx';
 
 import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute.jsx';
@@ -43,7 +44,7 @@ function App() {
                 </EditorContextProvider>
               }></Route>
             </Route>
-            <Route path="/about" element={<>About</>}></Route>
+            <Route path="/about" element={<About/>}></Route>
             <Route path="/resume" element={<Resume/>}></Route>
             <Route path="/users/*" element={<UserRoutes/>}/>
           </Routes>

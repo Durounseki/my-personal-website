@@ -58,9 +58,38 @@ p.contact{
 
 .resume i{
     font-size: 1.5rem;
+    cursor: pointer;
 }
 
 .resume p{
     font-size: 0.75rem;
     margin: 0;
+}
+
+.resume-container{
+    position: relative;
+}
+
+.resume-list{
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 8px);
+    z-index: 1;
+    outline: 1px solid var(--main-border);
+    border-radius: 8px;
+    background-color: var(--main-background);
+}
+
+.resume-list.show{
+    display: block;
+}
+
+.resume-list ul{
+    padding: 0 16px;
+    list-style: none;
+}
+
+.resume-list li{
+    cursor: pointer;
 }

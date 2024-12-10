@@ -1,11 +1,18 @@
 import SocialLink from "./SocialLink.jsx"
-import './Details.css'
+import './Details.css';
+import { useRef } from "react";
 
 function Details({details}){
     
     const apiRootUrl = "http://localhost:8080";
+    const resumeRef = useRef(null);
+
+    const handleResume = () => {
+        resumeRef.current.classList.toggle("show");
+    }
 
     const handleClick = (url) => {
+
         try{
             window.open(`${apiRootUrl}${url}`,'_blank');
         }catch(error){
@@ -24,10 +31,19 @@ function Details({details}){
                     {details.socialLinks.map((link, index) => (
                         <SocialLink key={index} link={link}/>
                     ))}
-                    <a className="resume" href="#" onClick={()=> handleClick("/api/resume")}>
-                        <i className="fa-solid fa-file-lines"></i>
-                        <p>CV</p>
-                    </a>
+                    <div className="resume-container">
+                        <a className="resume" onClick={() => handleResume()}>
+                            <i className="fa-solid fa-file-lines"></i>
+                        </a>
+                        <div className="resume-list" ref={el => resumeRef.current =el}>
+                            <ul>
+                                <li><a onClick={() => handleClick("/api/resume")}>Resume</a></li>
+                                <li><a onClick={() => handleClick("/api/cv")}>CV</a></li>
+                                <li><a onClick={() => handleClick("/api/rirekisho")}>履歴書</a></li>
+                                <li><a onClick={() => handleClick("/api/keirekisho")}>経歴書</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </section>
         </>

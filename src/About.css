@@ -1,0 +1,47 @@
+.about-title{
+    color: var(--active-text);
+    margin-bottom: 0;
+    font-size: clamp(48px,9.65vw,84px);
+    text-align: center;
+}
+
+.about-content{
+    display: flex;
+    gap: clamp(16px, 2vw, 64px);
+    font-size: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+}
+
+.about-content img, .about-text{
+    width: 100%;
+}
+
+.about-text{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 10%;
+    bottom: 0;
+    box-sizing: border-box;
+    height: 100%;
+    background-color: hsl(0,10%,10%,0.33);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.about-text:hover{
+    opacity: 1;
+}
+
+.about-text p{
+    transform: translateY(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.about-text:hover p{
+    transform: translateY(0);
+}
