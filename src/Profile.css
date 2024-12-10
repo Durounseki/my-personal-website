@@ -19,7 +19,7 @@
     border-radius: 16px;
     background-color: var(--main-background);
     outline: 2px solid var(--secondary-text);
-    min-width: clamp(100%,100%,400px);
+    min-width: clamp(200px, 80%, 400px);
 }
 
 .profile-form form{

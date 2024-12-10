@@ -12,13 +12,11 @@
     left: 50%;
     transform: translate(-50%,0);
     background-color: var(--main-background);
-    z-index: 0;
 }
 
 .skills h2{
     color: var(--secondary-text);
     position: relative;
-    z-index: 1;
     border-bottom: 1px solid var(--secondary-text);
 }
 
@@ -28,12 +26,7 @@
     gap: 2rem;
     padding: 0;
     justify-content: space-evenly;
-    /* border: solid 2px var(--secondary-text); */
-    /* background-color: var(--main-background); */
-    /* padding: 16px 32px; */
-    /* border-radius: 16px; */
     margin: 0;
-    z-index: 1;
 }
 
 .skill{

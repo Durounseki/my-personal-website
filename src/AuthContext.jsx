@@ -5,7 +5,7 @@ import axios from 'axios';
 
 export const AuthContext = createContext();
 
-const apiRootUrl = "http://172.31.2.202:8080";
+const apiRootUrl = "http://localhost:8080";
 
 const api = axios.create({
     baseURL: apiRootUrl,
@@ -251,21 +251,23 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    const publishPost = async (postId) => {
+    const publishPost = async (postId,published) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            const response = await api.patch(`/api/blog/posts/${postId}`,{published: true});
+            const response = await api.patch(`/api/blog/posts/${postId}`,{published: published});
             if(response.status === 200){
-                setAlertMessage('Post published.')
+                published ? setAlertMessage('Post published.') : setAlertMessage('Post ready to edit');
                 setMessageType('success');
                 navigate('/blog');
+                return true;
             }
             console.log("post published",response);
         }catch (error){
             console.error(error);
             setAlertMessage("An unexpected error occurred, please try again.")
             setMessageType("fail");
+            return false;
         }
     }
 

@@ -20,7 +20,6 @@
 }
 
 .project:hover{
-    cursor: pointer;
     background-color: var(--secondary-text);
     color: var(--main-background);
 }
@@ -71,4 +70,9 @@
 .project:hover .project-technologies li{
     background-color: var(--main-background);
     color: var(--secondary-text);
+}
+
+.project-links{
+    display: flex;
+    gap: 16px;
 }

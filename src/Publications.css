@@ -12,10 +12,8 @@
     left: 50%;
     transform: translate(-50%,-50%);
     background-color: var(--main-background);
-    z-index: 0;
 }
 .research h2, .research article{
-    z-index: 1;
     position: relative;
 }
 

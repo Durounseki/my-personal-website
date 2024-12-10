@@ -13,15 +13,22 @@ function BlogPostCard({post, isAdmin}){
         navigate(`/blog/${post.id}`);
     }
 
-    const handleEdit = (event) => {
+    const handleEdit = async (event) => {
         event.stopPropagation();
         console.log("Editing post");
+        const success = await publishPost(post.id,false);
+        if(success){
+            navigate(`/blog/${post.id}`)
+        }
     }
 
     const handlePublish = async (event) => {
         event.stopPropagation();
         console.log("Publishing post");
-        await publishPost(post.id);
+        const success = await publishPost(post.id,true);
+        if(success){
+            navigate('/blog');
+        }
     }
 
     const handleDelete = async (event) => {
@@ -46,12 +53,14 @@ function BlogPostCard({post, isAdmin}){
                                     <a onClick={handleEdit}>Edit</a>
                                 </li>
                                 }
-                                <li>
+                                {!post.published &&
+                                <><li>
                                     <a onClick={handlePublish}>Publish</a>
                                 </li>
                                 <li>
                                     <a onClick={handleDelete}>Delete</a>
-                                </li>
+                                </li></>
+                                }
                             </ul>
                         </div>
                     }
