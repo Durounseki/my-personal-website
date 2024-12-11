@@ -45,3 +45,17 @@
 .about-text:hover p{
     transform: translateY(0);
 }
+
+@media (max-width: 600px) {
+    .about-text{
+        position: relative;
+        display: block;
+        opacity: 1;
+        background-color: var(--main-background);
+        border-radius: 16px;
+        border: 2px solid var(--secondary-text);
+    }
+    .about-text p{
+        transform: translate(0,0);
+    }
+}

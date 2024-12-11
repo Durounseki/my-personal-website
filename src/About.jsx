@@ -8,7 +8,7 @@ function About(){
             <img src={headShot} alt="EL"/>
             <div className='about-text'>
                 <p>
-                    I&apos;m Christian, but not christian, and I am a Doctor, not the kind that helps people though... (<cite>- Randy Pausch&apos;s mom</cite>).
+                    I&apos;m Christian, but not christian, and I am a Doctor, not the kind that helps people though... (<cite>&mdash;&nbsp;Randy Pausch&apos;s mom</cite>).
                 </p>
                 <p>
                     Currently a fullstack developer. When I am not coding, you can find me at the kitchen experimenting
