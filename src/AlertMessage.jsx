@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 function AlertMessage({ message, type, onDeleteMessage}) {
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +27,12 @@ function AlertMessage({ message, type, onDeleteMessage}) {
       )}
     </>
   );
+}
+
+AlertMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  onDeleteMessage: PropTypes.func.isRequired
 }
 
 export default AlertMessage;

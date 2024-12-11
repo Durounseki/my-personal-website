@@ -1,7 +1,7 @@
-// ProtectedRoute.jsx
 import { useEffect, useState, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, checkAuthentication } = useAuth();
@@ -32,6 +32,10 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/users/login" replace />;
   }
 
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired, 
 };
 
 export default ProtectedRoute;

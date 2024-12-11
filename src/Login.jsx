@@ -1,43 +1,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {useAuth} from './AuthContext';
-import './Login.css';
-import * as validators from './validators.js';
+import './Login.css'
 
 function Login(){
     const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(true);
-    const [emailMessage, setEmailMessage] = useState('');
-    const [passwordMessage, setPasswordMessage] = useState('');
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setEmailMessage('');
-        setPasswordMessage('');
-        const emailError = validators.validateEmail(email);
-        const passwordError = validators.validatePassword(password);
-
-        if(emailError || passwordError){
-            setEmailMessage(emailError ? emailError : "");
-            setPasswordMessage(passwordError ? passwordError : "");
-            return;
-        }else{
-            try{
-                const data = {}
-                for(const [key, value] of new FormData(event.target)){
-                    data[key] = value;
-                }
-                console.log("data:", data);
-                await login(data);
-            }catch(error){
-                console.error('Failed to log in:', error);
-            }
+        const data = {}
+        for(const [key, value] of new FormData(event.target)){
+            data[key] = value;
         }
+        console.log("data:", data);
+        await login(data);
     }
-
     // const handleGithubSubmit = (event) => {
     //     event.preventDefault();
     // }
@@ -56,7 +36,6 @@ function Login(){
                         <div className="form-group">
                             <label htmlFor="email">Email:</label>
                             <input
-                                className={emailMessage === "" ? "" : "input-error"}
                                 type="email"
                                 id="email"
                                 name="email"
@@ -64,9 +43,6 @@ function Login(){
                                 onChange={(e)=> setEmail(e.target.value)}
                                 required
                             />
-                            <p className='input-message'>
-                                {emailMessage}
-                            </p>
                             <input
                                 type="email"
                                 id="email-confirm"
@@ -76,7 +52,6 @@ function Login(){
                             />
                             <label htmlFor="password">Password:</label>
                             <input
-                                className={passwordMessage === "" ? "" : "input-error"}
                                 type="password"
                                 id="password"
                                 name="password"
@@ -84,9 +59,6 @@ function Login(){
                                 onChange={(e)=> setPassword(e.target.value)}
                                 required
                             />
-                            <p className='input-message'>
-                                {passwordMessage}
-                            </p>
                             <div className="forgot-or-remember">
                                 <label htmlFor="remember-me">
                                     <input

@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'; // Import PropTypes
+
 function ProjectCard({project}){
     return (
         <section className="project">
@@ -18,5 +20,16 @@ function ProjectCard({project}){
         </section>
     )
 }
+
+ProjectCard.propTypes = {
+    project: PropTypes.shape({
+      date: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      live: PropTypes.string,
+      more: PropTypes.string.isRequired, 
+      technologies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+};
 
 export default ProjectCard

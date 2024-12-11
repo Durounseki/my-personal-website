@@ -32,7 +32,7 @@ const usePosts = () => {
 
 function Blog(){
 
-    const {isAuthenticated, isAdmin} = useOutletContext();
+    const {isAdmin} = useOutletContext();
     const {posts, loading, error} = usePosts();
     const createPostRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');
@@ -68,7 +68,7 @@ function Blog(){
                     <form ref={createPostRef} onSubmit={createPost}>
                         <h2>New Post</h2>
                         <div className="form-group">
-                            <label for="title">Title:</label>
+                            <label htmlFor="title">Title:</label>
                             <input
                                 type="text"
                                 id="title"
@@ -78,7 +78,7 @@ function Blog(){
                             />
                         </div>
                         <div className="form-group">
-                            <label for="category">Category:</label>
+                            <label htmlFor="category">Category:</label>
                             <input
                                 type="text"
                                 id="category"
@@ -97,8 +97,8 @@ function Blog(){
             <h1 className='blog-index'>Blog</h1> 
                 <section className="blog-intro">
                 <p>
-                    I started learning web development at the beginning of 2023. I was hooked from the moment I was able to see <b>"Hello World!"</b> displayed on my browser. I still
-                    have much to learn but I would like to share some of my notes and thoughts with you. Feel free to explore and don't hesitate to reach out!
+                    I started learning web development at the beginning of 2023. I was hooked from the moment I was able to see <b>&quot;Hello World!&quot;</b> displayed on my browser. I still
+                    have much to learn but I would like to share some of my notes and thoughts with you. Feel free to explore and don&apos;t hesitate to reach out!
                 </p>
                 </section>
             </>

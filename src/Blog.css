@@ -160,6 +160,10 @@
     cursor: pointer;
 }
 
+.new-post-form+section{
+    margin-bottom: 64px;
+}
+
 .codex-editor__redactor {
     padding-bottom: 0px !important; 
   }

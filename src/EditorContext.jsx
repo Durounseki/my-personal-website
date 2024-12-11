@@ -1,18 +1,17 @@
-import {createContext, useRef, useState} from 'react';
+import {createContext, useRef} from 'react';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Paragraph from '@coolbytes/editorjs-paragraph';
 import CodeTool from '@editorjs/code';
 import InlineCode from '@editorjs/inline-code';
+import PropTypes from 'prop-types'
 
 
 export const EditorContext = createContext()
 
-function EditorContextProvider(props){
+function EditorContextProvider({children}){
     const editorInstanceRef = useRef({});
-    const [editorData, setEditorData] = useState(null);
-    const [savedData, setSavedData] = useState(null);
 
     const initEditor = (holderId,initialData,published) => {
         const editor = new EditorJS({
@@ -48,7 +47,6 @@ function EditorContextProvider(props){
             onChange: async () => {
                 const content = await editor.save();
                 localStorage.setItem(holderId,JSON.stringify(content));
-                setEditorData(content);
             },
             onReady: async () => {
                 editorInstanceRef.current[holderId] = editor;
@@ -60,8 +58,6 @@ function EditorContextProvider(props){
                         if(savedData){
                             await editor.render(JSON.parse(savedData));
                         }
-                        const initialData = await editor.save();
-                        setEditorData(initialData);
                     }
                 }catch(error){
                     console.log("Error initializing or loading data:", error)
@@ -72,9 +68,13 @@ function EditorContextProvider(props){
     }
     return (
         <EditorContext.Provider value={{initEditor, editorInstanceRef}}>
-            {props.children}
+            {children}
         </EditorContext.Provider>
     )
+}
+
+EditorContextProvider.propTypes = {
+    children: PropTypes.node.isRequired
 }
 
 export default EditorContextProvider;

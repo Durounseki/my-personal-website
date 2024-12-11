@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function SocialLink({link}){
     return (
         <>
@@ -7,5 +9,12 @@ function SocialLink({link}){
         </>
     )
 }
+
+SocialLink.propTypes = {
+    link: PropTypes.shape({
+      href: PropTypes.string.isRequired,
+      faClass: PropTypes.string.isRequired, 
+    }).isRequired,
+};
 
 export default SocialLink;

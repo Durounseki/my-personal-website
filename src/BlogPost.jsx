@@ -19,7 +19,7 @@ const usePost = (postId) =>{
         .then((data) => setPost(data))
         .catch((error) => setError(error))
         .finally(() => setLoading(false));
-    },[]);
+    },[postId]);
     return {post, loading, error};
 }
 

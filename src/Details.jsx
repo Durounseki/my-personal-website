@@ -1,6 +1,7 @@
 import SocialLink from "./SocialLink.jsx"
 import './Details.css';
 import { useRef } from "react";
+import PropTypes from 'prop-types';
 
 function Details({details}){
     
@@ -49,4 +50,18 @@ function Details({details}){
         </>
     )
 }
+Details.propTypes = {
+    details: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      role: PropTypes.string.isRequired,
+      contact: PropTypes.string.isRequired,
+      location: PropTypes.string.isRequired,
+      socialLinks: PropTypes.arrayOf(
+        PropTypes.shape({
+          href: PropTypes.string.isRequired, // From SocialLink.propTypes
+          faClass: PropTypes.string.isRequired, // From SocialLink.propTypes
+        })
+      ).isRequired,
+    }).isRequired,
+};
 export default Details;

@@ -1,6 +1,6 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import { EditorContext } from './EditorContext.jsx'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAuth } from './AuthContext.jsx';
 import DOMPurify from "dompurify";
 import './CreatePost.css';
@@ -41,7 +41,7 @@ const usePostData = (postId) =>{
                 setPublished(data.published);
                 console.log("initial title:", initialTitle, "initial category:", initialCategory, "initial Keywords:", initialKeywords)
             })
-            .catch((error) => setError(error));
+            .catch((error) => console.error(error));
         }else{
             if(!bodyRef.current){
                 initEditor('post-body',null,false);
@@ -59,33 +59,6 @@ const usePostData = (postId) =>{
     return {initialTitle, initialCategory, initialKeywords, published};
 }
 
-const useLocalData = () =>{
-    console.log("using local data");
-    const {initEditor} = useContext(EditorContext);
-    const [initialTitle, setInitialTitle] = useState(null);
-    const [initialCategory, setInitialCategory] = useState(null);
-    const [initialKeywords, setInitialKeywords] = useState([]);
-    const published = false;
-    const bodyRef =  useRef(null);
-    const summaryRef = useRef(null);
-    const apiRootUrl = "http://localhost:8080";
-    useEffect(() => {
-        if(!bodyRef.current){
-            initEditor('post-body',null,false);
-            bodyRef.current = true;
-        }
-        if(!summaryRef.current){
-            initEditor('post-summary',null,false);
-            summaryRef.current = true;
-        }
-        setInitialTitle(localStorage.getItem('post-title'));
-        setInitialCategory(localStorage.getItem('post-category'));
-    },[]);
-
-
-    return {initialTitle, initialCategory, initialKeywords, published};
-}
-
 function CreatePost(){
     const {id} = useParams();
     console.log("id:",id);
@@ -95,12 +68,7 @@ function CreatePost(){
     const keywordsRef = useRef(null);
     const [keywords, setKeywords] = useState([]);
     const [category, setCategory] = useState('');
-    // const [postId, setPostId] = useState(null);
-    // const location =  useLocation();
-    const navigate = useNavigate();
     const [title, setTitle] = useState(''); 
-    // const title = localStorage.getItem('currentPost-title') === "" ? 'Title' : localStorage.getItem('currentPost-title');
-    // const [keywords,setKeywords] = useState(localStorage.getItem('post-keywords').split(", "));
 
     useEffect(() => {
         setKeywords(initialKeywords);
@@ -148,28 +116,16 @@ function CreatePost(){
         await handleSavePost(event,true);
     }
 
-    const publishPost = async (event) => {
-        savePost(publish=true);
-    }
-
     const handleKeywords = (event) => {
         setKeywords(event.target.value.split(", "));
         localStorage.setItem('post-keywords', event.target.value);
     }
 
     const removeKeyword = (event,word) => {
-        keywordsRef.stopPropagation();
-        const filteredKeywords = keywords.filter(keyword => keyword !== word).join(", ");
+        event.stopPropagation();
+        const filteredKeywords = keywords.filter(keyword => keyword !== word);
         setKeywords(filteredKeywords);
     }
-
-    // if(loading){
-    //     return <p>Loading...</p>
-    // }
-
-    // if(error){
-    //     return <p>A network error was encountered</p>
-    // }
 
     return (
         <>
@@ -184,7 +140,6 @@ function CreatePost(){
             >
             </input>
         }
-        {/* <div id="post-title"></div> */}
         <div className="postEditor-container">
             <div id="post-body"></div>
             
@@ -224,7 +179,7 @@ function CreatePost(){
                             {keywords.map((keyword,index) => (
                                 <li key={index} className="keyword">
                                     {keyword}
-                                    <i className="fa-solid fa-x" onClick={(event) => removeKeyword(event,word)}></i>
+                                    <i className="fa-solid fa-x" onClick={(event) => removeKeyword(event,keyword)}></i>
                                 </li>
                             ))}
                         </ul>

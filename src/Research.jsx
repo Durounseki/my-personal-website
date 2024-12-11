@@ -21,7 +21,7 @@ function Research(){
     }
     const publications = [
         {
-            id: "0",
+            id: 0,
             title: "Learning collective behavior from data",
             authors: "C. Esparza-López, G. Stephens",
             journal: "In preparation",
@@ -32,7 +32,7 @@ function Research(){
             keywords: ["machine learning", "collective behavior", "diffusion maps"]
         },
         {
-            id: "1",
+            id: 1,
             title: "Rate invariance and scallop theorem in viscosity gradients",
             authors: "C. Esparza-López, E. Lauga",
             journal: "Phys. Rev. Fluids",
@@ -43,7 +43,7 @@ function Research(){
             keywords: ["scallop theorem", "low-Reynolds number", "viscosity gradients", "reciprocal locomotion", "swimming microorganisms"]
         },
         {
-            id: "2",
+            id: 2,
             title: "Dynamics of a helical swimmer crossing viscosity gradients",
             authors: "C. Esparza-López, J. Gonzalez-Gutierrez, F. Solorio-Ordaz, E. Lauga, R. Zenit",
             journal: "Phys. Rev. Fluids",
@@ -54,7 +54,7 @@ function Research(){
             keywords: ["low-Reynolds number", "viscosity gradients", "artificial swimmers", "swimming bacteria", "resistive force theory"]
         },
         {
-            id: "3",
+            id: 3,
             title: "Hydrodynamic model for Spiroplasma motility",
             authors: "C. Esparza-López, E. Lauga",
             journal: "Phys. Rev. Fluids",
@@ -66,7 +66,7 @@ function Research(){
             keywords: ["Spiroplasma", "swimming bacteria", "hydrodynamics", "low-Reynolds number", "resistive force theory"] 
         },
         {
-            id: "4",
+            id: 4,
             title: "A stochastic model for bacteria-driven micro-swimmers",
             authors: "C. Esparza-López, A. Théry, E. Lauga",
             journal: "Soft Matter",

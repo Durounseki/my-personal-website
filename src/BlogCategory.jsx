@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import BlogPostCard from "./BlogPostCard.jsx";
+import PropTypes from 'prop-types';
 
-const useLatestPosts = (categoryId) => {
+const usePosts = (category) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const apiRootUrl = "http://localhost:8080";
 
     useEffect(() => {
-        fetch(`${apiRootUrl}/api/blog/posts?categoryId=${categoryId}&published=true`, {mode: "cors"})
+        const url = category.id
+            ? `${apiRootUrl}/api/blog/posts?categoryId=${category.id}&published=true`
+            : `${apiRootUrl}/api/blog/posts?published=false`
+        fetch(url, {mode: "cors"})
         .then((response) => {
             if (response.status >= 400) {
                 throw new Error("Bad response from server");
@@ -18,36 +22,14 @@ const useLatestPosts = (categoryId) => {
         .then((data) => setPosts(data))
         .catch((error) => setError(error))
         .finally(() => setLoading(false));
-    },[]);
+    },[category]);
     
-    return {posts, loading, error};
-}
-
-const useUnpublished = () => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const apiRootUrl = "http://localhost:8080";
-
-    useEffect(() => {
-        fetch(`${apiRootUrl}/api/blog/posts?published=false`,{mode: "cors"})
-        .then(response => {
-            if(response.status >= 400){
-                throw new Error("Bad response from server");
-            }
-            return response.json();
-        })
-        .then(data => setPosts(data))
-        .catch(error => setError(error))
-        .finally(() => setLoading(false))
-    }, []);
-
     return {posts, loading, error};
 }
 
 function BlogCategory({category,isAdmin}){
     console.log("category: ", category);
-    const {posts, loading, error} = category.id ? useLatestPosts(category.id) : useUnpublished(category.id);
+    const {posts, loading, error} = usePosts(category);
     console.log("posts, loading, error", posts, loading, error)
 
     if(loading){
@@ -62,7 +44,7 @@ function BlogCategory({category,isAdmin}){
             <section className="blog-category">
                 <h2 className="blog-category-name">{category.name ? category.name.toUpperCase() : category.toUpperCase()}</h2>
                 <div className="latest-posts">
-                    <section className="blog-post inactive">
+                    <section className="blog-post">
                         <h3>Nothing here yet, stay tuned!</h3>
                     </section>
                 </div>
@@ -79,6 +61,17 @@ function BlogCategory({category,isAdmin}){
             </div>
         </section>
     )
+}
+
+BlogCategory.propTypes = {
+    category: PropTypes.oneOfType([
+        PropTypes.shape({
+            id: PropTypes.string,
+            name: PropTypes.string,
+        }),
+        PropTypes.string,
+    ]),
+    isAdmin: PropTypes.bool.isRequired
 }
 
 export default BlogCategory;

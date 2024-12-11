@@ -85,3 +85,27 @@ input:focus{
     margin-top: 8px;
 }
 
+.delete-user-buttons{
+    display: flex;
+    gap: 8px;
+}
+
+.delete-user-buttons button{
+    flex: 1;
+}
+
+.delete-user-buttons a{
+    flex: 1;
+    padding: 8px 16px;
+    font-size: medium;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--secondary-text);
+    text-align: center;
+    text-decoration: none;
+}
+
+.delete-user-buttons a:hover{
+    background-color: var(--active-text);
+    color: inherit;
+}

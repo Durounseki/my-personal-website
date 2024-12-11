@@ -1,12 +1,12 @@
 import './Header.css'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
 function Header(){
     const { isAuthenticated, logout } = useAuth();
-    const navLinks = [
+    const navLinks = useMemo(() => ([
         {
             name: "E L",
             url: "/",
@@ -31,7 +31,7 @@ function Header(){
             url: "/users",
             faClass: isAuthenticated ? "fa-solid fa-user" : "fa-solid fa-right-to-bracket"
         }
-    ]
+    ]),[isAuthenticated]);
     const [isMobile, setIsMobile] = useState();
     const [activeTab, setActiveTab] = useState(0)
     const [bubbleStyle, setBubbleStyle] = useState({ 
@@ -80,7 +80,7 @@ function Header(){
         };
     }, [isAuthenticated]);
 
-    const handleLogout = async (event) =>{
+    const handleLogout = async () =>{
         await logout();
         accountRef.current.classList.remove('show');
         console.log("logout");
@@ -90,7 +90,7 @@ function Header(){
         const path = location.pathname.split("/")[1] || "/";
         const activeIndex = navLinks.findIndex(link => link.url === `/${path}`);
         setActiveTab(activeIndex !== -1 ? activeIndex : 0);
-    }, [location.pathname]);
+    }, [location.pathname,navLinks]);
 
     useEffect(() => {
         const bubble = bubbleRef.current;
@@ -98,7 +98,6 @@ function Header(){
     
         if (bubble && tabs.length > activeTab) {
             const activeTabRect = tabs[activeTab].getBoundingClientRect();
-            const bubbleRect = bubble.getBoundingClientRect();
             const offset = tabs[0].getBoundingClientRect().left;
     
             setBubbleStyle({

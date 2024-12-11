@@ -1,6 +1,7 @@
 import {useRef} from 'react';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from './AuthContext';
+import PropTypes from 'prop-types';
 
 function BlogPostCard({post, isAdmin}){
     const { publishPost, deletePost } = useAuth();
@@ -77,6 +78,23 @@ function BlogPostCard({post, isAdmin}){
             </section>
         </>
     )
+}
+
+BlogPostCard.propTypes = {
+    post: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        summary: PropTypes.string.isRequired,
+        keywords: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+          })
+        ).isRequired,
+        createdAt: PropTypes.string.isRequired, // Assuming createdAt is a date string
+        published: PropTypes.bool.isRequired, 
+      }).isRequired,
+    isAdmin: PropTypes.bool.isRequired,
 }
 
 export default BlogPostCard;

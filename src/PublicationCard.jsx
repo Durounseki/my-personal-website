@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function PublicationCard({publication}){
     return (
         <section className="publication">
@@ -15,5 +17,22 @@ function PublicationCard({publication}){
         </section>
     )
 }
+
+PublicationCard.propTypes = {
+    publication: PropTypes.shape({
+      date: PropTypes.string,
+      title: PropTypes.string.isRequired,
+      authors: PropTypes.string.isRequired,
+      journal: PropTypes.string,
+      volume: PropTypes.string,
+      page: PropTypes.string,
+      year: PropTypes.oneOfType([
+          PropTypes.string, 
+          PropTypes.number, 
+      ]).isRequired,
+      link: PropTypes.string,
+      keywords: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
+  };
 
 export default PublicationCard;

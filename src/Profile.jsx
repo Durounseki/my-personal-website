@@ -30,7 +30,7 @@ const useUserInfo = (userId) => {
             .catch((error) => setError(error))
             .finally(() => setLoading(false));
         }
-    },[]);
+    },[userId]);
     
     return {user, loading, error};
 }
@@ -101,7 +101,7 @@ function Profile() {
                 await updateUser(userId,data);
                 console.log("Password updated successfully");
             }catch(error){
-                console.error("Failed to update password");
+                console.error("Failed to update password: ", error);
             }
         }
     }
@@ -119,6 +119,10 @@ function Profile() {
         await deleteAccount(userId,data);
         console.log("Account deleted successfully");
     }
+    const handleCancelDelete = (event) => {
+        event.preventDefault();
+        setConfirmDelete(false);
+    }
 
     useEffect(() =>{
         if(user){
@@ -135,10 +139,6 @@ function Profile() {
         console.log("Loading")
         return <p>Loading...</p>
     }else{
-
-        // console.log("user profile", user)
-        // console.log("errors: ", usernameMessage, emailMessage)
-        // console.log("errors: ", newPasswordMessage, confirmNewPasswordMessage)
         return (
         <div className="profile-container">
             <div className="profile-form">
@@ -255,7 +255,12 @@ function Profile() {
                         onChange={(e) => setIsDeleteChecked(e.target.checked)}
                         style={{ visibility: 'hidden', position: 'absolute' }}
                     />
-                    <button type="submit" className="submit-user">{confirmDelete ? "I am Sure" : "Delete"}</button>
+                    <div className='delete-user-buttons'>
+                        { confirmDelete &&
+                            <a href="#" className="submit-user" onClick={handleCancelDelete}>{"Cancel"}</a>
+                        }
+                        <button type="submit" className="submit-user">{confirmDelete ? "I am Sure" : "Delete"}</button>
+                    </div>
                 </form>
             </div>
         </div>
