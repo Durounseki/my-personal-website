@@ -1,4 +1,5 @@
-import { useRouteError } from "react-router-dom"
+import { useRouteError } from "react-router-dom";
+import './ErrorPage.css';
 function ErrorPage(){
     const error = useRouteError()
     console.error(error);
@@ -7,7 +8,7 @@ function ErrorPage(){
     let errorDescription = "I apologize for the inconvenience. Please try again later."
 
     if(error.status === 404){
-        errorMessage = "Opos!";
+        errorMessage = error.status;
         errorDescription = "It seems you got lost!"
     }else if(error.status === 500){
         errorMessage = "Server Error";
@@ -17,14 +18,17 @@ function ErrorPage(){
     return (
         <section className="error-page">
             <h1>{errorMessage}</h1>
-            <p>{errorDescription}</p>
-            {error && (
-                <div>
-                    <p>Error details:</p>
-                    <pre>{error.statusText || error.message}</pre>
-                </div>
-            )
-            }
+            <div className="error-description">
+                <h2>{errorDescription}</h2>
+                {error && (
+                    <>
+                        <p>Error details:</p>
+                        <pre>{error.statusText || error.message}</pre>
+                    </>
+                )
+                }
+            </div>
+            <a href="/">Back home</a>
         </section>
     )
 }

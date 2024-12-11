@@ -1,0 +1,20 @@
+.error-page{
+    margin: 0 auto;
+    text-align: center;
+}
+.error-page h1{
+    color: var(--active-text);
+    font-size: clamp(48px,9.25vw,80px);
+}
+
+.error-description{
+    border: 2px solid var(--secondary-text);
+    background-color: var(--main-background);
+    border-radius: 16px;
+    margin-bottom: 16px;
+}
+
+.error-description h2{
+    color: var(--secondary-text);
+}
+
