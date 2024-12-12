@@ -2,7 +2,7 @@ import './Header.css'
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import useAuth from './useAuth';
 
 function Header(){
     const { isAuthenticated, logout } = useAuth();

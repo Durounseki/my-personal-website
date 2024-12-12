@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
-function Resume(){
-    const resumeLinkRef = useRef(null);
+function Resume({url}){
     const navigate = useNavigate();
     const apiRootUrl = "http://localhost:8080";
     const handleClick = (url) => {
@@ -20,12 +20,16 @@ function Resume(){
     return(
         <>
             <button onClick={() => navigate("/")}>Back Home</button>
-            <a className="resume" href="#" onClick={()=> handleClick("/api/resume")}>
+            <a className="resume" href="#" onClick={()=> handleClick(url)}>
                 <i className="fa-solid fa-file-lines"></i>
                 <p>CV</p>
             </a>
         </>
     )
+}
+
+Resume.propTypes = {
+    url: PropTypes.string,
 }
 
 export default Resume;

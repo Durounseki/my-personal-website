@@ -39,7 +39,6 @@ function Details({details}){
                         <div className="resume-list" ref={el => resumeRef.current =el}>
                             <ul>
                                 <li><a onClick={() => handleClick("/api/resume")}>Resume</a></li>
-                                <li><a onClick={() => handleClick("/api/cv")}>CV</a></li>
                                 <li><a onClick={() => handleClick("/api/rirekisho")}>履歴書</a></li>
                                 <li><a onClick={() => handleClick("/api/keirekisho")}>経歴書</a></li>
                             </ul>

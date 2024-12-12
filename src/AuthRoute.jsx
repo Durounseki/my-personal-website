@@ -1,10 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import useAuth from './useAuth';
 import PropTypes from 'prop-types';
 
 const AuthRoute = ({ children }) => {
-  console.log("children type:", typeof(children));
   const { isAuthenticated, checkAuthentication } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const hasRun = useRef(false);

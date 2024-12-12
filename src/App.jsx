@@ -1,5 +1,5 @@
 import './App.css';
-import { AuthProvider } from './AuthContext';
+import AuthProvider from './AuthProvider';
 import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';

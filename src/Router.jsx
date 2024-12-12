@@ -14,7 +14,7 @@ import About from './About.jsx';
 
 import ProtectedRoute from './ProtectedRoute.jsx';
 import AuthRoute from './AuthRoute.jsx'
-import EditorContextProvider from './EditorContext.jsx';
+import EditorContextProvider from './EditorContextProvider.jsx';
 import ResetRequestForm from './ResetRequestForm.jsx';
 import ResetForm from './ResetForm.jsx';
 import ErrorPage from './ErrorPage.jsx';
@@ -68,7 +68,15 @@ const router = createBrowserRouter([
             },
             {
                 path: "/resume",
-                element: <Resume />
+                element: <Resume url={"/api/resume"}/>
+            },
+            {
+                path: "/rirekisho",
+                element: <Resume url={"/api/rirekisho"}/>
+            },
+            {
+                path: "/keirekisho",
+                element: <Resume url={"/api/keirekisho"}/>
             },
             {
                 path: "/users",

@@ -1,12 +1,11 @@
 import {useRef} from 'react';
 import { useNavigate } from "react-router-dom";
-import { useAuth } from './AuthContext';
+import useAuth from './useAuth';
 import PropTypes from 'prop-types';
 
 function BlogPostCard({post, isAdmin}){
     const { publishPost, deletePost } = useAuth();
-    const postDate = new Date(post.createdAt);
-    const [day, weekday] = postDate.toLocaleDateString('en-JP', {day: 'numeric', weekday: 'long'}).split(' ');
+    const postDate = new Date(post.createdAt).toLocaleDateString('en-JP',{ month: 'long', day: 'numeric', year: 'numeric'});
     const cardRef = useRef(null);
     const navigate = useNavigate();
 
@@ -45,7 +44,8 @@ function BlogPostCard({post, isAdmin}){
         <>
             <section className="blog-post" onClick={handleClick} ref={cardRef}>
                 <header>
-                    <div className="post-date">{weekday} {day}</div>
+                    {/* <div className="post-date">{weekday} {day}</div> */}
+                    <div className="post-date">{postDate}</div>
                     {isAdmin && 
                         <div className="post-actions">
                             <ul>

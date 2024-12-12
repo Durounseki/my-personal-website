@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as validators from './validators.js';
 import { Link } from "react-router-dom";
-import { useAuth } from './AuthContext';
+import useAuth from './useAuth';
 
 function ResetRequestForm(){
     const {requestResetPassword} = useAuth();
