@@ -5,7 +5,6 @@ import DOMPurify from "dompurify";
 import './Profile.css';
 
 const useUserInfo = (userId) => {
-    console.log("2: fetching data");
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -36,8 +35,7 @@ const useUserInfo = (userId) => {
 }
 
 function Profile() {
-    const { userId, updateUser, deleteAccount } = useAuth();
-    console.log("1",userId);
+    const { userId, updateUser, deleteAccount, csrfToken } = useAuth();
     const {user, loading, error} = useUserInfo(userId);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -179,6 +177,11 @@ function Profile() {
                             onChange={e => setEmailConfirm(e.target.value)}
                             style={{visibility: 'hidden', position: 'absolute'}}
                         />
+                        <input
+                            type='hidden'
+                            name="_csrf"
+                            value={csrfToken}
+                        />
                     </div>
                     <button type="submit" className="submit-user">Save</button>
                 </form>
@@ -235,6 +238,11 @@ function Profile() {
                         <p className='input-message'>
                             {confirmNewPasswordMessage}
                         </p>
+                        <input
+                            type='hidden'
+                            name="_csrf"
+                            value={csrfToken}
+                        />
                     </div>
                     <button type="submit" className="submit-user">Save</button>
                 </form>
@@ -259,6 +267,11 @@ function Profile() {
                         { confirmDelete &&
                             <a href="#" className="submit-user" onClick={handleCancelDelete}>{"Cancel"}</a>
                         }
+                        <input
+                            type='hidden'
+                            name="_csrf"
+                            value={csrfToken}
+                        />
                         <button type="submit" className="submit-user">{confirmDelete ? "I am Sure" : "Delete"}</button>
                     </div>
                 </form>

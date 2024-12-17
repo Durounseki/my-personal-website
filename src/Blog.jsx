@@ -5,7 +5,7 @@ import useAuth from './useAuth';
 import './Blog.css';
 
 function Blog(){
-    const { isAuthenticated, isAdmin, checkAuthentication } = useAuth();
+    const { isAuthenticated, isAdmin, checkAuthentication, csrfToken } = useAuth();
     const [isLoading, setIsLoading] = useState(true);
     const hasRun = useRef(false);
     const location = useLocation().pathname;
@@ -31,7 +31,7 @@ function Blog(){
 
     if(location === '/blog/create'){
         if(isAuthenticated && isAdmin){
-            return <Outlet/>
+            return <Outlet context={{csrfToken}}/>
         }else{
             return <Navigate to='/blog' replace />
         }

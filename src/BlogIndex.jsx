@@ -32,7 +32,7 @@ const usePosts = () => {
 
 function Blog(){
 
-    const {isAdmin} = useOutletContext();
+    const {isAdmin, csrfToken} = useOutletContext();
     const {posts, loading, error} = usePosts();
     const createPostRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');
@@ -87,10 +87,15 @@ function Blog(){
                                 onChange={e => setPostCategory(e.target.value)}
                             />
                         </div>
+                        <input
+                            type='hidden'
+                            name="_csrf"
+                            value={csrfToken}
+                        />
                         <button type="submit">Create</button>
                     </form>
                 </section>
-                <BlogCategory category={"UNPUBLISHED"} isAdmin={isAdmin}/>
+                <BlogCategory category={"UNPUBLISHED"} isAdmin={isAdmin} csrfToken={csrfToken}/>
             </>
             :
             <>
@@ -105,7 +110,7 @@ function Blog(){
             }
             
             {posts.map((post) => (
-                <BlogPostCard key={post.id} post={post} isAdmin={isAdmin}/>
+                <BlogPostCard key={post.id} post={post} isAdmin={isAdmin} csrfToken={csrfToken}/>
             ))}
         </>
     )

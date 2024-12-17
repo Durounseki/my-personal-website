@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from './useAuth';
 import PropTypes from 'prop-types';
 
-function BlogPostCard({post, isAdmin}){
+function BlogPostCard({post, isAdmin, csrfToken}){
     const { publishPost, deletePost } = useAuth();
     const postDate = new Date(post.createdAt).toLocaleDateString('en-JP',{ month: 'long', day: 'numeric', year: 'numeric'});
     const cardRef = useRef(null);
@@ -16,7 +16,7 @@ function BlogPostCard({post, isAdmin}){
     const handleEdit = async (event) => {
         event.stopPropagation();
         console.log("Editing post");
-        const success = await publishPost(post.id,false);
+        const success = await publishPost(post.id,csrfToken,false);
         if(success){
             navigate(`/blog/${post.id}`)
         }
@@ -25,7 +25,7 @@ function BlogPostCard({post, isAdmin}){
     const handlePublish = async (event) => {
         event.stopPropagation();
         console.log("Publishing post");
-        const success = await publishPost(post.id,true);
+        const success = await publishPost(post.id,csrfToken,true);
         if(success){
             navigate('/blog');
         }
@@ -34,7 +34,7 @@ function BlogPostCard({post, isAdmin}){
     const handleDelete = async (event) => {
         event.stopPropagation();
         console.log("Deleting post");
-        const success = await deletePost(post.id);
+        const success = await deletePost(post.id,csrfToken);
         if(success){
             cardRef.current.remove();
         }
@@ -95,6 +95,7 @@ BlogPostCard.propTypes = {
         published: PropTypes.bool.isRequired, 
       }).isRequired,
     isAdmin: PropTypes.bool.isRequired,
+    csrfToken: PropTypes.string.isRequired
 }
 
 export default BlogPostCard;

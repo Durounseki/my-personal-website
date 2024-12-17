@@ -27,7 +27,7 @@ const usePosts = (category) => {
     return {posts, loading, error};
 }
 
-function BlogCategory({category,isAdmin}){
+function BlogCategory({category,isAdmin,csrfToken}){
     console.log("category: ", category);
     const {posts, loading, error} = usePosts(category);
     console.log("posts, loading, error", posts, loading, error)
@@ -56,7 +56,7 @@ function BlogCategory({category,isAdmin}){
             <h2 className="blog-category-name">{category.name ? category.name.toUpperCase() : category.toUpperCase()}</h2>
             <div className="latest-posts">
                 {posts.map((post) => (
-                    <BlogPostCard key={post.id} post={post} isAdmin={isAdmin}/>
+                    <BlogPostCard key={post.id} post={post} isAdmin={isAdmin} csrfToken={csrfToken}/>
                 ))}
             </div>
         </section>
@@ -71,7 +71,8 @@ BlogCategory.propTypes = {
         }),
         PropTypes.string,
     ]),
-    isAdmin: PropTypes.bool.isRequired
+    isAdmin: PropTypes.bool.isRequired,
+    csrfToken: PropTypes.string.isRequired
 }
 
 export default BlogCategory;

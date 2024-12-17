@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [messageType, setMessageType] = useState('');
+    const [csrfToken, setCsrfToken] = useState(null);
 
     const navigate = useNavigate();
 
@@ -51,16 +52,19 @@ const AuthProvider = ({ children }) => {
                 setIsAuthenticated(true);
                 setUserId(response.data.id);
                 setIsAdmin(response.data.isAdmin);
+                setCsrfToken(response.data.csrfToken);
             }else{
                 setIsAuthenticated(false);
                 setUserId(null);
                 setIsAdmin(false);
+                setCsrfToken(null);
             }
         }catch(error){
             console.error("Authentication check failed:", error);
             setIsAuthenticated(false);
             setUserId(null);
             setIsAdmin(false);
+            setCsrfToken(null)
         }
     };
 
@@ -234,11 +238,11 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    const publishPost = async (postId,published) => {
+    const publishPost = async (postId,token,published) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            const response = await api.patch(`/api/blog/posts/${postId}`,{published: published});
+            const response = await api.patch(`/api/blog/posts/${postId}`,{_csrf: token, published: published});
             if(response.status === 200){
                 published ? setAlertMessage('Post published.') : setAlertMessage('Post ready to edit');
                 setMessageType('success');
@@ -254,11 +258,11 @@ const AuthProvider = ({ children }) => {
         }
     }
 
-    const deletePost = async (postId) => {
+    const deletePost = async (postId,token) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            const response = await api.delete(`/api/blog/posts/${postId}`);
+            const response = await api.delete(`/api/blog/posts/${postId}`,{_csrf: token});
             if(response.status === 200){
                 setAlertMessage('Post deleted.')
                 setMessageType('success');
@@ -278,6 +282,7 @@ const AuthProvider = ({ children }) => {
         isAuthenticated,
         userId,
         isAdmin,
+        csrfToken,
         checkAuthentication,
         signup,
         login,

@@ -62,7 +62,7 @@ const usePostData = (postId) =>{
 function CreatePost(){
     const {id} = useParams();
     console.log("id:",id);
-    const { savePost } = useAuth();
+    const { savePost, csrfToken } = useAuth();
     const { editorInstanceRef } = useContext(EditorContext);
     const { initialTitle, initialCategory, initialKeywords, published} = usePostData(id);
     const keywordsRef = useRef(null);
@@ -107,6 +107,7 @@ function CreatePost(){
             published: published,
             readingTime: readingTime,
             keywords: keywords.map(keyword => DOMPurify.sanitize(keyword)),
+            _csrf: csrfToken
         }
         await savePost(id, data, willClose);
     }
