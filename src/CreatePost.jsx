@@ -1,6 +1,6 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import EditorContext from './EditorContext.jsx'
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import useAuth from './useAuth.jsx';
 import DOMPurify from "dompurify";
 import './CreatePost.css';
@@ -206,6 +206,11 @@ function CreatePost(){
                 </div>
             </div>
         )}
+        <ul className="post-navigation">
+            <li>
+                <Link to="/blog">Back to Blog</Link>
+            </li>
+        </ul>
         </>
     )
 }

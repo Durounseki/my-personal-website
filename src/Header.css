@@ -33,6 +33,7 @@ header ul{
 }
 
 .menu-tab a{
+    display: block;
     text-decoration: none;
     padding: 0;
     margin: 0;

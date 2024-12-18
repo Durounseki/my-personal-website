@@ -71,7 +71,7 @@ code.inline-code{
     padding-top: 32px;
 }
 
-.save-post button{
+.save-post button, .post-navigation li{
     padding: 8px 16px;
     font-size: medium;
     border-radius: 8px;
@@ -80,7 +80,7 @@ code.inline-code{
     margin-left: auto;
 }
 
-.save-post button:hover{
+.save-post button:hover, .post-navigation li:hover{
     background-color: var(--active-text);
     cursor: pointer;
 }
@@ -156,4 +156,17 @@ code.inline-code{
     "YTAS" 850,
     "YTDE" -300;
     /* margin-bottom: 0; */
+  }
+
+  .post-navigation{
+    list-style: none;
+    display: flex;
+  }
+
+  .post-navigation a{
+    text-decoration: none;
+  }
+
+  .post-navigation a:hover{
+    color: inherit;
   }
