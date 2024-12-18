@@ -262,7 +262,10 @@ const AuthProvider = ({ children }) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            const response = await api.delete(`/api/blog/posts/${postId}`,{_csrf: token});
+            console.log("send csrf:",token);
+            const response = await api.delete(`/api/blog/posts/${postId}`,{
+                headers: {'X-CSRF-Token': token}
+            });
             if(response.status === 200){
                 setAlertMessage('Post deleted.')
                 setMessageType('success');

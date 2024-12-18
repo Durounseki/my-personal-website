@@ -34,6 +34,7 @@ function BlogPostCard({post, isAdmin, csrfToken}){
     const handleDelete = async (event) => {
         event.stopPropagation();
         console.log("Deleting post");
+        console.log("delete, csrf:",csrfToken);
         const success = await deletePost(post.id,csrfToken);
         if(success){
             cardRef.current.remove();

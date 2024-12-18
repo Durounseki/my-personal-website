@@ -33,6 +33,7 @@ const usePosts = () => {
 function Blog(){
 
     const {isAdmin, csrfToken} = useOutletContext();
+    console.log("csrf:",csrfToken);
     const {posts, loading, error} = usePosts();
     const createPostRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');

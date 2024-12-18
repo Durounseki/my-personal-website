@@ -36,7 +36,7 @@ function Blog(){
             return <Navigate to='/blog' replace />
         }
     }else{
-        return <Outlet context={{isAuthenticated, isAdmin}}/>
+        return <Outlet context={{isAuthenticated, isAdmin, csrfToken}}/>
     }
 }
 
