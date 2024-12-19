@@ -1,6 +1,6 @@
-import Details from "./Details";
-import Skills from "./Skills";
-import Projects from './Projects';
+import Details from "./Details/Details.jsx";
+import Skills from "./Skills/Skills.jsx";
+import Projects from './Projects/Projects.jsx';
 
 function Home(){
     const details = {

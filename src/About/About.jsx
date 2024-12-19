@@ -1,4 +1,4 @@
-import headShot from './public/headshot.jpg';
+import headShot from '../public/headshot.jpg';
 import './About.css'
 function About(){
     return(

@@ -1,9 +1,9 @@
 import { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
-import AlertMessage from './AlertMessage';
+import AlertMessage from './AlertMessage.jsx';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import AuthContext from './AuthContext';
+import AuthContext from './AuthContext.jsx';
 
 const apiRootUrl = "http://localhost:8080";
 

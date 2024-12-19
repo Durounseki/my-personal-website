@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
-import useAuth from './useAuth';
+import useAuth from './Auth/AuthRoute/useAuth';
 
 import './Blog.css';
 

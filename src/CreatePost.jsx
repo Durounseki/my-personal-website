@@ -1,7 +1,7 @@
 import { useContext, useRef, useEffect, useState } from "react";
 import EditorContext from './EditorContext.jsx'
 import { useParams, Link } from 'react-router-dom';
-import useAuth from './useAuth.jsx';
+import useAuth from './Auth/AuthRoute/useAuth.jsx';
 import DOMPurify from "dompurify";
 import './CreatePost.css';
 

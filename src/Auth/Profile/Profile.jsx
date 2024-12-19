@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import useAuth from './useAuth.jsx';
-import * as validators from './validators.js';
+import useAuth from '../AuthRoute/useAuth.jsx';
+import * as validators from '../utils/validators.js';
 import DOMPurify from "dompurify";
 import './Profile.css';
 

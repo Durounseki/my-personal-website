@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Navigate } from 'react-router-dom';
-import useAuth from './useAuth';
+import useAuth from './useAuth.jsx';
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ children }) => {

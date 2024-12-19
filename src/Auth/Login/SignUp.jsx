@@ -1,7 +1,7 @@
 import { useState} from 'react';
 import { Link } from 'react-router-dom';
-import * as validators from './validators.js';
-import useAuth from './useAuth.jsx';
+import * as validators from '../utils/validators.js';
+import useAuth from '../AuthRoute/useAuth.jsx';
 
 function SignUp(){
     const { signup } = useAuth();

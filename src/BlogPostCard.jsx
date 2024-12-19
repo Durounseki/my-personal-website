@@ -1,6 +1,6 @@
 import {useRef} from 'react';
 import { useNavigate } from "react-router-dom";
-import useAuth from './useAuth';
+import useAuth from './Auth/AuthRoute/useAuth';
 import PropTypes from 'prop-types';
 
 function BlogPostCard({post, isAdmin, csrfToken}){

@@ -1,22 +1,22 @@
 import {createBrowserRouter} from 'react-router-dom'
-import Home from './Home.jsx';
-import Research from './Research.jsx';
+import Home from './Home/Home.jsx';
+import Research from './Research/Research.jsx';
 import Blog from './Blog.jsx';
 import BlogIndex from './BlogIndex.jsx';
 import { Navigate } from "react-router-dom";
 import Resume from './Resume.jsx';
 import CreatePost from './CreatePost.jsx'
-import Login from './Login.jsx';
-import SignUp from './SignUp.jsx';
-import ResetPassword from './ResetPassword.jsx';
-import Profile from './Profile.jsx';
-import About from './About.jsx';
+import Login from './Auth/Login/Login.jsx';
+import SignUp from './Auth/Login/SignUp.jsx';
+import ResetPassword from './Auth/Login/ResetPassword.jsx';
+import Profile from './Auth/Profile/Profile.jsx';
+import About from './About/About.jsx';
 
-import ProtectedRoute from './ProtectedRoute.jsx';
-import AuthRoute from './AuthRoute.jsx'
+import ProtectedRoute from './Auth/AuthRoute/ProtectedRoute.jsx';
+import AuthRoute from './Auth/AuthRoute/AuthRoute.jsx'
 import EditorContextProvider from './EditorContextProvider.jsx';
-import ResetRequestForm from './ResetRequestForm.jsx';
-import ResetForm from './ResetForm.jsx';
+import ResetRequestForm from './Auth/Login/ResetRequestForm.jsx';
+import ResetForm from './Auth/Login/ResetForm.jsx';
 import ErrorPage from './ErrorPage.jsx';
 
 import App from './App.jsx';
