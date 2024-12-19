@@ -33,24 +33,12 @@ function SignUp(){
             setConfirmPasswordMessage(confirmPasswordError ? confirmPasswordError : "");
             return;
         }else{
-            try{
-                const data = {}
-                for(const [key, value] of new FormData(event.target)){
-                    data[key] = value;
-                }
-                console.log("data:", data);
-                await signup(data);
-                console.log("User account created successfully");
-            }catch(error){
-                console.error("Failed to update user:", error);
+            const data = {}
+            for(const [key, value] of new FormData(event.target)){
+                data[key] = value;
             }
+            await signup(data);
         }
-    }
-    const handleGithubSubmit = (event) => {
-        event.preventDefault();
-    }
-    const handleGoogleSubmit = (event) => {
-        event.preventDefault();
     }
 
     return (
@@ -126,17 +114,6 @@ function SignUp(){
                         </div>
                         <button type="submit" className="submit-user">Sign up</button>
                     </form>
-                    <div className="form-separator">
-                        <p>Or continue with</p>
-                    </div>
-                    <div className="social-login">
-                        <form onSubmit={handleGithubSubmit}>
-                            <button><i className='fa-brands fa-github'></i></button>
-                        </form>
-                        <form onSubmit={handleGoogleSubmit}>
-                            <button><i className='fa-brands fa-google'></i></button>
-                        </form>
-                    </div>
                 </div>
                 <p>Already have an account? <Link to="/users/login">Log in</Link></p>
                 <p>By continuing, you agree to the <a href="/terms-of-service" rel="noopener noreferrer" target="_blank">terms of use</a>.</p>

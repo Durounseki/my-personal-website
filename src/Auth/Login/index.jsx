@@ -15,15 +15,9 @@ function Login(){
         for(const [key, value] of new FormData(event.target)){
             data[key] = value;
         }
-        console.log("data:", data);
         await login(data);
     }
-    // const handleGithubSubmit = (event) => {
-    //     event.preventDefault();
-    // }
-    // const handleGoogleSubmit = (event) => {
-    //     event.preventDefault();
-    // }
+    
     return (
         <>
             <div className="login-form-container">
@@ -75,18 +69,6 @@ function Login(){
                         </div>
                         <button type="submit" className="submit-user">Log in</button>
                     </form>
-                    {/* <div className="form-separator">
-                        <p>Or continue with</p>
-                    </div> */}
-                    {/* <div className="social-login">
-                        <form onSubmit={handleGithubSubmit}>
-                            <button><i className='fa-brands fa-github'></i></button>
-                        </form>
-                        <form onSubmit={handleGoogleSubmit}>
-                            <button><i className='fa-brands fa-google'></i></button>
-                        </form>
-                    </div> */}
-
                 </div>
                 <p>Don&apos;t have an account? <Link to="/users/signup">Sign up</Link></p>
             </div>

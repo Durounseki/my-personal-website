@@ -9,7 +9,6 @@ function Blog(){
     const [isLoading, setIsLoading] = useState(true);
     const hasRun = useRef(false);
     const location = useLocation().pathname;
-    console.log(location);
 
     useEffect(() => {
         if(!hasRun.current){

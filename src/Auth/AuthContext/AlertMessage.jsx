@@ -10,9 +10,9 @@ function AlertMessage({ message, type, onDeleteMessage}) {
       const timer = setTimeout(() => {
         setShowModal(false);
         onDeleteMessage();
-      }, 3000); // Close modal after 5 seconds
+      }, 3000);
 
-      return () => clearTimeout(timer); // Clear timeout on unmount or message change
+      return () => clearTimeout(timer);
     }
   }, [message, type, onDeleteMessage]); 
 

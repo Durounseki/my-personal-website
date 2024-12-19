@@ -7,36 +7,31 @@ import './style.css';
 const useUserInfo = (userId) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const apiRootUrl = "http://localhost:8080";
     const hasFetched = useRef(false);
 
     useEffect(() => {
         if(userId && !hasFetched.current){
             hasFetched.current = true;
-            fetch(`${apiRootUrl}/api/users/${userId}`, {mode: "cors"})
-            .then((response) => {
-                if (response.status >= 400) {
-                    console.log("something went bad");
-                    throw new Error("Bad response from server");
+            const fetchData = async () => {
+                try{
+                    const response = await fetch(`${apiRootUrl}/api/users/${userId}`, {mode: "cors"});
+                    const data = await response.json();
+                    setUser(data);
+                }finally{
+                    setLoading(false);
                 }
-                return response.json();
-            })
-            .then((data) => {
-                console.log("data:", data);
-                setUser(data)
-            })
-            .catch((error) => setError(error))
-            .finally(() => setLoading(false));
+            }
+            fetchData();
         }
     },[userId]);
     
-    return {user, loading, error};
+    return {user, loading};
 }
 
 function Profile() {
     const { userId, updateUser, deleteAccount, csrfToken } = useAuth();
-    const {user, loading, error} = useUserInfo(userId);
+    const {user, loading} = useUserInfo(userId);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [emailConfirm, setEmailConfirm] = useState('');
@@ -57,7 +52,7 @@ function Profile() {
         event.preventDefault();
         setUsernameMessage('');
         setEmailMessage('');
-        const usernameError = '';//validators.validateUsername(username);
+        const usernameError = '';
         const emailError = validators.validateEmail(email);
 
         if(usernameError || emailError){
@@ -65,17 +60,11 @@ function Profile() {
             setEmailMessage(emailError ? emailError : "");
             return;
         }else{
-            try{
-                const data = {}
-                for(const [key, value] of new FormData(event.target)){
-                    data[key] = DOMPurify.sanitize(value);
-                }
-                console.log("data:", data);
-                await updateUser(userId, data);
-                console.log("User updated successfully");
-            }catch(error){
-                console.error("Failed to update user:", error);
+            const data = {}
+            for(const [key, value] of new FormData(event.target)){
+                data[key] = DOMPurify.sanitize(value);
             }
+            await updateUser(userId, data);
         }
     }
     const handleUpdatePassword = async (event) => {
@@ -90,17 +79,12 @@ function Profile() {
             setConfirmNewPasswordMessage(confirmNewPasswordError ? confirmNewPasswordError : "");
             return;
         }else{
-            try{
-                const data = {}
-                for(const [key, value] of new FormData(event.target)){
-                    data[key] = value;
-                }
-                console.log("data:", data);
-                await updateUser(userId,data);
-                console.log("Password updated successfully");
-            }catch(error){
-                console.error("Failed to update password: ", error);
+            const data = {}
+            for(const [key, value] of new FormData(event.target)){
+                data[key] = value;
             }
+            
+            await updateUser(userId,data);
         }
     }
     const handleDeleteAccount = async (event) => {
@@ -113,10 +97,10 @@ function Profile() {
         for(const [key, value] of new FormData(event.target)){
             data[key] = value;
         }
-        console.log("data:", data);
+
         await deleteAccount(userId,data);
-        console.log("Account deleted successfully");
     }
+    
     const handleCancelDelete = (event) => {
         event.preventDefault();
         setConfirmDelete(false);
@@ -129,12 +113,7 @@ function Profile() {
         }
     },[user]);
 
-    if(error){
-        return <p>A network error was encountered</p>
-    }
-
     if(loading){
-        console.log("Loading")
         return <p>Loading...</p>
     }else{
         return (

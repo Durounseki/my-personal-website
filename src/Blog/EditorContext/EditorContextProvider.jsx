@@ -58,11 +58,10 @@ function EditorContextProvider({children}){
                         }
                     }
                 }catch(error){
-                    console.log("Error initializing or loading data:", error)
+                    throw new Error(`Error initializing or loading data for "${holderId}":, ${error.message}`);
                 }
             }
         });
-        // editorInstanceRef.current = editor;
     }
     return (
         <EditorContext.Provider value={{initEditor, editorInstanceRef}}>

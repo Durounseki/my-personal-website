@@ -61,7 +61,6 @@ code.inline-code{
 .ce-inline-tool-input.ce-inline-tool-input--showed, .cdx-search-field.ce-popover__search{
     background: var(--slate-1100);
     border-color: var(--slate-800);
-    /* --color-text-primary: var(--slate-300); */
 }
 
 .save-post{
@@ -155,7 +154,6 @@ code.inline-code{
     "YTLC" 550,
     "YTAS" 850,
     "YTDE" -300;
-    /* margin-bottom: 0; */
   }
 
   .post-navigation{

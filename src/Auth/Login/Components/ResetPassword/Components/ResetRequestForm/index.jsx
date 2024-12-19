@@ -16,15 +16,11 @@ function ResetRequestForm(){
             setEmailMessage(emailError ? emailError : "");
             return
         }else{
-            try{
-                const data = {}
-                for(const [key, value] of new FormData(event.target)){
-                    data[key] = value;
-                }
-                await requestResetPassword(data);
-            }catch(error){
-                console.error("Failed to send password reset email:",error);
+            const data = {}
+            for(const [key, value] of new FormData(event.target)){
+                data[key] = value;
             }
+            await requestResetPassword(data);
         }
     }
     return (

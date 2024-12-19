@@ -83,7 +83,6 @@ function Header(){
     const handleLogout = async () =>{
         await logout();
         accountRef.current.classList.remove('show');
-        console.log("logout");
     }
 
     useEffect(() => {

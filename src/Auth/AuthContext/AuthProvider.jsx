@@ -22,7 +22,6 @@ api.interceptors.response.use(
                 await api.post('/api/users/refresh');
                 return api(originalRequest);
             }catch(refreshError){
-                console.error('Invalid token', refreshError);
                 return Promise.reject(refreshError);
             }
         }
@@ -60,7 +59,18 @@ const AuthProvider = ({ children }) => {
                 setCsrfToken(null);
             }
         }catch(error){
-            console.error("Authentication check failed:", error);
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                if(400 <= error.response.status < 500){
+                    setAlertMessage(error.response.data.message || 'Your session has expired, please log in.');
+                    setMessageType('warning');
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.");
+                    setMessageType('fail');
+                }
+            }
             setIsAuthenticated(false);
             setUserId(null);
             setIsAdmin(false);
@@ -79,12 +89,21 @@ const AuthProvider = ({ children }) => {
                 navigate('/users/profile');
             }
         }catch(error){
-            if(error.response.status === 400){
-                setAlertMessage("Email already registered.")
-                setMessageType("warning");
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
             }else{
-                setAlertMessage("An unexpected error occurred, please try again.")
-                setMessageType("fail");
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else if(error.response.status === 400){
+                    setAlertMessage(error.response.data.message || "Email already in use.");
+                    setMessageType("warning");
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.");
+                    setMessageType("fail");
+                }
             }
         }
     };
@@ -100,12 +119,21 @@ const AuthProvider = ({ children }) => {
                 navigate('/users/profile');
             }
         }catch(error){
-            if( 400 <= error.response.status < 500){
-                setAlertMessage("Invalid email or password.")
-                setMessageType("warning");
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
             }else{
-                setAlertMessage("An unexpected error occurred, please try again.")
-                setMessageType("fail");
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else if(error.response.status === 401){
+                    setAlertMessage(error.response.data.message || "Invalid email or password.")
+                    setMessageType("warning");
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
             }
         }
     };
@@ -121,9 +149,13 @@ const AuthProvider = ({ children }) => {
             setMessageType('success');
             navigate('/users/login');
         }catch(error){
-            setAlertMessage("An unexpected error occurred, please try again.")
-            setMessageType("fail");
-            console.log("Error loging out:", error);
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                setMessageType("fail");
+            }
         }
     };
 
@@ -138,9 +170,22 @@ const AuthProvider = ({ children }) => {
                 return response.data;
             }
         } catch (error) {
-            setAlertMessage("An unexpected error occurred, please try again.")
-            setMessageType("fail");
-            console.log("Error updating user:", error);
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else if(error.response.status === 401 || error.response.status === 403){
+                    setAlertMessage(error.response.data.message || "Invalid email or password.")
+                    setMessageType("warning");
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
+            }
         }
     };
 
@@ -157,9 +202,19 @@ const AuthProvider = ({ children }) => {
                 navigate('/users/login');
             }
         } catch (error) {
-            setAlertMessage("An unexpected error occurred, please try again.")
-            setMessageType("fail");
-            console.log("Error deleting account:", error);
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
+            }
         }
     };
 
@@ -167,24 +222,29 @@ const AuthProvider = ({ children }) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            console.log("sending email",data);
             const response = await api.post(`/api/users/reset-password`,data);
             if(response.status === 202){
                 setAlertMessage('You will receive an email with a link to reset your password.')
                 setMessageType('success');
             }
         }catch(error){
-            console.log("error sending email");
-            if(error.response.status === 404){
-                if(error.response.data.message === 'User account not found'){
-                    setAlertMessage("Email not found");
-                    setMessageType("warning");
-                }else{
-                    console.log("Bot detected!");
-                }
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
             }else{
-                setAlertMessage("An unexpected error occurred, please try again.");
-                setMessageType("fail");
+                if(error.response.status === 404){
+                    if(error.response.data.message === 'User account not found'){
+                        setAlertMessage("Email not found");
+                        setMessageType("warning");
+                    }else{
+                        const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                        notFoundError.status = error.response.status;
+                        throw notFoundError;
+                    }
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
             }
         }
     }
@@ -193,7 +253,6 @@ const AuthProvider = ({ children }) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            console.log("resetting password",data);
             const response = await api.post(`/api/users/reset-password/${tokenId}`,data);
             if(response.status === 200){
                 setIsAuthenticated(true);
@@ -205,12 +264,21 @@ const AuthProvider = ({ children }) => {
                 setIsAdmin(false);
             }
         }catch(error){
-            console.log("error resetting password");
-            if(error.response.status === 404){
-                console.log("Bot detected!");
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
             }else{
-                setAlertMessage("An unexpected error occurred, please try again.");
-                setMessageType("fail");
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else if(error.response.status === 401){
+                    setAlertMessage(error.response.data.message || "Invalid reset link. Please request a new one.")
+                    setMessageType("fail");
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
             }
         }
     }
@@ -232,9 +300,19 @@ const AuthProvider = ({ children }) => {
                 }
             }
         }catch (error){
-            console.error(error);
-            setAlertMessage("An unexpected error occurred, please try again.")
-            setMessageType("fail");
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
+            }
         }
     }
 
@@ -249,11 +327,20 @@ const AuthProvider = ({ children }) => {
                 navigate('/blog');
                 return true;
             }
-            console.log("post published",response);
         }catch (error){
-            console.error(error);
-            setAlertMessage("An unexpected error occurred, please try again.")
-            setMessageType("fail");
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
+            }
             return false;
         }
     }
@@ -262,7 +349,6 @@ const AuthProvider = ({ children }) => {
         setAlertMessage('')
         setMessageType('');
         try{
-            console.log("send csrf:",token);
             const response = await api.delete(`/api/blog/posts/${postId}`,{
                 headers: {'X-CSRF-Token': token}
             });
@@ -270,12 +356,21 @@ const AuthProvider = ({ children }) => {
                 setAlertMessage('Post deleted.')
                 setMessageType('success');
             }
-            console.log("post deleted",response);
             return true;
         }catch (error){
-            setAlertMessage("An unexpected error occurred, please try again.")
-            setMessageType("fail");
-            console.log("Error deleting post:", error);
+            if(!error.response){
+                setAlertMessage('An unexpected network error occurred.');
+                setMessageType('fail');
+            }else{
+                if(error.response.status === 404){
+                    const notFoundError = new Error(error.response.data.message || "It seems you got lost!");
+                    notFoundError.status = error.response.status;
+                    throw notFoundError;
+                }else{
+                    setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.")
+                    setMessageType("fail");
+                }
+            }
             return false;
         }
     }

@@ -22,15 +22,11 @@ function ResetForm(){
             setConfirmPasswordMessage(confirmPasswordError ? confirmPasswordError : "");
             return
         }else{
-            try{
-                const data = {}
-                for(const [key, value] of new FormData(event.target)){
-                    data[key] = value;
-                }
-                await resetPassword(tokenId,data);
-            }catch(error){
-                console.error("Failed to reset password:",error);
+            const data = {}
+            for(const [key, value] of new FormData(event.target)){
+                data[key] = value;
             }
+            await resetPassword(tokenId,data);
         }
     }
     return (

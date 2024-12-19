@@ -7,33 +7,29 @@ import BlogCategory from "../BlogCategory";
 const usePosts = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const apiRootUrl = "http://localhost:8080";
 
     useEffect(() => {
-        fetch(`${apiRootUrl}/api/blog/posts?published=true`, {mode: "cors"})
-        .then((response) => {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server");
+        const fetchData = async () => {
+            try{
+                const response = await fetch(`${apiRootUrl}/api/blog/posts?published=true`, {mode: "cors"});
+                const data = await response.json();
+                setPosts(data);
+            }finally{
+                setLoading(false);
             }
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-            setPosts(data);
-        })
-        .catch((error) => setError(error))
-        .finally(() => setLoading(false));
+        }
+        fetchData();
+        
     },[]);
     
-    return {posts, loading, error};
+    return {posts, loading};
 }
 
 function Blog(){
 
     const {isAdmin, csrfToken} = useOutletContext();
-    console.log("csrf:",csrfToken);
-    const {posts, loading, error} = usePosts();
+    const {posts, loading} = usePosts();
     const createPostRef = useRef(null);
     const [postTitle, setPostTitle] = useState('');
     const [postCategory, setPostCategory] = useState('');
@@ -51,11 +47,6 @@ function Blog(){
 
     if(loading){
         return <p>Loading...</p>
-    }
-
-    if(error){
-        console.log(error);
-        return <p>A network error was encountered</p>
     }
 
     return (

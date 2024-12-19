@@ -5,40 +5,41 @@ import PropTypes from 'prop-types';
 const usePosts = (category) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const apiRootUrl = "http://localhost:8080";
 
     useEffect(() => {
-        const url = category.id
-            ? `${apiRootUrl}/api/blog/posts?categoryId=${category.id}&published=true`
-            : `${apiRootUrl}/api/blog/posts?published=false`
-        fetch(url, {mode: "cors"})
-        .then((response) => {
-            if (response.status >= 400) {
-                throw new Error("Bad response from server");
+        const fetchData = async () => {
+
+            try{
+
+                const url = category.id
+                ? `${apiRootUrl}/api/blog/posts?categoryId=${category.id}&published=true`
+                : `${apiRootUrl}/api/blog/posts?published=false`;
+                
+                const response = await fetch(url, {mode: "cors"});
+                const data = await response.json();
+                
+                setPosts(data);
+                
+            }finally{
+                setLoading(false)
             }
-            return response.json();
-        })
-        .then((data) => setPosts(data))
-        .catch((error) => setError(error))
-        .finally(() => setLoading(false));
+        }
+
+        fetchData();
+        
     },[category]);
     
-    return {posts, loading, error};
+    return {posts, loading};
 }
 
 function BlogCategory({category,isAdmin,csrfToken}){
-    console.log("category: ", category);
-    const {posts, loading, error} = usePosts(category);
-    console.log("posts, loading, error", posts, loading, error)
+    const {posts, loading} = usePosts(category);
 
     if(loading){
         return <p>Loading...</p>
     }
 
-    if(error){
-        return <p>A network error was encountered</p>
-    }
     if(posts.length === 0){
         return (
             <section className="blog-category">

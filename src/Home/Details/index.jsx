@@ -17,7 +17,7 @@ function Details({details}){
         try{
             window.open(`${apiRootUrl}${url}`,'_blank');
         }catch(error){
-            console.log("Error fetching resume", error);
+            throw new Error(`Error fetching resume: ${error.message}`);
         }
     }
 
@@ -57,8 +57,8 @@ Details.propTypes = {
       location: PropTypes.string.isRequired,
       socialLinks: PropTypes.arrayOf(
         PropTypes.shape({
-          href: PropTypes.string.isRequired, // From SocialLink.propTypes
-          faClass: PropTypes.string.isRequired, // From SocialLink.propTypes
+          href: PropTypes.string.isRequired,
+          faClass: PropTypes.string.isRequired,
         })
       ).isRequired,
     }).isRequired,

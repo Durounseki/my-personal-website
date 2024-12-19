@@ -6,7 +6,6 @@ import DOMPurify from "dompurify";
 import './style.css';
 
 const usePostData = (postId) =>{
-    console.log("using db data")
     const {initEditor} = useContext(EditorContext);
     const [initialTitle, setInitialTitle] = useState(null);
     const [initialCategory, setInitialCategory] = useState(null);
@@ -18,15 +17,9 @@ const usePostData = (postId) =>{
 
     useEffect(() => {
         if(postId){
-            fetch(`${apiRootUrl}/api/blog/posts/${postId}`, {mode: "cors"})
-            .then((response) => {
-                if (response.status >= 400) {
-                    throw new Error("Bad response from server");
-                }
-                return response.json();
-            })
-            .then((data) => {
-                console.log("title:", data.title);
+            const fetchData = async () => {
+                const response = await fetch(`${apiRootUrl}/api/blog/posts/${postId}`, {mode: "cors"});
+                const data =  await response.json();
                 if(!bodyRef.current){
                     initEditor('post-body',data.body,data.published);
                     bodyRef.current = true;
@@ -39,9 +32,10 @@ const usePostData = (postId) =>{
                 setInitialCategory(data.category.name);
                 setInitialKeywords(data.keywords.map(keyword => keyword.name));
                 setPublished(data.published);
-                console.log("initial title:", initialTitle, "initial category:", initialCategory, "initial Keywords:", initialKeywords)
-            })
-            .catch((error) => console.error(error));
+            }
+
+            fetchData();
+            
         }else{
             if(!bodyRef.current){
                 initEditor('post-body',null,false);
@@ -61,7 +55,6 @@ const usePostData = (postId) =>{
 
 function CreatePost(){
     const {id} = useParams();
-    console.log("id:",id);
     const { savePost, csrfToken } = useAuth();
     const { editorInstanceRef } = useContext(EditorContext);
     const { initialTitle, initialCategory, initialKeywords, published} = usePostData(id);
@@ -75,7 +68,6 @@ function CreatePost(){
         setCategory(initialCategory);
         setTitle(initialTitle);
     },[initialTitle, initialCategory, initialKeywords]);
-    console.log("initial title:", title, "initial category:", category, "initial Keywords:", keywords)
 
     const estimateReadingTime= (data,wpm=250,lpm=30) => {
         let wordCount = 0;

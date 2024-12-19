@@ -15,7 +15,6 @@ function BlogPostCard({post, isAdmin, csrfToken}){
 
     const handleEdit = async (event) => {
         event.stopPropagation();
-        console.log("Editing post");
         const success = await publishPost(post.id,csrfToken,false);
         if(success){
             navigate(`/blog/${post.id}`)
@@ -24,7 +23,6 @@ function BlogPostCard({post, isAdmin, csrfToken}){
 
     const handlePublish = async (event) => {
         event.stopPropagation();
-        console.log("Publishing post");
         const success = await publishPost(post.id,csrfToken,true);
         if(success){
             navigate('/blog');
@@ -33,8 +31,6 @@ function BlogPostCard({post, isAdmin, csrfToken}){
 
     const handleDelete = async (event) => {
         event.stopPropagation();
-        console.log("Deleting post");
-        console.log("delete, csrf:",csrfToken);
         const success = await deletePost(post.id,csrfToken);
         if(success){
             cardRef.current.remove();
@@ -45,7 +41,6 @@ function BlogPostCard({post, isAdmin, csrfToken}){
         <>
             <section className="blog-post" onClick={handleClick} ref={cardRef}>
                 <header>
-                    {/* <div className="post-date">{weekday} {day}</div> */}
                     <div className="post-date">{postDate}</div>
                     {isAdmin && 
                         <div className="post-actions">
@@ -92,7 +87,7 @@ BlogPostCard.propTypes = {
             name: PropTypes.string.isRequired,
           })
         ).isRequired,
-        createdAt: PropTypes.string.isRequired, // Assuming createdAt is a date string
+        createdAt: PropTypes.string.isRequired,
         published: PropTypes.bool.isRequired, 
       }).isRequired,
     isAdmin: PropTypes.bool.isRequired,

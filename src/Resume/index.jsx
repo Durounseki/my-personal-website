@@ -9,7 +9,7 @@ function Resume({url}){
         try{
             window.open(`${apiRootUrl}${url}`,'_blank');
         }catch(error){
-            console.log("Error fetching resume", error);
+            throw new Error(`Error fetching resume: ${error.message}`);
         }
     }
     useEffect(() => {

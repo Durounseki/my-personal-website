@@ -1,8 +1,7 @@
 import { useRouteError } from "react-router-dom";
 import './style.css';
 function ErrorPage(){
-    const error = useRouteError()
-    console.error(error);
+    const error = useRouteError();
 
     let errorMessage = "Something went wrong!";
     let errorDescription = "I apologize for the inconvenience. Please try again later."
