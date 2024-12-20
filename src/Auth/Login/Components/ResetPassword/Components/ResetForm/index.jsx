@@ -32,7 +32,7 @@ function ResetForm(){
     return (
     <>
         <div className="login-form-container">
-            <h1>Forgot your password?</h1>
+            <h1>Reset your password</h1>
 
             <div className="login-form">
                 <form onSubmit={handleSubmit}>
@@ -73,7 +73,7 @@ function ResetForm(){
                                 {confirmPasswordMessage}
                             </p>
                     </div>
-                    <button type="submit" className="submit-user">Send reset link</button>
+                    <button type="submit" className="submit-user">Reset password</button>
                 </form>
             </div>
             <p>Here by mistake? <Link to="/users/login">Back</Link></p>

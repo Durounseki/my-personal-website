@@ -16,7 +16,7 @@ api.interceptors.response.use(
     response => response,
     async error => {
         const originalRequest = error.config;
-        if(error.response.status === 401 && !originalRequest._retry){
+        if(error.response.status === 401 && !originalRequest._retry && originalRequest.url !== '/api/users/login'){
             originalRequest._retry = true;
             try{
                 await api.post('/api/users/refresh');
@@ -36,12 +36,16 @@ const AuthProvider = ({ children }) => {
     const [alertMessage, setAlertMessage] = useState('');
     const [messageType, setMessageType] = useState('');
     const [csrfToken, setCsrfToken] = useState(null);
+    const [hasLoggedOut,setHasLoggedOut] = useState(false);
 
     const navigate = useNavigate();
 
     const handleDeleteMessage = () => {
         setAlertMessage('');
         setMessageType('');
+        if(hasLoggedOut){
+            setHasLoggedOut(false);
+        }
     }
     
     const checkAuthentication = async () =>{
@@ -62,10 +66,15 @@ const AuthProvider = ({ children }) => {
             if(!error.response){
                 setAlertMessage('An unexpected network error occurred.');
                 setMessageType('fail');
-            }else{
+            }
+            else{
                 if(400 <= error.response.status < 500){
-                    setAlertMessage(error.response.data.message || 'Your session has expired, please log in.');
-                    setMessageType('warning');
+                    if(error.response.data.message){
+                        if(!hasLoggedOut){
+                            setAlertMessage(error.response.data.message);
+                            setMessageType('warning');
+                        }
+                    }
                 }else{
                     setAlertMessage(error.response.data.message || "An unexpected error occurred. Please try again.");
                     setMessageType('fail');
@@ -147,6 +156,7 @@ const AuthProvider = ({ children }) => {
             setUserId(null);
             setAlertMessage('Logout successful!');
             setMessageType('success');
+            setHasLoggedOut(true);
             navigate('/users/login');
         }catch(error){
             if(!error.response){
@@ -199,6 +209,7 @@ const AuthProvider = ({ children }) => {
                 setUserId(null);
                 setAlertMessage('Account deleted.')
                 setMessageType('success');
+                setHasLoggedOut(true);
                 navigate('/users/login');
             }
         } catch (error) {

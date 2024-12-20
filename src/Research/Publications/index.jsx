@@ -11,7 +11,7 @@ function Publications(){
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await fetch(`${apiRootUrl}/api/projects`, {mode: "cors"});
+                const response = await fetch(`${apiRootUrl}/api/publications`, {mode: "cors"});
                 const data = await response.json();
                 setPublications(data);
             }catch{
@@ -24,6 +24,8 @@ function Publications(){
     },[]);
     if(loading){
         return <p>Loading...</p>
+    }else{
+        console.log("pubs:",publications)
     }
     return (
         <>
