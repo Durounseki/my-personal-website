@@ -1,9 +1,5 @@
-# Esparza Lopez
+# <span style="color: hsl(12, 95%, 50%);">ESPARZA LOPEZ</span>
+## <span style="color: hsl(12, 95%, 65%);">My personal website</span>
 
-This is my personal website. The front end is built in React using Vite. The back end uses Node with Express.
+This is the front end of my personal website. For further detail check the [__backend repository__](https://github.com/Durounseki/EL_backend).
 
-## To do
-
-* [ ] Password reset
-* [ ] Google sign up
-* [ ] Github sign up
