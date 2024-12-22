@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function Resume({url}){
     const navigate = useNavigate();
-    const apiRootUrl = "http://localhost:8080";
+    const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
     const handleClick = (url) => {
         try{
             window.open(`${apiRootUrl}${url}`,'_blank');

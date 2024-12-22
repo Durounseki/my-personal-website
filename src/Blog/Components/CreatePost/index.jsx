@@ -13,7 +13,7 @@ const usePostData = (postId) =>{
     const [published, setPublished] = useState(false);
     const bodyRef =  useRef(null);
     const summaryRef = useRef(null);
-    const apiRootUrl = "http://localhost:8080";
+    const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
 
     useEffect(() => {
         if(postId){

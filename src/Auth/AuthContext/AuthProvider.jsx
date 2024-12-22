@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import AuthContext from './AuthContext.jsx';
 
-const apiRootUrl = "http://localhost:8080";
+const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
 
 const api = axios.create({
     baseURL: apiRootUrl,

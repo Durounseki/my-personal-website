@@ -7,7 +7,7 @@ import './style.css';
 const useUserInfo = (userId) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const apiRootUrl = "http://localhost:8080";
+    const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
     const hasFetched = useRef(false);
 
     useEffect(() => {

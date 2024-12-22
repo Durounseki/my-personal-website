@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 function Details({details}){
     
-    const apiRootUrl = "http://localhost:8080";
+    const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
     const resumeRef = useRef(null);
 
     const handleResume = () => {

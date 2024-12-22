@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 function Publications(){
     const [publications, setPublications] = useState(null);
     const [loading, setLoading] = useState(true);
-    const apiRootUrl = "http://localhost:8080";
+    const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
 
     useEffect(() => {
         const fetchData = async () => {

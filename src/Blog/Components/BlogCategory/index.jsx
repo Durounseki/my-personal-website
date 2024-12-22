@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const usePosts = (category) => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const apiRootUrl = "http://localhost:8080";
+    const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
 
     useEffect(() => {
         const fetchData = async () => {
