@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 function ProjectCard({project}){
+    
     return (
         <section className="project">
             <header className="project-date">{project.date}</header>
@@ -8,7 +10,7 @@ function ProjectCard({project}){
             <p className="project-description">{project.description}</p>
             <div className="project-links">
                 <a href={project.live} rel="noopener noreferrer" target="_blank" className="project-info"><i className="fa-solid fa-globe"></i>Live</a>
-                <a className="project-info" href={project.more}>Learn more <i className="fa-solid fa-angles-right"></i></a>
+                <Link className="project-info" href={project.more}>Learn more <i className="fa-solid fa-angles-right"></i></Link>
             </div>
             <footer className="project-technologies">
                 <ul>
