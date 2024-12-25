@@ -10,7 +10,7 @@ function ProjectCard({project}){
             <p className="project-description">{project.description}</p>
             <div className="project-links">
                 <a href={project.live} rel="noopener noreferrer" target="_blank" className="project-info"><i className="fa-solid fa-globe"></i>Live</a>
-                <Link className="project-info" href={project.more}>Learn more <i className="fa-solid fa-angles-right"></i></Link>
+                <Link className="project-info" to={project.more}>Learn more <i className="fa-solid fa-angles-right"></i></Link>
             </div>
             <footer className="project-technologies">
                 <ul>
