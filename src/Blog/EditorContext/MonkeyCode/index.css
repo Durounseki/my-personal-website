@@ -1,0 +1,358 @@
+:root {
+  --code-block-border-color: var(--slate-700);
+  --code-block-border-color-focus: var(--focus-border);
+  --code-block-caret-color: var(--main-accent);
+  --code-block-code-background: var(--slate-950);
+  --code-block-line-numbers-background: var(--slate-900);
+  --code-block-line-numbers-color: var(--slate-500);
+  --code-block-line-numbers-border-color: var(--slate-800);
+  --token-comment-color: var(--slate-600);
+  --token-punctuation-color: var(--slate-400);
+  --token-boolean-constant-deleted-number-property-symbol-tag-color: var(
+    --active-text
+  );
+  --token-attr-name-builtin-char-inserted-selector-string-color: var(
+    --main-accent
+  );
+  --token-entity-operator-url-color: var(--slate-300);
+  --token-atrule-attr-value-keyword-color: var(--focus-border);
+  --token-class-name-function-color: var(--secondary-text);
+  --token-important-regex-variable-color: var(--main-accent);
+  --token-selection-background: var(--slate-800);
+  --token-inline-code-background: var(--slate-900);
+  --code-text-color: var(--slate-200);
+  --code-block-header-background: var(--slate-800);
+  --code-block-name-color: var(--slate-300);
+  --code-block-header-button-background: var(--slate-800);
+  --code-block-header-button-background-focus: var(--slate-900);
+  --code-block-header-button-border-color: var(--slate-700);
+  --code-block-header-button-active-border-color: var(--slate-500);
+  --code-block-language-button-color: var(--slate-300);
+  --code-block-language-list-background: var(--slate-800);
+  --code-block-language-list-color: var(--slate-300);
+  --code-block-language-item-hover-background: var(--slate-700);
+  --code-block-text-shadow-color: transparent;
+}
+
+.custom-code-block {
+  border-radius: 8px;
+  margin: 12px 0;
+  display: grid;
+  border: 1px solid var(--code-block-border-color);
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: max-content;
+  box-sizing: border-box;
+  position: relative;
+  font-size: 14px;
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+}
+
+.code-block-header {
+  grid-column: 1/3;
+  display: grid;
+  grid-template-columns: 1fr max-content 100px;
+  gap: 8px;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 8px 8px 0 0;
+  background-color: var(--code-block-header-background);
+  border-bottom: 1px solid var(--code-block-border-color);
+}
+
+.code-block-name {
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: transparent;
+  color: var(--code-block-name-color);
+  margin: 0;
+  font-family: "Roboto Flex", sans-serif;
+}
+
+.code-block-language-container {
+  position: relative;
+}
+
+.code-block-language-button,
+.code-block-language-tag,
+.code-block-copy-button {
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  background-color: var(--code-block-header-button-background);
+  border: 1px solid var(--code-block-header-button-border-color);
+  color: var(--code-block-language-button-color);
+  font-family: "Roboto Flex", sans-serif;
+}
+.code-block-language-tag {
+  text-align: center;
+}
+.code-block-language-button:hover,
+.code-block-copy-button:hover {
+  cursor: pointer;
+  background-color: var(--code-block-header-button-background-focus);
+}
+
+.code-block-copy-button {
+  position: relative;
+  padding: 8px;
+  align-self: stretch;
+}
+.code-block-copy-button i {
+  transition: opacity 0.3s ease-in-out;
+}
+.code-block-copy-button.copied {
+  border: 1px solid var(--code-block-header-button-active-border-color);
+}
+.code-block-copy-button.copied i:nth-child(1) {
+  opacity: 0.25;
+}
+.code-block-copy-button i:nth-child(2) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  opacity: 0;
+}
+.code-block-copy-button.copied i:nth-child(2) {
+  opacity: 1;
+}
+
+.code-block-copy-button i:nth-child(2).hidden {
+  display: none;
+}
+
+.code-block-language-list {
+  width: 100px;
+  background-color: var(--code-block-language-list-background);
+  border-radius: 4px;
+  border: 1px solid var(--code-block-border-color);
+  color: var(--code-block-language-list-color);
+  position: absolute;
+  list-style: none;
+  padding: 0;
+  margin-top: 2px;
+  right: 0;
+  z-index: 3;
+  font-family: "Roboto Flex", sans-serif;
+}
+
+.code-block-language-list.hidden {
+  display: none;
+}
+
+.code-block-language-item {
+  padding: 4px 8px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.code-block-language-item:hover {
+  background-color: var(--code-block-language-item-hover-background);
+}
+
+.code-block-line-numbers {
+  border: 1px solid transparent;
+  margin: 0;
+  line-height: 1.5;
+  grid-column: 1;
+  grid-row: 2;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--code-block-line-numbers-background);
+  border-right: 1px solid var(--code-block-line-numbers-border-color);
+  color: var(--code-block-line-numbers-color);
+  border-radius: 0 0 0 8px;
+}
+
+.custom-code-block textarea.code-block-textarea,
+.custom-code-block pre.code-block-pre {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.code-block-code,
+.code-block-pre {
+  border-radius: 0 0 8px 0;
+}
+.code-block-textarea,
+.code-block-pre {
+  grid-column: 2;
+  grid-row: 2;
+  white-space: pre;
+  overflow-x: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.custom-code-block .code-block-code {
+  text-shadow: none;
+}
+.custom-code-block pre.code-block-pre {
+  z-index: 0;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  scrollbar-width: none;
+  margin: 0;
+  background-color: var(--code-block-code-background);
+}
+
+.code-block-textarea {
+  resize: none;
+  display: block;
+  margin: 0;
+  white-space: pre;
+  padding: 1em;
+  line-height: 1.5;
+  z-index: 1;
+  color: transparent;
+  background: transparent;
+  caret-color: var(--code-block-caret-color);
+  border: none;
+}
+
+.code-block-textarea:focus {
+  outline: none;
+}
+.custom-code-block:focus-within:not(.read-only) {
+  border: 1px solid var(--code-block-border-color-focus);
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  color: var(--code-text-color);
+  background: 0 0;
+  text-shadow: 0 1px var(--code-block-text-shadow-color);
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  font-size: 1em;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+code[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection,
+pre[class*="language-"] ::-moz-selection,
+pre[class*="language-"]::-moz-selection {
+  text-shadow: none;
+  background: var(--token-selection-background);
+}
+
+code[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+pre[class*="language-"]::selection {
+  text-shadow: none;
+  background: var(--token-selection-background);
+}
+
+@media print {
+  code[class*="language-"],
+  pre[class*="language-"] {
+    text-shadow: none;
+  }
+}
+
+pre[class*="language-"] {
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: var(--token-inline-code-background);
+}
+
+:not(pre) > code[class*="language-"] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+
+.token.cdata,
+.token.comment,
+.token.doctype,
+.token.prolog {
+  color: var(--token-comment-color);
+}
+
+.token.punctuation {
+  color: var(--token-punctuation-color);
+}
+
+.token.namespace {
+  opacity: 0.7;
+}
+
+.token.boolean,
+.token.constant,
+.token.deleted,
+.token.number,
+.token.property,
+.token.symbol,
+.token.tag {
+  color: var(--token-boolean-constant-deleted-number-property-symbol-tag-color);
+}
+
+.token.attr-name,
+.token.builtin,
+.token.char,
+.token.inserted,
+.token.selector,
+.token.string {
+  color: var(--token-attr-name-builtin-char-inserted-selector-string-color);
+}
+
+.language-css .token.string,
+.style .token.string,
+.token.entity,
+.token.operator,
+.token.url {
+  color: var(--token-entity-operator-url-color);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: var(--token-atrule-attr-value-keyword-color);
+}
+
+.token.class-name,
+.token.function {
+  color: var(--token-class-name-function-color);
+}
+
+.token.important,
+.token.regex,
+.token.variable {
+  color: var(--token-important-regex-variable-color);
+}
+
+.token.bold,
+.token.important {
+  font-weight: 700;
+}
+
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}

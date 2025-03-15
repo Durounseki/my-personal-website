@@ -1,4 +1,3 @@
-
 :root {
   --slate-50: #f8fafc;
   --slate-100: #f1f5f9;
@@ -42,21 +41,11 @@ body {
   margin: 0;
   display: flex;
   min-height: 100dvh;
-  background-image: 
-    radial-gradient(circle at 2vw 2vw, var(--secondary-text) 1px, transparent 0);
+  background-image: radial-gradient(
+    circle at 2vw 2vw,
+    var(--secondary-text) 1px,
+    transparent 0
+  );
   background-size: 4vw 4vw;
   background-attachment: fixed;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
