@@ -10,6 +10,16 @@
   margin-top: 32px;
 }
 
+@media (max-width: 600px) {
+  .postEditor-container {
+    padding: 8px 16px;
+    margin-top: 32px;
+  }
+  code.inline-code {
+    font-weight: 400;
+  }
+}
+
 .postEditor-container h2 {
   color: var(--secondary-text);
 }
@@ -147,7 +157,7 @@ code.inline-code {
   margin: 0;
   padding: 0;
   color: var(--active-text);
-  font-size: clamp(48px, 9.65vw, 84px);
+  font-size: clamp(36px, 7vw, 64px);
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
