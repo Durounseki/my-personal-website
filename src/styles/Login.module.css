@@ -1,0 +1,77 @@
+.login-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.login-form-container h1 {
+  color: var(--active-text);
+  font-size: clamp(48px, 9.25vw, 80px);
+  margin-bottom: 0.5rem;
+}
+
+.login-form-container p {
+  margin: 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+  margin-bottom: 16px;
+  padding: 16px 32px;
+  border-radius: 16px;
+  background-color: var(--slate-1100);
+  outline: 2px solid var(--secondary-text);
+  min-width: clamp(200px, 80%, 400px);
+}
+
+.login-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group input {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--main-border);
+  outline: none;
+  background-color: var(--secondary-background);
+  color: var(--main-text);
+}
+
+.forgot-or-remember {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.submit-user {
+  padding: 8px 16px;
+  font-size: medium;
+  border-radius: 8px;
+  border: none;
+  background-color: var(--secondary-text);
+  color: var(--main-background);
+  cursor: pointer;
+}
+
+.submit-user:hover {
+  background-color: var(--active-text);
+}
+
+.honeypot {
+  visibility: hidden;
+  position: absolute;
+}

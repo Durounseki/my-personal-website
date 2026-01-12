@@ -1,0 +1,16 @@
+.social-link {
+  color: var(--secondary-text);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-link i {
+  font-size: 1.5rem;
+}
+
+.social-link:hover {
+  color: var(--main-accent);
+}

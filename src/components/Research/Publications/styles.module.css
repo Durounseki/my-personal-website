@@ -1,0 +1,10 @@
+.publications {
+  margin-top: 48px;
+}
+
+.title {
+  color: var(--secondary-text);
+  border-bottom: 1px solid var(--secondary-text);
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+}

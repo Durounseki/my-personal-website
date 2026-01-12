@@ -9,38 +9,251 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as ResearchRouteImport } from './routes/research'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog/index'
+import { Route as UsersSignupRouteImport } from './routes/users/signup'
+import { Route as UsersResetPasswordRouteImport } from './routes/users/reset-password'
+import { Route as UsersProfileRouteImport } from './routes/users/profile'
+import { Route as UsersLoginRouteImport } from './routes/users/login'
+import { Route as BlogPostsRouteImport } from './routes/blog/posts'
+import { Route as UsersResetPasswordIndexRouteImport } from './routes/users/reset-password/index'
+import { Route as UsersResetPasswordTokenIdRouteImport } from './routes/users/reset-password/$tokenId'
+import { Route as BlogPostsCreateRouteImport } from './routes/blog/posts/create'
+import { Route as BlogPostsPostIdIndexRouteImport } from './routes/blog/posts/$postId.index'
+import { Route as BlogPostsPostIdEditRouteImport } from './routes/blog/posts/$postId.edit'
 
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BlogRoute,
+} as any)
+const UsersSignupRoute = UsersSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => UsersRoute,
+} as any)
+const UsersResetPasswordRoute = UsersResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => UsersRoute,
+} as any)
+const UsersProfileRoute = UsersProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => UsersRoute,
+} as any)
+const UsersLoginRoute = UsersLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => UsersRoute,
+} as any)
+const BlogPostsRoute = BlogPostsRouteImport.update({
+  id: '/posts',
+  path: '/posts',
+  getParentRoute: () => BlogRoute,
+} as any)
+const UsersResetPasswordIndexRoute = UsersResetPasswordIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UsersResetPasswordRoute,
+} as any)
+const UsersResetPasswordTokenIdRoute =
+  UsersResetPasswordTokenIdRouteImport.update({
+    id: '/$tokenId',
+    path: '/$tokenId',
+    getParentRoute: () => UsersResetPasswordRoute,
+  } as any)
+const BlogPostsCreateRoute = BlogPostsCreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => BlogPostsRoute,
+} as any)
+const BlogPostsPostIdIndexRoute = BlogPostsPostIdIndexRouteImport.update({
+  id: '/$postId/',
+  path: '/$postId/',
+  getParentRoute: () => BlogPostsRoute,
+} as any)
+const BlogPostsPostIdEditRoute = BlogPostsPostIdEditRouteImport.update({
+  id: '/$postId/edit',
+  path: '/$postId/edit',
+  getParentRoute: () => BlogPostsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/research': typeof ResearchRoute
+  '/users': typeof UsersRouteWithChildren
+  '/blog/posts': typeof BlogPostsRouteWithChildren
+  '/users/login': typeof UsersLoginRoute
+  '/users/profile': typeof UsersProfileRoute
+  '/users/reset-password': typeof UsersResetPasswordRouteWithChildren
+  '/users/signup': typeof UsersSignupRoute
+  '/blog/': typeof BlogIndexRoute
+  '/blog/posts/create': typeof BlogPostsCreateRoute
+  '/users/reset-password/$tokenId': typeof UsersResetPasswordTokenIdRoute
+  '/users/reset-password/': typeof UsersResetPasswordIndexRoute
+  '/blog/posts/$postId/edit': typeof BlogPostsPostIdEditRoute
+  '/blog/posts/$postId': typeof BlogPostsPostIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/research': typeof ResearchRoute
+  '/users': typeof UsersRouteWithChildren
+  '/blog/posts': typeof BlogPostsRouteWithChildren
+  '/users/login': typeof UsersLoginRoute
+  '/users/profile': typeof UsersProfileRoute
+  '/users/signup': typeof UsersSignupRoute
+  '/blog': typeof BlogIndexRoute
+  '/blog/posts/create': typeof BlogPostsCreateRoute
+  '/users/reset-password/$tokenId': typeof UsersResetPasswordTokenIdRoute
+  '/users/reset-password': typeof UsersResetPasswordIndexRoute
+  '/blog/posts/$postId/edit': typeof BlogPostsPostIdEditRoute
+  '/blog/posts/$postId': typeof BlogPostsPostIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/research': typeof ResearchRoute
+  '/users': typeof UsersRouteWithChildren
+  '/blog/posts': typeof BlogPostsRouteWithChildren
+  '/users/login': typeof UsersLoginRoute
+  '/users/profile': typeof UsersProfileRoute
+  '/users/reset-password': typeof UsersResetPasswordRouteWithChildren
+  '/users/signup': typeof UsersSignupRoute
+  '/blog/': typeof BlogIndexRoute
+  '/blog/posts/create': typeof BlogPostsCreateRoute
+  '/users/reset-password/$tokenId': typeof UsersResetPasswordTokenIdRoute
+  '/users/reset-password/': typeof UsersResetPasswordIndexRoute
+  '/blog/posts/$postId/edit': typeof BlogPostsPostIdEditRoute
+  '/blog/posts/$postId/': typeof BlogPostsPostIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/blog'
+    | '/research'
+    | '/users'
+    | '/blog/posts'
+    | '/users/login'
+    | '/users/profile'
+    | '/users/reset-password'
+    | '/users/signup'
+    | '/blog/'
+    | '/blog/posts/create'
+    | '/users/reset-password/$tokenId'
+    | '/users/reset-password/'
+    | '/blog/posts/$postId/edit'
+    | '/blog/posts/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/research'
+    | '/users'
+    | '/blog/posts'
+    | '/users/login'
+    | '/users/profile'
+    | '/users/signup'
+    | '/blog'
+    | '/blog/posts/create'
+    | '/users/reset-password/$tokenId'
+    | '/users/reset-password'
+    | '/blog/posts/$postId/edit'
+    | '/blog/posts/$postId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/blog'
+    | '/research'
+    | '/users'
+    | '/blog/posts'
+    | '/users/login'
+    | '/users/profile'
+    | '/users/reset-password'
+    | '/users/signup'
+    | '/blog/'
+    | '/blog/posts/create'
+    | '/users/reset-password/$tokenId'
+    | '/users/reset-password/'
+    | '/blog/posts/$postId/edit'
+    | '/blog/posts/$postId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  BlogRoute: typeof BlogRouteWithChildren
+  ResearchRoute: typeof ResearchRoute
+  UsersRoute: typeof UsersRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +261,149 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/users/signup': {
+      id: '/users/signup'
+      path: '/signup'
+      fullPath: '/users/signup'
+      preLoaderRoute: typeof UsersSignupRouteImport
+      parentRoute: typeof UsersRoute
+    }
+    '/users/reset-password': {
+      id: '/users/reset-password'
+      path: '/reset-password'
+      fullPath: '/users/reset-password'
+      preLoaderRoute: typeof UsersResetPasswordRouteImport
+      parentRoute: typeof UsersRoute
+    }
+    '/users/profile': {
+      id: '/users/profile'
+      path: '/profile'
+      fullPath: '/users/profile'
+      preLoaderRoute: typeof UsersProfileRouteImport
+      parentRoute: typeof UsersRoute
+    }
+    '/users/login': {
+      id: '/users/login'
+      path: '/login'
+      fullPath: '/users/login'
+      preLoaderRoute: typeof UsersLoginRouteImport
+      parentRoute: typeof UsersRoute
+    }
+    '/blog/posts': {
+      id: '/blog/posts'
+      path: '/posts'
+      fullPath: '/blog/posts'
+      preLoaderRoute: typeof BlogPostsRouteImport
+      parentRoute: typeof BlogRoute
+    }
+    '/users/reset-password/': {
+      id: '/users/reset-password/'
+      path: '/'
+      fullPath: '/users/reset-password/'
+      preLoaderRoute: typeof UsersResetPasswordIndexRouteImport
+      parentRoute: typeof UsersResetPasswordRoute
+    }
+    '/users/reset-password/$tokenId': {
+      id: '/users/reset-password/$tokenId'
+      path: '/$tokenId'
+      fullPath: '/users/reset-password/$tokenId'
+      preLoaderRoute: typeof UsersResetPasswordTokenIdRouteImport
+      parentRoute: typeof UsersResetPasswordRoute
+    }
+    '/blog/posts/create': {
+      id: '/blog/posts/create'
+      path: '/create'
+      fullPath: '/blog/posts/create'
+      preLoaderRoute: typeof BlogPostsCreateRouteImport
+      parentRoute: typeof BlogPostsRoute
+    }
+    '/blog/posts/$postId/': {
+      id: '/blog/posts/$postId/'
+      path: '/$postId'
+      fullPath: '/blog/posts/$postId'
+      preLoaderRoute: typeof BlogPostsPostIdIndexRouteImport
+      parentRoute: typeof BlogPostsRoute
+    }
+    '/blog/posts/$postId/edit': {
+      id: '/blog/posts/$postId/edit'
+      path: '/$postId/edit'
+      fullPath: '/blog/posts/$postId/edit'
+      preLoaderRoute: typeof BlogPostsPostIdEditRouteImport
+      parentRoute: typeof BlogPostsRoute
+    }
   }
 }
 
+interface BlogPostsRouteChildren {
+  BlogPostsCreateRoute: typeof BlogPostsCreateRoute
+  BlogPostsPostIdEditRoute: typeof BlogPostsPostIdEditRoute
+  BlogPostsPostIdIndexRoute: typeof BlogPostsPostIdIndexRoute
+}
+
+const BlogPostsRouteChildren: BlogPostsRouteChildren = {
+  BlogPostsCreateRoute: BlogPostsCreateRoute,
+  BlogPostsPostIdEditRoute: BlogPostsPostIdEditRoute,
+  BlogPostsPostIdIndexRoute: BlogPostsPostIdIndexRoute,
+}
+
+const BlogPostsRouteWithChildren = BlogPostsRoute._addFileChildren(
+  BlogPostsRouteChildren,
+)
+
+interface BlogRouteChildren {
+  BlogPostsRoute: typeof BlogPostsRouteWithChildren
+  BlogIndexRoute: typeof BlogIndexRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogPostsRoute: BlogPostsRouteWithChildren,
+  BlogIndexRoute: BlogIndexRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
+interface UsersResetPasswordRouteChildren {
+  UsersResetPasswordTokenIdRoute: typeof UsersResetPasswordTokenIdRoute
+  UsersResetPasswordIndexRoute: typeof UsersResetPasswordIndexRoute
+}
+
+const UsersResetPasswordRouteChildren: UsersResetPasswordRouteChildren = {
+  UsersResetPasswordTokenIdRoute: UsersResetPasswordTokenIdRoute,
+  UsersResetPasswordIndexRoute: UsersResetPasswordIndexRoute,
+}
+
+const UsersResetPasswordRouteWithChildren =
+  UsersResetPasswordRoute._addFileChildren(UsersResetPasswordRouteChildren)
+
+interface UsersRouteChildren {
+  UsersLoginRoute: typeof UsersLoginRoute
+  UsersProfileRoute: typeof UsersProfileRoute
+  UsersResetPasswordRoute: typeof UsersResetPasswordRouteWithChildren
+  UsersSignupRoute: typeof UsersSignupRoute
+}
+
+const UsersRouteChildren: UsersRouteChildren = {
+  UsersLoginRoute: UsersLoginRoute,
+  UsersProfileRoute: UsersProfileRoute,
+  UsersResetPasswordRoute: UsersResetPasswordRouteWithChildren,
+  UsersSignupRoute: UsersSignupRoute,
+}
+
+const UsersRouteWithChildren = UsersRoute._addFileChildren(UsersRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  BlogRoute: BlogRouteWithChildren,
+  ResearchRoute: ResearchRoute,
+  UsersRoute: UsersRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
