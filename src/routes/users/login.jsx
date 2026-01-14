@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAuth } from "../../data/auth";
-import styles from "../../styles/Login.module.css";
 
 export const Route = createFileRoute("/users/login")({
   component: Login,
@@ -17,19 +16,17 @@ function Login() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-
-    // login is the mutation.mutate function from your useAuth hook
     login(data);
   };
 
   return (
-    <div className={styles["login-form-container"]}>
+    <div className="login-form-container">
       <h1>Welcome back</h1>
       <p>Log in to your account to continue.</p>
 
-      <div className={styles["login-form"]}>
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
-          <div className={styles["form-group"]}>
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
@@ -39,12 +36,12 @@ function Login() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            {/* Honeypot for simple bot protection */}
             <input
               type="email"
+              id="email-confirm"
               name="email-confirm"
               autoComplete="off"
-              className={styles.honeypot}
+              style={{ visibility: "hidden", position: "absolute" }}
             />
 
             <label htmlFor="password">Password:</label>
@@ -57,10 +54,11 @@ function Login() {
               required
             />
 
-            <div className={styles["forgot-or-remember"]}>
-              <label>
+            <div className="forgot-or-remember">
+              <label htmlFor="remember-me">
                 <input
                   type="checkbox"
+                  id="remember-me"
                   name="remember-me"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
@@ -70,7 +68,7 @@ function Login() {
               <Link to="/users/reset-password">Forgot password</Link>
             </div>
           </div>
-          <button type="submit" className={styles["submit-user"]}>
+          <button type="submit" className="submit-user">
             Log in
           </button>
         </form>
@@ -81,3 +79,5 @@ function Login() {
     </div>
   );
 }
+
+export default Login;

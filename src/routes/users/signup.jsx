@@ -3,9 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import * as validators from "../../utils/validators.js";
 import { useAuth } from "../../data/auth";
 
-// Using the same styles as Login
-import styles from "../../styles/Login.module.css";
-
 export const Route = createFileRoute("/users/signup")({
   component: SignUp,
 });
@@ -13,13 +10,11 @@ export const Route = createFileRoute("/users/signup")({
 function SignUp() {
   const { signup } = useAuth();
 
-  // 1. Form state
   const [email, setEmail] = useState("");
   const [emailConfirm, setEmailConfirm] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  // 2. Local validation message state
   const [errors, setErrors] = useState({
     email: "",
     emailConfirm: "",
@@ -30,7 +25,6 @@ function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Reset messages
     setErrors({
       email: "",
       emailConfirm: "",
@@ -38,7 +32,6 @@ function SignUp() {
       passwordConfirm: "",
     });
 
-    // Run validators
     const emailError = validators.validateEmail(email);
     const confirmEmailError = validators.validateConfirmEmail(
       email,
@@ -66,21 +59,18 @@ function SignUp() {
     } else {
       const formData = new FormData(event.target);
       const data = Object.fromEntries(formData.entries());
-
-      // Call signup mutation from useAuth
       await signup(data);
     }
   };
 
   return (
-    <div className={styles["login-form-container"]}>
+    <div className="login-form-container">
       <h1>Welcome to my website</h1>
       <p>Create an account to learn more, ask a question or simply say hi.</p>
 
-      <div className={styles["login-form"]}>
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
-          <div className={styles["form-group"]}>
-            {/* Honeypot for simple bot protection */}
+          <div className="form-group">
             <input
               type="text"
               id="username"
@@ -138,7 +128,7 @@ function SignUp() {
             <p className="input-message">{errors.passwordConfirm}</p>
           </div>
 
-          <button type="submit" className={styles["submit-user"]}>
+          <button type="submit" className="submit-user">
             Sign up
           </button>
         </form>
@@ -157,3 +147,5 @@ function SignUp() {
     </div>
   );
 }
+
+export default SignUp;

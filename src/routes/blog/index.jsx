@@ -3,20 +3,16 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import { apiClient } from "../../data/api";
-
 import BlogPostCard from "../../components/Blog/BlogPostCard";
 import BlogCategory from "../../components/Blog/BlogCategory";
-
-import styles from "../../styles/Blog.module.css";
 
 export const Route = createFileRoute("/blog/")({
   component: BlogIndex,
 });
 
 function BlogIndex() {
-  const { isAuthenticated, isAdmin, csrfToken } = Route.useRouteContext();
+  const { isAdmin, csrfToken } = Route.useRouteContext();
   const navigate = useNavigate();
-
   const [postTitle, setPostTitle] = useState("");
   const [postCategory, setPostCategory] = useState("");
   const createPostRef = useRef(null);
@@ -37,7 +33,6 @@ function BlogIndex() {
     localStorage.setItem("post-body", "");
     localStorage.setItem("post-keywords", "");
     localStorage.setItem("post-summary", "");
-
     navigate({ to: "/blog/posts/create" });
   };
 
@@ -47,12 +42,11 @@ function BlogIndex() {
     <>
       {isAdmin ? (
         <>
-          <h1 className={styles["blog-index"]}>Blog</h1>
-          <section className={styles["new-post-form"]}>
+          <h1 className="blog-index">Blog</h1>
+          <section className="new-post-form">
             <form ref={createPostRef} onSubmit={handleCreatePost}>
               <h2>New Post</h2>
               <div className="form-group">
-                {" "}
                 <label htmlFor="title">Title:</label>
                 <input
                   type="text"
@@ -63,7 +57,6 @@ function BlogIndex() {
                 />
               </div>
               <div className="form-group">
-                {" "}
                 <label htmlFor="category">Category:</label>
                 <input
                   type="text"
@@ -78,22 +71,21 @@ function BlogIndex() {
             </form>
           </section>
           <BlogCategory
-            category={"UNPUBLISHED"}
+            category="UNPUBLISHED"
             isAdmin={isAdmin}
             csrfToken={csrfToken}
           />
         </>
       ) : (
         <>
-          <h1 className={styles["blog-index"]}>Blog</h1>
-          <section className={styles["blog-intro"]}>
+          <h1 className="blog-index">Blog</h1>
+          <section className="blog-intro">
             <p>
               I started learning web development at the beginning of 2023. I was
               hooked from the moment I was able to see{" "}
               <b>&quot;Hello World!&quot;</b> displayed on my browser. I still
               have much to learn but I would like to share some of my notes and
-              thoughts with you. Feel free to explore and don&apos;t hesitate to
-              reach out!
+              thoughts with you.
             </p>
           </section>
         </>

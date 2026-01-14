@@ -4,19 +4,14 @@ import { useAuth } from "../../data/auth";
 import * as validators from "../../utils/validators.js";
 import DOMPurify from "dompurify";
 
-// Import CSS Module
-import styles from "../../styles/Profile.module.css";
-
 export const Route = createFileRoute("/users/profile")({
   component: Profile,
 });
 
 function Profile() {
-  // Pulling state and mutation functions directly from useAuth
   const { user, isLoading, userId, csrfToken, updateUser, deleteAccount } =
     useAuth();
 
-  // 1. Local state for controlled inputs
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [emailConfirm, setEmailConfirm] = useState("");
@@ -29,7 +24,6 @@ function Profile() {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [isDeleteChecked, setIsDeleteChecked] = useState(false);
 
-  // 2. Local state for validation messages
   const [messages, setMessages] = useState({
     username: "",
     email: "",
@@ -38,7 +32,6 @@ function Profile() {
     confirmNewPassword: "",
   });
 
-  // Sync profile data from useAuth into local state on load
   useEffect(() => {
     if (user) {
       setUsername(user.username === null ? "" : user.username);
@@ -46,14 +39,12 @@ function Profile() {
     }
   }, [user]);
 
-  // --- Handlers ---
-
   const handleUpdateInfo = async (event) => {
     event.preventDefault();
     setMessages((prev) => ({ ...prev, username: "", email: "" }));
 
     const emailError = validators.validateEmail(email);
-    const usernameError = ""; // Keeping logic consistent with your legacy code
+    const usernameError = "";
 
     if (usernameError || emailError) {
       setMessages((prev) => ({
@@ -69,7 +60,6 @@ function Profile() {
       data[key] = DOMPurify.sanitize(value);
     }
 
-    // Call mutation directly (it is already .mutate from useAuth)
     updateUser({ userId, data });
   };
 
@@ -128,26 +118,25 @@ function Profile() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className={styles["profile-container"]}>
-      {/* General Section */}
-      <div className={styles["profile-form"]}>
+    <div className="profile-container">
+      <div className="profile-form">
         <h2>General</h2>
         <form onSubmit={handleUpdateInfo}>
-          <div className={styles["form-group"]}>
+          <div className="form-group">
             <label htmlFor="username">Username:</label>
             <input
-              className={messages.username !== "" ? styles["input-error"] : ""}
+              className={messages.username !== "" ? "input-error" : ""}
               type="text"
               id="username"
               name="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <p className={styles["input-message"]}>{messages.username}</p>
+            <p className="input-message">{messages.username}</p>
 
             <label htmlFor="email">Email:</label>
             <input
-              className={messages.email !== "" ? styles["input-error"] : ""}
+              className={messages.email !== "" ? "input-error" : ""}
               type="email"
               id="email"
               name="email"
@@ -155,9 +144,8 @@ function Profile() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <p className={styles["input-message"]}>{messages.email}</p>
+            <p className="input-message">{messages.email}</p>
 
-            {/* Honeypot */}
             <input
               type="email"
               id="email-confirm"
@@ -169,22 +157,19 @@ function Profile() {
             />
             <input type="hidden" name="_csrf" value={csrfToken} />
           </div>
-          <button type="submit" className={styles["submit-user"]}>
+          <button type="submit" className="submit-user">
             Save
           </button>
         </form>
       </div>
 
-      {/* Security Section */}
-      <div className={styles["profile-form"]}>
+      <div className="profile-form">
         <h2>Security</h2>
         <form onSubmit={handleUpdatePassword}>
-          <div className={styles["form-group"]}>
+          <div className="form-group">
             <label htmlFor="current-password">Current Password:</label>
             <input
-              className={
-                messages.currentPassword !== "" ? styles["input-error"] : ""
-              }
+              className={messages.currentPassword !== "" ? "input-error" : ""}
               type="password"
               id="current-password"
               name="current-password"
@@ -192,9 +177,7 @@ function Profile() {
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
             />
-            <p className={styles["input-message"]}>
-              {messages.currentPassword}
-            </p>
+            <p className="input-message">{messages.currentPassword}</p>
 
             <input
               type="password"
@@ -208,9 +191,7 @@ function Profile() {
 
             <label htmlFor="new-password">New Password:</label>
             <input
-              className={
-                messages.newPassword !== "" ? styles["input-error"] : ""
-              }
+              className={messages.newPassword !== "" ? "input-error" : ""}
               type="password"
               id="new-password"
               name="new-password"
@@ -218,12 +199,12 @@ function Profile() {
               onChange={(e) => setNewPassword(e.target.value)}
               required
             />
-            <p className={styles["input-message"]}>{messages.newPassword}</p>
+            <p className="input-message">{messages.newPassword}</p>
 
             <label htmlFor="confirm-new-password">Confirm new password:</label>
             <input
               className={
-                messages.confirmNewPassword !== "" ? styles["input-error"] : ""
+                messages.confirmNewPassword !== "" ? "input-error" : ""
               }
               type="password"
               id="confirm-new-password"
@@ -232,29 +213,20 @@ function Profile() {
               onChange={(e) => setConfirmNewPassword(e.target.value)}
               required
             />
-            <p className={styles["input-message"]}>
-              {messages.confirmNewPassword}
-            </p>
+            <p className="input-message">{messages.confirmNewPassword}</p>
 
             <input type="hidden" name="_csrf" value={csrfToken} />
           </div>
-          <button type="submit" className={styles["submit-user"]}>
+          <button type="submit" className="submit-user">
             Save
           </button>
         </form>
       </div>
 
-      {/* Delete Section */}
-      <div className={styles["profile-form"]}>
+      <div className="profile-form">
         <div>
           <h2>Delete your account</h2>
-          <div
-            className={
-              confirmDelete
-                ? styles["delete-warning"]
-                : `${styles["delete-warning"]} ${styles["hidden"]}`
-            }
-          >
+          <div className={`delete-warning ${confirmDelete ? "" : "hidden"}`}>
             <i className="fa-solid fa-circle-exclamation"></i>
             <p>Are you sure you want to delete your account?</p>
           </div>
@@ -268,18 +240,14 @@ function Profile() {
             onChange={(e) => setIsDeleteChecked(e.target.checked)}
             style={{ visibility: "hidden", position: "absolute" }}
           />
-          <div className={styles["delete-user-buttons"]}>
+          <div className="delete-user-buttons">
             {confirmDelete && (
-              <a
-                href="#"
-                className={styles["submit-user"]}
-                onClick={handleCancelDelete}
-              >
+              <a href="#" className="submit-user" onClick={handleCancelDelete}>
                 Cancel
               </a>
             )}
             <input type="hidden" name="_csrf" value={csrfToken} />
-            <button type="submit" className={styles["submit-user"]}>
+            <button type="submit" className="submit-user">
               {confirmDelete ? "I am Sure" : "Delete"}
             </button>
           </div>

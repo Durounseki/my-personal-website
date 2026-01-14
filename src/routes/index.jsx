@@ -23,10 +23,10 @@ function Home() {
   };
 
   return (
-    <main>
+    <>
       <Details details={details} />
       <Skills />
       <Projects />
-    </main>
+    </>
   );
 }

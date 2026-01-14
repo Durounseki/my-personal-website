@@ -10,12 +10,12 @@ function Skills() {
   ];
 
   return (
-    <section className={styles.skills}>
-      <h2 className={styles.title}>TECHSTACK</h2>
+    <section className="skills">
+      <h2>TECHSTACK</h2>
       <article>
-        <ul className={styles.skillList}>
+        <ul>
           {techStack.map((icon, index) => (
-            <li key={index} className={styles.skillItem}>
+            <li key={index} className="skill">
               <i className={icon.faClass}></i>
               <p>{icon.name}</p>
             </li>

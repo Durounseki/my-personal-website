@@ -1,0 +1,123 @@
+.project.card-variant {
+  position: relative;
+  height: 350px;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid var(--main-border);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  transition: transform 0.3s ease;
+  box-sizing: border-box;
+}
+
+.project.card-variant .project-tech {
+  background-color: var(--main-background);
+  color: var(--secondary-text);
+}
+
+.project.card-variant:hover .project-tech {
+  background-color: var(--secondary-text);
+  color: var(--main-background);
+}
+
+.project.card-variant:hover {
+  transform: translateY(-5px);
+  border-color: var(--secondary-text);
+}
+
+.project-overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 17, 31, 0.95) 0%,
+    rgba(8, 17, 31, 0.4) 50%,
+    rgba(8, 17, 31, 0.95) 100%
+  );
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.project-overlay:hover {
+  background-color: rgba(8, 17, 31, 0.7);
+}
+
+.project.card-variant .project-name {
+  font-size: 1.5rem;
+}
+
+.project.card-variant:hover .project-name {
+  color: var(--main-accent);
+}
+
+@media (min-width: 601px) {
+  .project.card-variant .project-description {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease-in-out;
+    margin: 0;
+  }
+
+  .project.card-variant:hover .project-description {
+    opacity: 1;
+    transform: translateY(0);
+    margin-bottom: 16px;
+    color: var(--main-text);
+  }
+}
+
+.project.card-variant:hover .project-info,
+.project.card-variant:hover .project-date {
+  color: var(--main-text);
+}
+
+.project.card-variant .project-info:hover {
+  color: var(--main-accent);
+}
+
+.project.card-variant .project-body {
+  margin-bottom: auto;
+}
+
+.project-footer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .project.card-variant {
+    height: auto;
+    min-height: 400px;
+  }
+
+  .project-overlay {
+    background: rgba(8, 17, 31, 0.7);
+    min-height: 400px;
+  }
+
+  .project.card-variant .project-description {
+    opacity: 1;
+    transform: none;
+    margin-bottom: 16px;
+    color: var(--main-text);
+  }
+
+  .project.card-variant .project-tech {
+    background-color: var(--secondary-text);
+    color: var(--main-background);
+  }
+
+  .project.card-variant .project-name {
+    color: var(--main-accent);
+  }
+
+  .project.card-variant .project-info,
+  .project.card-variant .project-date {
+    color: var(--main-text);
+  }
+}

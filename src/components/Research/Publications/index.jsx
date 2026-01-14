@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import PublicationCard from "./PublicationCard";
 import fallbackPublications from "../../../utils/fallbackPublications";
-import styles from "./styles.module.css";
 
 const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
 
@@ -23,15 +22,14 @@ function Publications() {
 
   const displayData = isError ? fallbackPublications : publications;
 
+  if (isLoading) return <p>Loading...</p>;
+
   return (
-    <section className={styles.publications}>
-      <h2 className={styles.title}>PUBLICATIONS</h2>
-      {isLoading && <p>Updating publication list...</p>}
-      <div className={styles.list}>
-        {displayData.map((pub) => (
-          <PublicationCard key={pub.id} publication={pub} />
-        ))}
-      </div>
+    <section className="publications">
+      <h2>PUBLICATIONS</h2>
+      {displayData.map((publication) => (
+        <PublicationCard key={publication.id} publication={publication} />
+      ))}
     </section>
   );
 }

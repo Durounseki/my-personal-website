@@ -26,10 +26,10 @@ function Research() {
   };
 
   return (
-    <main>
+    <>
       <Details details={details} />
       <Bio />
       <Publications />
-    </main>
+    </>
   );
 }

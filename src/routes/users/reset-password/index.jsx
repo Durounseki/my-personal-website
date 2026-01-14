@@ -2,7 +2,6 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as validators from "../../../utils/validators.js";
 import { useAuth } from "../../../data/auth";
-import styles from "../../../styles/Login.module.css";
 
 export const Route = createFileRoute("/users/reset-password/")({
   component: ResetRequestForm,
@@ -25,21 +24,19 @@ function ResetRequestForm() {
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
-
-    // Call the mutation from useAuth
     await requestResetPassword(data);
   };
 
   return (
-    <div className={styles["login-form-container"]}>
+    <div className="login-form-container">
       <h1>Forgot your password?</h1>
 
-      <div className={styles["login-form"]}>
+      <div className="login-form">
         <form onSubmit={handleSubmit}>
-          <div className={styles["form-group"]}>
-            {/* Honeypot */}
+          <div className="form-group">
             <input
               type="text"
+              id="username"
               name="username"
               autoComplete="off"
               style={{ visibility: "hidden", position: "absolute" }}
@@ -57,7 +54,7 @@ function ResetRequestForm() {
             />
             <p className="input-message">{emailMessage}</p>
           </div>
-          <button type="submit" className={styles["submit-user"]}>
+          <button type="submit" className="submit-user">
             Send reset link
           </button>
         </form>

@@ -1,37 +1,46 @@
-// src/components/Home/Projects/ProjectCard.jsx
 import { Link } from "@tanstack/react-router";
-import styles from "./ProjectCard.module.css";
+import "./ProjectCard.css";
 
 function ProjectCard({ project }) {
+  const cardStyle = {
+    backgroundImage: `url(${project.image})`,
+  };
+
   return (
-    <section className={styles.project}>
-      <header className={styles["project-date"]}>{project.date}</header>
-      <h3 className={styles["project-name"]}>{project.name}</h3>
-      <p className={styles["project-description"]}>{project.description}</p>
+    <section className="project card-variant" style={cardStyle}>
+      <div className="project-overlay">
+        <header className="project-date">{project.date}</header>
+        <div className="project-body">
+          <h3 className="project-name">{project.name}</h3>
+          <p className="project-description">{project.description}</p>
+        </div>
 
-      <div className={styles["project-links"]}>
-        <a
-          href={project.live}
-          rel="noopener noreferrer"
-          target="_blank"
-          className={styles["project-info"]}
-        >
-          <i className="fa-solid fa-globe"></i> Live
-        </a>
-        <Link to={project.more} className={styles["project-info"]}>
-          Learn more <i className="fa-solid fa-angles-right"></i>
-        </Link>
+        <div className="project-footer-wrapper">
+          <div className="project-links">
+            <a
+              href={project.live}
+              rel="noopener noreferrer"
+              target="_blank"
+              className="project-info"
+            >
+              <i className="fa-solid fa-globe"></i> Live
+            </a>
+            <Link to={project.more} className="project-info">
+              Learn more <i className="fa-solid fa-angles-right"></i>
+            </Link>
+          </div>
+
+          <footer className="project-technologies">
+            <ul>
+              {project.technologies.map((tech, index) => (
+                <li className="project-tech" key={index}>
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </footer>
+        </div>
       </div>
-
-      <footer className={styles["project-technologies"]}>
-        <ul className={styles.techList}>
-          {project.technologies.map((tech, index) => (
-            <li className={styles["project-tech"]} key={index}>
-              {tech}
-            </li>
-          ))}
-        </ul>
-      </footer>
     </section>
   );
 }

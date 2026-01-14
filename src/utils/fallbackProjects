@@ -1,46 +1,67 @@
+import suruImg from "../assets/projects/suru-og.png";
+import alnutriologoImg from "../assets/projects/alnutriologo.png";
+import goldenwingsImg from "../assets/projects/goldenwings.png";
+import viajerasporsiempreImg from "../assets/projects/viajerasporsiempre.png";
+
 const fallbackProjects = [
   {
     id: "1",
-    name: "The Dance Thread",
-    date: "(coming soon)",
-    category: "Full Stack",
+    name: "SURU",
+    date: "2026-01",
+    category: "Fullstack",
     description:
-      "A social network dedicated to dancers. Discover events, classes, socials and engage with other dancers worldwide.",
+      "A comprehensive booking platform for dancers featuring Stripe payments, QR code ticketing with scanning capabilities, and a dedicated organizer management system.",
     technologies: [
-      "HTML&CSS",
-      "JavaScript",
-      "Node",
-      "Express",
+      "React",
+      "Cloudflare",
+      "Hono",
       "Prisma",
-      "PostgreSQL",
+      "Tanstack",
+      "Stripe",
     ],
     repository: "",
-    live: "https://community.thedancethread.com/",
+    live: "https://suru.dance/",
     more: "/blog/cm4i027vl000gf8j94rl1dn3d",
+    image: suruImg,
   },
   {
     id: "2",
     name: "Golden Wings Chicken",
-    date: "2024-05",
-    category: "Front End",
+    date: "2023-05",
+    category: "Frontend",
     description:
-      "Single page application built with vanilla JavaScript and bundled with Webpack. The site showcases Golden Wings Chicken's menu using a responsive design. Customers can easily find the restaurant location and contact them.",
+      "A high-performance restaurant showcase built with vanilla JavaScript. Features a responsive menu and optimized assets for a fast, intuitive user experience.",
     technologies: ["HTML&CSS", "JavaScript", "Webpack"],
     repository: "https://github.com/Durounseki/odin-restaurant",
     live: "https://durounseki.github.io/odin-restaurant/",
     more: "/blog/cm4hxqxex000apvjvsw7zbrgr",
+    image: goldenwingsImg,
   },
   {
     id: "3",
-    name: "Nutricion Libreros",
+    name: "ALNutriologo",
     date: "2024-05",
-    category: "Front End",
+    category: "Frontend",
     description:
-      "This website for Dr. Libreros features a clean, responsive design showcasing their methodology and services. Interactive elements and clear navigation enhance the user experience, while the visual design effectively communicates their brand.",
-    technologies: ["HTML&CSS", "JavaScript"],
+      "A professional healthcare landing page focused on performance and seamless navigation, designed to showcase clinical services and medical methodology.",
+    technologies: ["React", "Tanstack", "Cloudflare"],
     repository: "https://github.com/Durounseki/libreros_nutricion",
     live: "https://durounseki.github.io/libreros_nutricion/",
     more: "/blog/cm4guodlv00014z0sah993xcy",
+    image: alnutriologoImg,
+  },
+  {
+    id: "4",
+    name: "Viajeras por Siempre",
+    date: "2025-10",
+    category: "Fullstack",
+    description:
+      "A travel agency portal with a custom content management system for advertising itineraries and managing client relationships through a simplified dashboard.",
+    technologies: ["React", "Cloudflare", "Hono", "Tanstack", "Prisma"],
+    repository: "https://github.com/Durounseki/viajes-tlh",
+    live: "https://viajerasporsiempre.com/",
+    more: "",
+    image: viajerasporsiempreImg,
   },
 ];
 

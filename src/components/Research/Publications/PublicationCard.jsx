@@ -1,18 +1,16 @@
-import styles from "./PublicationCard.module.css";
-
 function PublicationCard({ publication }) {
   return (
-    <section className={styles.publication}>
-      <header className={styles.date}>{publication.date}</header>
-      <h3 className={styles.title}>{publication.title}</h3>
-      <p className={styles.reference}>
+    <section className="publication">
+      <header className="publication-date">{publication.date}</header>
+      <h3 className="publication-title">{publication.title}</h3>
+      <p className="publication-reference">
         {publication.authors}, <cite>{publication.journal}</cite>{" "}
         {publication.volume} {publication.page}, ({publication.year})
       </p>
 
       {publication.link && (
         <a
-          className={styles.link}
+          className="publication-link"
           href={publication.link}
           target="_blank"
           rel="noreferrer noopener"
@@ -21,10 +19,10 @@ function PublicationCard({ publication }) {
         </a>
       )}
 
-      <footer className={styles.keywords}>
+      <footer className="publication-keywords">
         <ul>
           {publication.keywords.map((keyword, index) => (
-            <li key={index} className={styles.keyword}>
+            <li key={index} className="publication-keyword">
               {keyword}
             </li>
           ))}

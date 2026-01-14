@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "../../data/auth";
-import styles from "./styles.module.css";
 
 function Header() {
   const { isAuthenticated, logout } = useAuth();
@@ -16,7 +15,7 @@ function Header() {
       { name: "About", url: "/about", faClass: "fa-solid fa-circle-info" },
       {
         name: isAuthenticated ? "Profile" : "Login",
-        url: "/users",
+        url: isAuthenticated ? "/users" : "/users/login",
         faClass: isAuthenticated
           ? "fa-solid fa-user"
           : "fa-solid fa-right-to-bracket",
@@ -25,7 +24,7 @@ function Header() {
     [isAuthenticated]
   );
 
-  const [isMobile, setIsMobile] = useState();
+  const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [bubbleStyle, setBubbleStyle] = useState({
     transform: "translateX(0px)",
@@ -38,11 +37,11 @@ function Header() {
 
   const handleClick = (index, url) => {
     if (url === "/users" && isAuthenticated) {
-      accountRef.current.classList.toggle(styles.show);
+      accountRef.current.classList.toggle("show");
     } else {
       setActiveTab(index);
-      if (accountRef.current?.classList.contains(styles.show)) {
-        accountRef.current.classList.remove(styles.show);
+      if (accountRef.current?.classList.contains("show")) {
+        accountRef.current.classList.remove("show");
       }
     }
   };
@@ -57,7 +56,7 @@ function Header() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (accountRef.current && !accountRef.current.contains(event.target)) {
-        accountRef.current.classList.remove(styles.show);
+        accountRef.current.classList.remove("show");
       }
     };
 
@@ -69,13 +68,20 @@ function Header() {
 
   const handleLogout = async () => {
     await logout();
-    accountRef.current.classList.remove(styles.show);
+    accountRef.current.classList.remove("show");
   };
 
   useEffect(() => {
-    const path = location.pathname.split("/")[1] || "/";
-    const activeIndex = navLinks.findIndex((link) => link.url === `/${path}`);
-    setActiveTab(activeIndex !== -1 ? activeIndex : 0);
+    const pathSegment = location.pathname.split("/")[1];
+    const currentPath = pathSegment ? `/${pathSegment}` : "/";
+
+    const activeIndex = navLinks.findIndex((link) => {
+      if (link.url === "/") return location.pathname === "/";
+      return link.url.startsWith(currentPath);
+    });
+    if (activeIndex !== -1) {
+      setActiveTab(activeIndex);
+    }
   }, [location.pathname, navLinks]);
 
   useEffect(() => {
@@ -95,13 +101,13 @@ function Header() {
   }, [activeTab]);
 
   return (
-    <header className={styles.menu}>
+    <header className="menu">
       <nav>
         <ul>
           {navLinks.map((link, index) => (
             <li
               key={index}
-              className={`${styles["menu-tab"]} ${index === activeTab ? styles.active : ""}`}
+              className={`menu-tab ${index === activeTab ? "active" : ""}`}
               ref={(el) => (tabsRef.current[index] = el)}
               onClick={() => handleClick(index, link.url)}
             >
@@ -120,12 +126,8 @@ function Header() {
               )}
             </li>
           ))}
-          <li
-            className={styles["tab-bubble"]}
-            ref={bubbleRef}
-            style={bubbleStyle}
-          ></li>
-          <div className={styles.account} ref={accountRef}>
+          <li className="tab-bubble" ref={bubbleRef} style={bubbleStyle}></li>
+          <div className="account" ref={accountRef}>
             <ul>
               <li
                 onClick={() => {
