@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import { useAuth } from "../../data/auth";
+import { useAuth } from "../../../data/auth";
 
 function BlogPostCard({ post, isAdmin, csrfToken }) {
   const { publishPost, deletePost } = useAuth();

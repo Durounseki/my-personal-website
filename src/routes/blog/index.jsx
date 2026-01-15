@@ -5,6 +5,7 @@ import DOMPurify from "dompurify";
 import { apiClient } from "../../data/api";
 import BlogPostCard from "../../components/Blog/BlogPostCard";
 import BlogCategory from "../../components/Blog/BlogCategory";
+import BlogPostSkeleton from "../../components/Blog/BlogPostCard/loading";
 
 export const Route = createFileRoute("/blog/")({
   component: BlogIndex,
@@ -36,13 +37,11 @@ function BlogIndex() {
     navigate({ to: "/blog/posts/create" });
   };
 
-  if (isLoading) return <p>Loading...</p>;
-
   return (
     <>
+      <h1 className="blog-index">Blog</h1>
       {isAdmin ? (
         <>
-          <h1 className="blog-index">Blog</h1>
           <section className="new-post-form">
             <form ref={createPostRef} onSubmit={handleCreatePost}>
               <h2>New Post</h2>
@@ -70,15 +69,16 @@ function BlogIndex() {
               <button type="submit">Create</button>
             </form>
           </section>
-          <BlogCategory
-            category="UNPUBLISHED"
-            isAdmin={isAdmin}
-            csrfToken={csrfToken}
-          />
+          {!isLoading && (
+            <BlogCategory
+              category="UNPUBLISHED"
+              isAdmin={isAdmin}
+              csrfToken={csrfToken}
+            />
+          )}
         </>
       ) : (
         <>
-          <h1 className="blog-index">Blog</h1>
           <section className="blog-intro">
             <p>
               I started learning web development at the beginning of 2023. I was
@@ -91,14 +91,22 @@ function BlogIndex() {
         </>
       )}
 
-      {posts.map((post) => (
-        <BlogPostCard
-          key={post.id}
-          post={post}
-          isAdmin={isAdmin}
-          csrfToken={csrfToken}
-        />
-      ))}
+      {isLoading ? (
+        <>
+          <BlogPostSkeleton />
+          <BlogPostSkeleton />
+          <BlogPostSkeleton />
+        </>
+      ) : (
+        posts.map((post) => (
+          <BlogPostCard
+            key={post.id}
+            post={post}
+            isAdmin={isAdmin}
+            csrfToken={csrfToken}
+          />
+        ))
+      )}
     </>
   );
 }
