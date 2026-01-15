@@ -1379,7 +1379,7 @@ code.inline-code {
     grid-template-columns: 1fr;
     gap: 24px;
     padding-block: 24px;
-    border: 1px solid var(--secondary-text);
+    border: 1px solid var(--main-border);
     border-radius: 16px;
   }
 

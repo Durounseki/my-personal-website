@@ -26,6 +26,7 @@ function ProjectDetails() {
       "technical-brief",
       "challenges",
       "results",
+      "links",
     ];
 
     const observerOptions = {
@@ -109,6 +110,15 @@ function ProjectDetails() {
                 Results
               </a>
             </li>
+            <li>
+              <a
+                href="#source"
+                className={activeId === "source" ? "active" : ""}
+                onClick={() => handleLinkClick("source")}
+              >
+                Results
+              </a>
+            </li>
             <li className="back-link">
               <Link to="/">← Back Home</Link>
             </li>
@@ -164,33 +174,24 @@ function ProjectDetails() {
         <section id="challenges">
           <h2>Technical Challenges</h2>
           <h3>The Problem</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam
-            assumenda excepturi, ullam beatae ad culpa ea sapiente modi nemo vel
-            eum perspiciatis similique ipsum aut eligendi harum, sequi mollitia
-            accusamus?
-          </p>
+          <p>{project.problem}</p>
 
           <h3>The Solution</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-            quidem, voluptatum aperiam commodi repellat voluptas molestiae unde
-            labore accusamus consequatur reiciendis repudiandae aliquam, iure
-            adipisci placeat culpa, corporis saepe beatae.
-          </p>
+          <p>{project.solution}</p>
         </section>
 
         <section id="results">
           <h2>Results</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat,
-            quos officia reprehenderit officiis quibusdam hic molestias illo,
-            sed iste earum numquam praesentium commodi! Minus aliquam omnis
-            accusamus beatae et debitis!
-          </p>
+          <p>{project.results}</p>
+          <h3>Future steps</h3>
+          <ul>
+            {project.futureSteps?.map((step, index) => (
+              <li key={index}>{step}</li>
+            ))}
+          </ul>
         </section>
 
-        <section id="results" className="project-links-section">
+        <section id="source" className="project-links-section">
           <h2>Source</h2>
           <div className="button-group">
             {project.repository ? (
