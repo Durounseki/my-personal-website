@@ -1,5 +1,3 @@
-import styles from "./styles.module.css";
-
 function Skills() {
   const techStack = [
     { name: "HTML", faClass: "fa-brands fa-html5" },

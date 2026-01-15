@@ -19,6 +19,7 @@ import { Route as UsersSignupRouteImport } from './routes/users/signup'
 import { Route as UsersResetPasswordRouteImport } from './routes/users/reset-password'
 import { Route as UsersProfileRouteImport } from './routes/users/profile'
 import { Route as UsersLoginRouteImport } from './routes/users/login'
+import { Route as ProjectsProjectIdRouteImport } from './routes/projects.$projectId'
 import { Route as BlogPostsRouteImport } from './routes/blog/posts'
 import { Route as UsersResetPasswordIndexRouteImport } from './routes/users/reset-password/index'
 import { Route as UsersResetPasswordTokenIdRouteImport } from './routes/users/reset-password/$tokenId'
@@ -76,6 +77,11 @@ const UsersLoginRoute = UsersLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => UsersRoute,
 } as any)
+const ProjectsProjectIdRoute = ProjectsProjectIdRouteImport.update({
+  id: '/projects/$projectId',
+  path: '/projects/$projectId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogPostsRoute = BlogPostsRouteImport.update({
   id: '/posts',
   path: '/posts',
@@ -115,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/research': typeof ResearchRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
+  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/users/login': typeof UsersLoginRoute
   '/users/profile': typeof UsersProfileRoute
   '/users/reset-password': typeof UsersResetPasswordRouteWithChildren
@@ -132,6 +139,7 @@ export interface FileRoutesByTo {
   '/research': typeof ResearchRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
+  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/users/login': typeof UsersLoginRoute
   '/users/profile': typeof UsersProfileRoute
   '/users/signup': typeof UsersSignupRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/research': typeof ResearchRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
+  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/users/login': typeof UsersLoginRoute
   '/users/profile': typeof UsersProfileRoute
   '/users/reset-password': typeof UsersResetPasswordRouteWithChildren
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/users'
     | '/blog/posts'
+    | '/projects/$projectId'
     | '/users/login'
     | '/users/profile'
     | '/users/reset-password'
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/users'
     | '/blog/posts'
+    | '/projects/$projectId'
     | '/users/login'
     | '/users/profile'
     | '/users/signup'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/research'
     | '/users'
     | '/blog/posts'
+    | '/projects/$projectId'
     | '/users/login'
     | '/users/profile'
     | '/users/reset-password'
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRouteWithChildren
   ResearchRoute: typeof ResearchRoute
   UsersRoute: typeof UsersRouteWithChildren
+  ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -295,6 +308,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/users/login'
       preLoaderRoute: typeof UsersLoginRouteImport
       parentRoute: typeof UsersRoute
+    }
+    '/projects/$projectId': {
+      id: '/projects/$projectId'
+      path: '/projects/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof ProjectsProjectIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/blog/posts': {
       id: '/blog/posts'
@@ -404,6 +424,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRouteWithChildren,
   ResearchRoute: ResearchRoute,
   UsersRoute: UsersRouteWithChildren,
+  ProjectsProjectIdRoute: ProjectsProjectIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

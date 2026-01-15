@@ -1,6 +1,6 @@
 .project.card-variant {
   position: relative;
-  height: 350px;
+  min-height: 400px;
   background-size: cover;
   background-position: center;
   border: 2px solid var(--main-border);

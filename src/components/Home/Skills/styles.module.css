@@ -4,7 +4,6 @@
   padding: 24px 0;
 }
 
-/* The full-width background strip */
 .skills::before {
   position: absolute;
   content: "";
@@ -14,7 +13,7 @@
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--main-background);
-  z-index: -1; /* Ensure it stays behind the text */
+  z-index: -1;
 }
 
 .title {
@@ -31,7 +30,7 @@
   padding: 0;
   justify-content: space-evenly;
   margin: 0;
-  list-style: none; /* Removed the dots */
+  list-style: none;
 }
 
 .skillItem {

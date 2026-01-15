@@ -5,7 +5,7 @@ import viajerasporsiempreImg from "../assets/projects/viajerasporsiempre.png";
 
 const fallbackProjects = [
   {
-    id: "1",
+    id: "suru",
     name: "SURU",
     date: "2026-01",
     category: "Fullstack",
@@ -21,11 +21,28 @@ const fallbackProjects = [
     ],
     repository: "",
     live: "https://suru.dance/",
-    more: "/blog/cm4i027vl000gf8j94rl1dn3d",
+    more: "/projects/suru",
     image: suruImg,
+    technicalHighlights: [
+      {
+        title: "Secure Payments & Webhooks",
+        detail:
+          "Integrated Stripe API with custom Hono-based webhooks to ensure atomic ticket generation only upon successful transaction confirmation.",
+      },
+      {
+        title: "Global Low Latency",
+        detail:
+          "Deployed on Cloudflare Workers (Serverless) to achieve sub-100ms response times globally, leveraging D1 for edge-based relational data.",
+      },
+      {
+        title: "Ticketing Logic",
+        detail:
+          "Developed a QR-based validation system with partial redemption capabilities, allowing organizers to check-in attendees via any mobile device.",
+      },
+    ],
   },
   {
-    id: "2",
+    id: "goldenwings",
     name: "Golden Wings Chicken",
     date: "2023-05",
     category: "Frontend",
@@ -34,11 +51,28 @@ const fallbackProjects = [
     technologies: ["HTML&CSS", "JavaScript", "Webpack"],
     repository: "https://github.com/Durounseki/odin-restaurant",
     live: "https://durounseki.github.io/odin-restaurant/",
-    more: "/blog/cm4hxqxex000apvjvsw7zbrgr",
+    more: "/projects/goldenwings",
     image: goldenwingsImg,
+    technicalHighlights: [
+      {
+        title: "Vanilla SPA Engine",
+        detail:
+          "Architected a custom view-switching logic using pure JavaScript DOM manipulation, bypassing frameworks to deeply understand how browsers render dynamic content.",
+      },
+      {
+        title: "Modular Build Pipeline",
+        detail:
+          "Configured a custom Webpack environment from scratch to manage asset bundling, image optimization, and code modularization for a clean production build.",
+      },
+      {
+        title: "Responsive CSS Fundamentals",
+        detail:
+          "Mastered Flexbox and CSS Grid without external libraries to build a complex, responsive restaurant menu that maintains its layout integrity on all screen sizes.",
+      },
+    ],
   },
   {
-    id: "3",
+    id: "alnutriologo",
     name: "ALNutriologo",
     date: "2024-05",
     category: "Frontend",
@@ -47,11 +81,18 @@ const fallbackProjects = [
     technologies: ["React", "Tanstack", "Cloudflare"],
     repository: "https://github.com/Durounseki/libreros_nutricion",
     live: "https://durounseki.github.io/libreros_nutricion/",
-    more: "/blog/cm4guodlv00014z0sah993xcy",
+    more: "/projects/alnutriologo",
     image: alnutriologoImg,
+    technicalHighlights: [
+      {
+        title: "Type-Safe Routing",
+        detail:
+          "First implementation of TanStack Router to move away from string-based routing, ensuring navigation errors are caught at build-time rather than runtime.",
+      },
+    ],
   },
   {
-    id: "4",
+    id: "viajerasporsiempre",
     name: "Viajeras por Siempre",
     date: "2025-10",
     category: "Fullstack",
@@ -60,8 +101,20 @@ const fallbackProjects = [
     technologies: ["React", "Cloudflare", "Hono", "Tanstack", "Prisma"],
     repository: "https://github.com/Durounseki/viajes-tlh",
     live: "https://viajerasporsiempre.com/",
-    more: "",
+    more: "/projects/viajerasporsiempre",
     image: viajerasporsiempreImg,
+    technicalHighlights: [
+      {
+        title: "Client-Side State Management",
+        detail:
+          "Implemented TanStack Query to manage complex caching of travel itineraries, reducing API load and providing a smooth user experience.",
+      },
+      {
+        title: "Automated Image Pipeline",
+        detail:
+          "Utilized Cloudflare Images to automatically serve optimized WebP/AVIF formats based on client device, significantly reducing mobile data usage.",
+      },
+    ],
   },
 ];
 
