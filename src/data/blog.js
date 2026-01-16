@@ -1,17 +1,19 @@
 import { queryOptions } from "@tanstack/react-query";
 import { apiClient } from "./api";
 
-export const postsQueryOptions = queryOptions({
-  queryKey: ["posts"],
-  queryFn: async () => {
-    const res = await apiClient("/api/blog/posts");
-    if (!res.ok) throw new Error("Failed to fetch posts");
-    const posts = await res.json();
-    console.log(posts);
+export const postsQueryOptions = (isAdmin) =>
+  queryOptions({
+    queryKey: ["posts", "list", { admin: isAdmin }],
+    queryFn: async () => {
+      const url = isAdmin
+        ? "/api/blog/posts"
+        : "/api/blog/posts?published=true";
 
-    return res.json();
-  },
-});
+      const res = await apiClient(url);
+      if (!res.ok) throw new Error("Failed to fetch posts");
+      return res.json();
+    },
+  });
 
 export const postQueryOptions = (postId) =>
   queryOptions({

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-44 -28 88 58" fill="none" style="--secondary-text: hsl(12, 95%, 65%); --active-text:  hsl(12, 95%, 50%); background: transparent">
+  <g>
+      <line id="s1" x1="-36" y1="-16" x2="4" y2="-16" stroke-width="8" stroke="var(--secondary-text)" class="draw-stroke"></line>
+      <line id="s2" x1="-16" y1="-12" x2="-16" y2="12" stroke-width="8" stroke="var(--secondary-text)" class="draw-stroke"></line>
+      <line id="s3" x1="-44" y1="16" x2="12" y2="16" stroke-width="8" stroke="var(--secondary-text)" class="draw-stroke"></line>
+      <path id="s5" d="M 24 -20 V 16 H 44" stroke="var(--secondary-text)" stroke-width="8" class="draw-stroke"></path>
+      <path id="s4" d="M 8 -12 V 0 H -4" stroke="var(--active-text)" stroke-width="8" class="draw-stroke heart-light"></path>
+  </g>
+</svg>

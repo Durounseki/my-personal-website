@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as ResearchRouteImport } from './routes/research'
+import { Route as LogoRouteImport } from './routes/logo'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -35,6 +36,11 @@ const UsersRoute = UsersRouteImport.update({
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LogoRoute = LogoRouteImport.update({
+  id: '/logo',
+  path: '/logo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/logo': typeof LogoRoute
   '/research': typeof ResearchRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
@@ -136,6 +143,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/logo': typeof LogoRoute
   '/research': typeof ResearchRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
@@ -155,6 +163,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
+  '/logo': typeof LogoRoute
   '/research': typeof ResearchRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
@@ -176,6 +185,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/logo'
     | '/research'
     | '/users'
     | '/blog/posts'
@@ -194,6 +204,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/logo'
     | '/research'
     | '/users'
     | '/blog/posts'
@@ -212,6 +223,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
+    | '/logo'
     | '/research'
     | '/users'
     | '/blog/posts'
@@ -232,6 +244,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BlogRoute: typeof BlogRouteWithChildren
+  LogoRoute: typeof LogoRoute
   ResearchRoute: typeof ResearchRoute
   UsersRoute: typeof UsersRouteWithChildren
   ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
@@ -251,6 +264,13 @@ declare module '@tanstack/react-router' {
       path: '/research'
       fullPath: '/research'
       preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/logo': {
+      id: '/logo'
+      path: '/logo'
+      fullPath: '/logo'
+      preLoaderRoute: typeof LogoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BlogRoute: BlogRouteWithChildren,
+  LogoRoute: LogoRoute,
   ResearchRoute: ResearchRoute,
   UsersRoute: UsersRouteWithChildren,
   ProjectsProjectIdRoute: ProjectsProjectIdRoute,

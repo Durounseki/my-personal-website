@@ -1,13 +1,15 @@
 import { useState, useRef } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { postsQueryOptions } from "../../data/blog";
 import DOMPurify from "dompurify";
-import { apiClient } from "../../data/api";
 import BlogPostCard from "../../components/Blog/BlogPostCard";
 import BlogCategory from "../../components/Blog/BlogCategory";
 import BlogPostSkeleton from "../../components/Blog/BlogPostCard/loading";
 
 export const Route = createFileRoute("/blog/")({
+  loader: ({ context: { queryClient, isAdmin } }) =>
+    queryClient.ensureQueryData(postsQueryOptions(isAdmin)),
   component: BlogIndex,
 });
 
@@ -18,14 +20,7 @@ function BlogIndex() {
   const [postCategory, setPostCategory] = useState("");
   const createPostRef = useRef(null);
 
-  const { data: posts = [], isLoading } = useQuery({
-    queryKey: ["posts", "published"],
-    queryFn: async () => {
-      const res = await apiClient("/api/blog/posts?published=true");
-      if (!res.ok) throw new Error("Failed to fetch posts");
-      return res.json();
-    },
-  });
+  const { data: posts = [], isLoading } = useQuery(postsQueryOptions(isAdmin));
 
   const handleCreatePost = (event) => {
     event.preventDefault();

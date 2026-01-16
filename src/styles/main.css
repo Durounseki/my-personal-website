@@ -50,6 +50,7 @@ body {
     transparent 0
   );
   background-size: 4vw 4vw;
+  background-position: center center;
   background-attachment: fixed;
 }
 
@@ -1481,4 +1482,9 @@ code.inline-code {
   height: 24px;
   border-radius: 16px;
   background-color: var(--main-border) !important;
+}
+
+.home-tab line,
+.home-tab path {
+  stroke: var(--main-text);
 }

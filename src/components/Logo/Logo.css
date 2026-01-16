@@ -1,0 +1,164 @@
+.loading-overlay {
+  margin: 0;
+  min-height: 100dvh;
+  background-image: radial-gradient(
+    circle at center,
+    var(--secondary-text) 1px,
+    transparent 0
+  );
+  background-size: 4vw 4vw;
+  background-position: center center;
+  background-attachment: fixed;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background-color: var(--main-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition:
+    opacity 0.8s ease-in-out,
+    visibility 0.8s;
+}
+
+.logo-svg {
+  width: 100vw;
+  height: 100vw;
+  display: block;
+  background: transparent;
+}
+
+#u1,
+#d1,
+#d3,
+#r6,
+#u8 {
+  stroke-dasharray: 12;
+  stroke-dashoffset: 12;
+}
+#d8,
+#l6 {
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+}
+#s2,
+#s4 {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+}
+#u5,
+#d7 {
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+}
+#u3,
+#u7 {
+  stroke-dasharray: 36;
+  stroke-dashoffset: 36;
+}
+#s1 {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+}
+#d5 {
+  stroke-dasharray: 44;
+  stroke-dashoffset: 44;
+}
+#l4 {
+  stroke-dasharray: 52;
+  stroke-dashoffset: 52;
+}
+#s3,
+#s5 {
+  stroke-dasharray: 56;
+  stroke-dashoffset: 56;
+}
+#r2 {
+  stroke-dasharray: 68;
+  stroke-dashoffset: 68;
+}
+#l2,
+#r4 {
+  stroke-dasharray: 92;
+  stroke-dashoffset: 92;
+}
+
+.draw-line,
+.draw-stroke {
+  animation-name: drawIn, finalVanish;
+  animation-duration: 0.5s, 1s;
+  animation-timing-function: ease-in, ease-out;
+  animation-fill-mode: forwards, forwards;
+}
+
+.draw-line {
+  animation-delay: 0s, 2.1s;
+}
+
+#s4 {
+  animation-name: drawIn, brighten, palpitate;
+  animation-duration: 0.5s, 1s, 2s, 1s;
+  animation-timing-function: ease-in-out, ease-in, ease-in-out;
+  animation-fill-mode: forwards, forwards, forwards;
+  animation-iteration-count: 1, 1, infinite;
+}
+
+@keyframes drawIn {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+#s1 {
+  animation-delay: 0.5s, 3.6s;
+}
+#s2 {
+  animation-delay: 0.9s, 3.6s;
+}
+#s3 {
+  animation-delay: 1.3s, 3.6s;
+}
+#s5 {
+  animation-delay: 2.1s, 3.6s;
+}
+#s4 {
+  animation-delay: 1.7s, 2.1s, 3.1s;
+}
+
+@keyframes brighten {
+  to {
+    stroke: var(--active-text);
+    filter: drop-shadow(0 0 1px var(--active-text));
+  }
+}
+
+@keyframes palpitate {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 1px var(--active-text));
+  }
+  50% {
+    filter: drop-shadow(0 0 0px var(--active-text));
+  }
+}
+
+@keyframes finalVanish {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.loading-overlay.fade-out {
+  animation: finalVanish 2s ease-out forwards;
+}

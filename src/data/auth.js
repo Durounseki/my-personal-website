@@ -1,4 +1,3 @@
-import { useState, useCallback } from "react";
 import {
   useQuery,
   useMutation,
@@ -7,6 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { apiClient } from "./api";
+import useAlert from "../components/AlertContext/useAlert";
 
 export const authQueryOptions = queryOptions({
   queryKey: ["currentUser"],
@@ -22,16 +22,10 @@ export const useAuth = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [alert, setAlert] = useState({ message: "", type: "" });
-  const showAlert = (message, type) => setAlert({ message, type });
-  const clearAlert = useCallback(() => setAlert({ message: "", type: "" }), []);
+  const { alert, showAlert, clearAlert } = useAlert();
 
   const { data: user, isLoading } = useQuery(authQueryOptions);
 
-  /**
-   * REPLICATED ERROR LOGIC:
-   * Maps response status to your specific message types
-   */
   const handleMutationError = async (error, fallback) => {
     const res = error.response;
     if (!res) {
@@ -43,10 +37,8 @@ export const useAuth = () => {
     const msg = data.message || fallback;
 
     if (res.status === 404) {
-      // Replicates your bot/lost error logic
       showAlert(msg, "fail");
     } else if (res.status >= 400 && res.status < 500) {
-      // Replicates your warning logic
       showAlert(msg, "warning");
     } else {
       showAlert(
@@ -55,8 +47,6 @@ export const useAuth = () => {
       );
     }
   };
-
-  // --- MUTATIONS ---
 
   const login = useMutation({
     mutationFn: (credentials) =>
@@ -150,8 +140,6 @@ export const useAuth = () => {
     },
     onError: (err) => handleMutationError(err, "An unexpected error occurred."),
   });
-
-  // --- BLOG MUTATIONS ---
 
   const savePost = useMutation({
     mutationFn: ({ postId, data }) =>

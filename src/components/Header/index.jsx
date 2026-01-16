@@ -9,7 +9,6 @@ function Header() {
 
   const navLinks = useMemo(
     () => [
-      { name: "E L", url: "/" },
       { name: "Research", url: "/research", faClass: "fa-solid fa-book" },
       { name: "Blog", url: "/blog", faClass: "fa-solid fa-blog" },
       { name: "About", url: "/about", faClass: "fa-solid fa-circle-info" },
@@ -43,6 +42,7 @@ function Header() {
       if (accountRef.current?.classList.contains("show")) {
         accountRef.current.classList.remove("show");
       }
+      if (url) navigate({ to: url });
     }
   };
 
@@ -73,14 +73,18 @@ function Header() {
 
   useEffect(() => {
     const pathSegment = location.pathname.split("/")[1];
-    const currentPath = pathSegment ? `/${pathSegment}` : "/";
+    if (!pathSegment) {
+      setActiveTab(0);
+      return;
+    }
 
-    const activeIndex = navLinks.findIndex((link) => {
-      if (link.url === "/") return location.pathname === "/";
-      return link.url.startsWith(currentPath);
-    });
+    const currentPath = `/${pathSegment}`;
+
+    const activeIndex = navLinks.findIndex((link) =>
+      link.url.startsWith(currentPath)
+    );
     if (activeIndex !== -1) {
-      setActiveTab(activeIndex);
+      setActiveTab(activeIndex + 1);
     }
   }, [location.pathname, navLinks]);
 
@@ -104,11 +108,36 @@ function Header() {
     <header className="menu">
       <nav>
         <ul>
+          <li
+            className={`home-tab menu-tab ${activeTab === 0 ? "active" : ""}`}
+            ref={(el) => (tabsRef.current[0] = el)}
+            onClick={() => handleClick(0, "/")}
+            style={{ display: "flex" }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="-44 -40 88 82"
+              fill="none"
+              style={{ background: "transparent", height: "24px" }}
+            >
+              <g>
+                <line x1="-36" y1="-16" x2="4" y2="-16" strokeWidth="8"></line>
+                <line x1="-16" y1="-12" x2="-16" y2="12" strokeWidth="8"></line>
+                <line x1="-44" y1="16" x2="12" y2="16" strokeWidth="8"></line>
+                <path d="M 24 -20 V 16 H 44" strokeWidth="8"></path>
+                <path
+                  d="M 8 -12 V 0 H -4"
+                  strokeWidth="8"
+                  style={{ stroke: "var(--active-text)" }}
+                ></path>
+              </g>
+            </svg>
+          </li>
           {navLinks.map((link, index) => (
             <li
               key={index}
               className={`menu-tab ${index === activeTab ? "active" : ""}`}
-              ref={(el) => (tabsRef.current[index] = el)}
+              ref={(el) => (tabsRef.current[index + 1] = el)}
               onClick={() => handleClick(index, link.url)}
             >
               {isAuthenticated && link.url === "/users" ? (
