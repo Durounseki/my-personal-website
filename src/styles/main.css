@@ -78,7 +78,7 @@ main {
 header.menu {
   position: sticky;
   top: 32px;
-  z-index: 1;
+  z-index: 2;
 }
 
 h1 {
@@ -129,11 +129,113 @@ b {
   z-index: 0;
 }
 
+.footer-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  gap: 48px;
+  margin-top: 24px;
+  border-top: 1px solid var(--secondary-text);
+  padding-top: 24px;
+}
+.tech-tag {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-top: 36px;
+}
+
+@media (max-width: 600px) {
+  .footer-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.footer-logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-logo-wrapper svg {
+  height: 40px;
+  background-color: transparent;
+}
+
+.brand-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--active-text);
+}
+
+.footer-bio {
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--slate-400);
+  line-height: 1.6;
+}
+
+.footer-links h4,
+.footer-social h4 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  margin-bottom: 20px;
+  color: var(--secondary-text);
+}
+
+.footer-navigation {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  flex: 1;
+}
+
+.footer-links nav.explore-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.footer-links nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 0.95rem;
+  color: var(--slate-300);
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: var(--main-accent);
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.tech-tag {
+  font-size: 0.75rem;
+  color: var(--slate-500);
+}
+
 .copyright {
   position: relative;
   z-index: 1;
   border-top: 1px solid var(--secondary-text);
   padding: 32px 0;
+  text-align: center;
 }
 
 nav {
@@ -183,7 +285,8 @@ header ul {
   border-radius: 48px;
   box-sizing: border-box;
   transition: all 0.3s ease-in-out;
-  background-color: var(--secondary-text);
+  background-color: transparent;
+  border: 1px solid var(--active-text);
   z-index: 2;
 }
 
@@ -278,6 +381,33 @@ p.contact {
 
 .resume-container {
   position: relative;
+}
+
+.resume-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 48px 0;
+}
+
+.resume-page-content .back-button {
+  padding: 8px 16px;
+  background-color: var(--secondary-background);
+  border-radius: 36px;
+  border: 1px solid var(--secondary-text);
+  margin: 0 auto;
+  width: 150px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.resume-page-content .resume {
+  margin: 0 auto;
+}
+
+.resume-page-content .back-button:hover {
+  color: var(--secondary-background);
+  background-color: var(--secondary-text);
 }
 
 .resume-list {
@@ -383,7 +513,7 @@ p.contact {
 .skills {
   margin-bottom: 64px;
   position: relative;
-  padding: 24px 0;
+  padding-top: 24px;
 }
 
 .skills::before {
@@ -411,6 +541,12 @@ p.contact {
   margin: 0;
 }
 
+.skills h3 {
+  position: relative;
+  text-align: center;
+  font-size: 14px;
+}
+
 .skill {
   display: flex;
   flex-direction: column;
@@ -420,6 +556,10 @@ p.contact {
 
 .skill i {
   font-size: 1.5rem;
+}
+
+.skill img {
+  height: 25px;
 }
 
 .skill p {
@@ -1487,4 +1627,74 @@ code.inline-code {
 .home-tab line,
 .home-tab path {
   stroke: var(--main-text);
+}
+
+.terms-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background-color: var(--secondary-background);
+  border: 1px solid var(--secondary-text);
+  border-radius: 16px;
+  line-height: 1.7;
+}
+
+.terms-header {
+  border-bottom: 2px solid var(--secondary-text);
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+}
+
+.terms-header h1 {
+  color: var(--active-text);
+  margin: 0;
+  font-size: clamp(28px, 5vw, 42px);
+  /* Using your unique header variation settings */
+  font-variation-settings:
+    "wdth" 120,
+    "XOPQ" 150;
+}
+
+.effective-date {
+  color: var(--slate-500);
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.terms-section {
+  margin-bottom: 32px;
+}
+
+.terms-section h2 {
+  color: var(--secondary-text);
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+.terms-section p {
+  color: var(--main-text);
+}
+
+.terms-section ul {
+  padding-left: 20px;
+  color: var(--main-text);
+}
+
+.terms-section li {
+  margin-bottom: 16px;
+}
+
+.terms-section strong {
+  color: var(--slate-200);
+  display: block;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 600px) {
+  .terms-container {
+    padding: 24px;
+    margin: 20px;
+  }
 }

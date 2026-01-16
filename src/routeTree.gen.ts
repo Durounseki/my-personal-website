@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
+import { Route as TermsAndPrivacyRouteImport } from './routes/terms-and-privacy'
+import { Route as RirekishoRouteImport } from './routes/rirekisho'
+import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as ResearchRouteImport } from './routes/research'
-import { Route as LogoRouteImport } from './routes/logo'
+import { Route as KeirekishoRouteImport } from './routes/keirekisho'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -33,14 +36,29 @@ const UsersRoute = UsersRouteImport.update({
   path: '/users',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsAndPrivacyRoute = TermsAndPrivacyRouteImport.update({
+  id: '/terms-and-privacy',
+  path: '/terms-and-privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RirekishoRoute = RirekishoRouteImport.update({
+  id: '/rirekisho',
+  path: '/rirekisho',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResearchRoute = ResearchRouteImport.update({
   id: '/research',
   path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LogoRoute = LogoRouteImport.update({
-  id: '/logo',
-  path: '/logo',
+const KeirekishoRoute = KeirekishoRouteImport.update({
+  id: '/keirekisho',
+  path: '/keirekisho',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogRoute = BlogRouteImport.update({
@@ -124,8 +142,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
-  '/logo': typeof LogoRoute
+  '/keirekisho': typeof KeirekishoRoute
   '/research': typeof ResearchRoute
+  '/resume': typeof ResumeRoute
+  '/rirekisho': typeof RirekishoRoute
+  '/terms-and-privacy': typeof TermsAndPrivacyRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
   '/projects/$projectId': typeof ProjectsProjectIdRoute
@@ -143,8 +164,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/logo': typeof LogoRoute
+  '/keirekisho': typeof KeirekishoRoute
   '/research': typeof ResearchRoute
+  '/resume': typeof ResumeRoute
+  '/rirekisho': typeof RirekishoRoute
+  '/terms-and-privacy': typeof TermsAndPrivacyRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
   '/projects/$projectId': typeof ProjectsProjectIdRoute
@@ -163,8 +187,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blog': typeof BlogRouteWithChildren
-  '/logo': typeof LogoRoute
+  '/keirekisho': typeof KeirekishoRoute
   '/research': typeof ResearchRoute
+  '/resume': typeof ResumeRoute
+  '/rirekisho': typeof RirekishoRoute
+  '/terms-and-privacy': typeof TermsAndPrivacyRoute
   '/users': typeof UsersRouteWithChildren
   '/blog/posts': typeof BlogPostsRouteWithChildren
   '/projects/$projectId': typeof ProjectsProjectIdRoute
@@ -185,8 +212,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
-    | '/logo'
+    | '/keirekisho'
     | '/research'
+    | '/resume'
+    | '/rirekisho'
+    | '/terms-and-privacy'
     | '/users'
     | '/blog/posts'
     | '/projects/$projectId'
@@ -204,8 +234,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/logo'
+    | '/keirekisho'
     | '/research'
+    | '/resume'
+    | '/rirekisho'
+    | '/terms-and-privacy'
     | '/users'
     | '/blog/posts'
     | '/projects/$projectId'
@@ -223,8 +256,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blog'
-    | '/logo'
+    | '/keirekisho'
     | '/research'
+    | '/resume'
+    | '/rirekisho'
+    | '/terms-and-privacy'
     | '/users'
     | '/blog/posts'
     | '/projects/$projectId'
@@ -244,8 +280,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BlogRoute: typeof BlogRouteWithChildren
-  LogoRoute: typeof LogoRoute
+  KeirekishoRoute: typeof KeirekishoRoute
   ResearchRoute: typeof ResearchRoute
+  ResumeRoute: typeof ResumeRoute
+  RirekishoRoute: typeof RirekishoRoute
+  TermsAndPrivacyRoute: typeof TermsAndPrivacyRoute
   UsersRoute: typeof UsersRouteWithChildren
   ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
 }
@@ -259,6 +298,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UsersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms-and-privacy': {
+      id: '/terms-and-privacy'
+      path: '/terms-and-privacy'
+      fullPath: '/terms-and-privacy'
+      preLoaderRoute: typeof TermsAndPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rirekisho': {
+      id: '/rirekisho'
+      path: '/rirekisho'
+      fullPath: '/rirekisho'
+      preLoaderRoute: typeof RirekishoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/research': {
       id: '/research'
       path: '/research'
@@ -266,11 +326,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/logo': {
-      id: '/logo'
-      path: '/logo'
-      fullPath: '/logo'
-      preLoaderRoute: typeof LogoRouteImport
+    '/keirekisho': {
+      id: '/keirekisho'
+      path: '/keirekisho'
+      fullPath: '/keirekisho'
+      preLoaderRoute: typeof KeirekishoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog': {
@@ -442,8 +502,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BlogRoute: BlogRouteWithChildren,
-  LogoRoute: LogoRoute,
+  KeirekishoRoute: KeirekishoRoute,
   ResearchRoute: ResearchRoute,
+  ResumeRoute: ResumeRoute,
+  RirekishoRoute: RirekishoRoute,
+  TermsAndPrivacyRoute: TermsAndPrivacyRoute,
   UsersRoute: UsersRouteWithChildren,
   ProjectsProjectIdRoute: ProjectsProjectIdRoute,
 }

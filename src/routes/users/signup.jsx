@@ -139,8 +139,8 @@ function SignUp() {
       </p>
       <p>
         By continuing, you agree to the{" "}
-        <a href="/terms-of-service" rel="noopener noreferrer" target="_blank">
-          terms of use
+        <a href="/terms-and-privacy" rel="noopener noreferrer" target="_blank">
+          terms of use and privacy policy
         </a>
         .
       </p>

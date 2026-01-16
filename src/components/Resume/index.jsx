@@ -1,9 +1,7 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
+import { Link } from "@tanstack/react-router";
 
 function Resume({ url }) {
-  const navigate = useNavigate();
   const apiRootUrl = import.meta.env.VITE_API_ROOT_URL;
   const handleClick = (url) => {
     try {
@@ -18,18 +16,16 @@ function Resume({ url }) {
   }, []);
 
   return (
-    <>
+    <div className="resume-page-content">
       <a className="resume" href="#" onClick={() => handleClick(url)}>
         <i className="fa-solid fa-file-lines"></i>
-        <p>CV</p>
+        <p>DOWNLOAD</p>
       </a>
-      <button onClick={() => navigate("/")}>Back Home</button>
-    </>
+      <Link className="back-button" to="/">
+        Back Home
+      </Link>
+    </div>
   );
 }
-
-Resume.propTypes = {
-  url: PropTypes.string,
-};
 
 export default Resume;

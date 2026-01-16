@@ -3,14 +3,20 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "../../data/auth";
 import * as validators from "../../utils/validators.js";
 import DOMPurify from "dompurify";
+import { userQueryOptions, useUser } from "../../data/users.js";
 
 export const Route = createFileRoute("/users/profile")({
+  loader: ({ context: { queryClient, userId } }) => {
+    if (!userId) return null;
+    return queryClient.ensureQueryData(userQueryOptions(userId));
+  },
   component: Profile,
 });
 
 function Profile() {
-  const { user, isLoading, userId, csrfToken, updateUser, deleteAccount } =
-    useAuth();
+  const { userId, csrfToken, updateUser, deleteAccount } = useAuth();
+
+  const { data: user, isLoading } = useUser(userId);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

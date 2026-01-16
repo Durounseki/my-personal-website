@@ -1,0 +1,14 @@
+User-agent: *
+
+Disallow: /users/profile
+Disallow: /users/reset-password/
+Disallow: /users/reset-password/*
+
+Disallow: /blog/posts/create
+Disallow: /blog/posts/*/edit
+
+Disallow: /logo
+
+Allow: /
+
+Sitemap: https://esparzalopez.com/sitemap.xml
