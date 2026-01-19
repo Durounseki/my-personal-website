@@ -25,3 +25,13 @@ export const postQueryOptions = (postId) =>
     },
     enabled: !!postId,
   });
+
+export const categoriesQueryOptions = () =>
+  queryOptions({
+    queryKey: ["blog", "categories"],
+    queryFn: async () => {
+      const res = await apiClient(`/api/blog/categories`);
+      if (!res.ok) throw new Error("Failed to fetch categories");
+      return res.json();
+    },
+  });

@@ -1,15 +1,19 @@
 import { useState, useRef } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { postsQueryOptions } from "../../data/blog";
+import { categoriesQueryOptions, postsQueryOptions } from "../../data/blog";
 import DOMPurify from "dompurify";
 import BlogPostCard from "../../components/Blog/BlogPostCard";
 import BlogCategory from "../../components/Blog/BlogCategory";
 import BlogPostSkeleton from "../../components/Blog/BlogPostCard/loading";
 
 export const Route = createFileRoute("/blog/")({
-  loader: ({ context: { queryClient, isAdmin } }) =>
-    queryClient.ensureQueryData(postsQueryOptions(isAdmin)),
+  loader: async ({ context: { queryClient, isAdmin } }) => {
+    await Promise.all([
+      queryClient.ensureQueryData(postsQueryOptions(isAdmin)),
+      queryClient.ensureQueryData(categoriesQueryOptions()),
+    ]);
+  },
   component: BlogIndex,
 });
 
@@ -20,7 +24,12 @@ function BlogIndex() {
   const [postCategory, setPostCategory] = useState("");
   const createPostRef = useRef(null);
 
-  const { data: posts = [], isLoading } = useQuery(postsQueryOptions(isAdmin));
+  const { data: posts = [], isLoading: postsLoading } = useQuery(
+    postsQueryOptions(isAdmin)
+  );
+  const { data: categories = [], isLoading: categoriesLoading } = useQuery(
+    categoriesQueryOptions()
+  );
 
   const handleCreatePost = (event) => {
     event.preventDefault();
@@ -64,9 +73,10 @@ function BlogIndex() {
               <button type="submit">Create</button>
             </form>
           </section>
-          {!isLoading && (
+          {!postsLoading && !categoriesLoading && (
             <BlogCategory
               category="UNPUBLISHED"
+              posts={posts.filter((post) => !post.published)}
               isAdmin={isAdmin}
               csrfToken={csrfToken}
             />
@@ -86,21 +96,29 @@ function BlogIndex() {
         </>
       )}
 
-      {isLoading ? (
+      {postsLoading || categoriesLoading ? (
         <>
           <BlogPostSkeleton />
           <BlogPostSkeleton />
           <BlogPostSkeleton />
         </>
       ) : (
-        posts.map((post) => (
-          <BlogPostCard
-            key={post.id}
-            post={post}
-            isAdmin={isAdmin}
-            csrfToken={csrfToken}
-          />
-        ))
+        <section className="blog-category">
+          <h2 className="blog-category-name">PUBLISHED</h2>
+          <div className="latest-posts">
+            {posts.map(
+              (post) =>
+                post.published && (
+                  <BlogPostCard
+                    key={post.id}
+                    post={post}
+                    isAdmin={isAdmin}
+                    csrfToken={csrfToken}
+                  />
+                )
+            )}
+          </div>
+        </section>
       )}
     </>
   );

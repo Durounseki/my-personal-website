@@ -3,6 +3,8 @@ import { useAuth } from "../../../data/auth";
 
 function BlogPostCard({ post, isAdmin, csrfToken }) {
   const { publishPost, deletePost } = useAuth();
+  const isDeleting = deletePost.isPending;
+  const isPublishing = publishPost.isPending;
   const navigate = useNavigate();
 
   const postDate = new Date(post.createdAt).toLocaleDateString("en-JP", {
@@ -20,9 +22,37 @@ function BlogPostCard({ post, isAdmin, csrfToken }) {
   };
 
   const handleEdit = async (e) => {
+    e.preventDefault();
     e.stopPropagation();
-    await publishPost({ postId: post.id, token: csrfToken, published: false });
+
+    await publishPost.mutateAsync({
+      postId: post.id,
+      token: csrfToken,
+      published: false,
+      isAdmin: !!isAdmin,
+    });
     navigate({ to: `/blog/posts/${post.id}/edit` });
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (isDeleting) return;
+    deletePost.mutate({
+      postId: post.id,
+      token: csrfToken,
+      isAdmin: !!isAdmin,
+    });
+  };
+
+  const handlePublish = (e) => {
+    e.stopPropagation();
+    if (isPublishing) return;
+    publishPost.mutate({
+      postId: post.id,
+      token: csrfToken,
+      published: true,
+      isAdmin: !!isAdmin,
+    });
   };
 
   return (
@@ -39,27 +69,13 @@ function BlogPostCard({ post, isAdmin, csrfToken }) {
               ) : (
                 <>
                   <li>
-                    <a
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        publishPost({
-                          postId: post.id,
-                          token: csrfToken,
-                          published: true,
-                        });
-                      }}
-                    >
-                      Publish
+                    <a onClick={handlePublish}>
+                      {isPublishing ? "Publishing..." : "Publish"}
                     </a>
                   </li>
                   <li>
-                    <a
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deletePost({ postId: post.id, token: csrfToken });
-                      }}
-                    >
-                      Delete
+                    <a onClick={handleDelete}>
+                      {isDeleting ? "Deleting..." : "Delete"}
                     </a>
                   </li>
                 </>

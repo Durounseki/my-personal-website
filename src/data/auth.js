@@ -142,14 +142,26 @@ export const useAuth = () => {
   });
 
   const savePost = useMutation({
-    mutationFn: ({ postId, data }) =>
-      apiClient(`/api/blog/posts/${postId}`, {
+    mutationFn: async ({ postId, data }) => {
+      const url = postId ? `/api/blog/posts/${postId}` : `/api/blog/posts`;
+      const res = await apiClient(url, {
         method: "POST",
         body: JSON.stringify({ data }),
-      }),
-    onSuccess: (res, variables) => {
+      });
+      if (!res.ok) showAlert("Failed to save post", "error");
+
+      return res.json();
+    },
+    onSuccess: async (data, variables) => {
+      await queryClient.invalidateQueries({ queryKey: ["posts", "list"] });
+      if (data.postId) {
+        await queryClient.invalidateQueries({
+          queryKey: ["posts", data.postId],
+        });
+      }
       showAlert("Post saved.", "success");
       if (variables.willClose) {
+        localStorage.clear();
         navigate({ to: "/blog" });
       }
     },
@@ -157,29 +169,75 @@ export const useAuth = () => {
   });
 
   const publishPost = useMutation({
-    mutationFn: ({ postId, token, published }) =>
+    mutationFn: ({ postId, token, published, isAdmin }) =>
       apiClient(`/api/blog/posts/${postId}`, {
         method: "PATCH",
         body: JSON.stringify({ _csrf: token, published }),
       }),
-    onSuccess: (_, variables) => {
+    onMutate: async ({ postId, published, isAdmin }) => {
+      const queryKey = ["posts", "list", { admin: !!isAdmin }];
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousPosts = queryClient.getQueryData(queryKey);
+
+      queryClient.setQueryData(queryKey, (old) => {
+        if (!old) return [];
+        return old.map((post) =>
+          post.id === postId ? { ...post, published: published } : post
+        );
+      });
+      return { previousPosts };
+    },
+    onError: (err, variables, context) => {
+      const queryKey = ["posts", "list", { admin: !!variables.isAdmin }];
+      if (context?.previousPosts) {
+        queryClient.setQueryData(queryKey, context.previousPosts);
+      }
+      handleMutationError(err, "An unexpected error occurred.");
+    },
+    onSettled: async (_, __, variables) => {
+      const queryKey = ["posts", "list", { admin: !!variables.isAdmin }];
+      await queryClient.invalidateQueries({ queryKey });
+      await queryClient.invalidateQueries({
+        queryKey: ["posts", variables.postId],
+      });
       showAlert(
         variables.published ? "Post published." : "Post ready to edit",
         "success"
       );
-      navigate({ to: "/blog" });
     },
-    onError: (err) => handleMutationError(err, "An unexpected error occurred."),
   });
 
   const deletePost = useMutation({
-    mutationFn: ({ postId, token }) =>
+    mutationFn: ({ postId, token, isAdmin }) =>
       apiClient(`/api/blog/posts/${postId}`, {
         method: "DELETE",
         headers: { "X-CSRF-Token": token },
       }),
-    onSuccess: () => showAlert("Post deleted.", "success"),
-    onError: (err) => handleMutationError(err, "An unexpected error occurred."),
+    onMutate: async ({ postId, isAdmin }) => {
+      const queryKey = ["posts", "list", { admin: !!isAdmin }];
+
+      await queryClient.cancelQueries({ queryKey });
+
+      const previousPosts = queryClient.getQueryData(queryKey);
+
+      queryClient.setQueryData(queryKey, (old) =>
+        old?.filter((post) => post.id !== postId)
+      );
+      return { previousPosts };
+    },
+    onError: (err, variables, context) => {
+      const queryKey = ["posts", "list", { admin: variables.isAdmin }];
+      if (context?.previousPosts) {
+        queryClient.setQueryData(queryKey, context.previousPosts);
+      }
+      handleMutationError(err, "An unexpected error occurred.");
+    },
+    onSettled: (_, __, variables) => {
+      const queryKey = ["posts", "list", { admin: !!variables.isAdmin }];
+      queryClient.invalidateQueries({ queryKey });
+      showAlert("Post deleted.", "success");
+    },
   });
 
   return {
@@ -198,8 +256,8 @@ export const useAuth = () => {
     deleteAccount: deleteAccount.mutate,
     requestResetPassword: requestResetPassword.mutate,
     resetPassword: resetPassword.mutate,
-    savePost: savePost.mutate,
-    publishPost: publishPost.mutate,
-    deletePost: deletePost.mutate,
+    savePost: savePost,
+    publishPost: publishPost,
+    deletePost: deletePost,
   };
 };

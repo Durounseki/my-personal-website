@@ -11,6 +11,8 @@ function PostEditor({ mode, initialData = null }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [keywords, setKeywords] = useState([]);
+  const [published, setPublished] = useState(false);
+  const [postId, setPostId] = useState(initialData?.id || null);
   const isEditingMode = mode === "edit" || mode === "create";
 
   const bodyInit = useRef(false);
@@ -22,10 +24,12 @@ function PostEditor({ mode, initialData = null }) {
       setCategory(localStorage.getItem("post-category") || "");
       const savedK = localStorage.getItem("post-keywords");
       setKeywords(savedK ? savedK.split(", ") : []);
+      setPublished(false);
     } else if (initialData) {
       setTitle(initialData.title || "");
       setCategory(initialData.category?.name || "");
       setKeywords(initialData.keywords?.map((k) => k.name) || []);
+      setPublished(initialData.published);
     }
   }, [initialData, mode]);
 
@@ -57,12 +61,18 @@ function PostEditor({ mode, initialData = null }) {
       title: title,
       summary: JSON.stringify(summary),
       body: JSON.stringify(body),
-      published: initialData?.published || false,
+      published: published,
       keywords: keywords.map((k) => DOMPurify.sanitize(k)),
       _csrf: csrfToken,
     };
 
-    savePost({ postId: initialData?.id, data, willClose });
+    const savedId = await savePost.mutateAsync({
+      postId: postId,
+      data,
+      willClose,
+    });
+
+    setPostId(savedId.postId);
   };
 
   return (

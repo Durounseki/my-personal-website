@@ -1,21 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { apiClient } from "../../data/api";
 import BlogPostCard from "./BlogPostCard";
 
-function BlogCategory({ category, isAdmin, csrfToken }) {
-  const { data: posts = [], isLoading } = useQuery({
-    queryKey: ["posts", category.id || "unpublished"],
-    queryFn: async () => {
-      const url = category.id
-        ? `/api/blog/posts?categoryId=${category.id}&published=true`
-        : `/api/blog/posts?published=false`;
-      const res = await apiClient(url);
-      return res.json();
-    },
-  });
-
-  if (isLoading) return <p>Loading...</p>;
-
+function BlogCategory({ category, isAdmin, csrfToken, posts = [] }) {
   const categoryName = category.name
     ? category.name.toUpperCase()
     : category.toUpperCase();
