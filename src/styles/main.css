@@ -52,6 +52,7 @@ body {
   background-size: 4vw 4vw;
   background-position: center center;
   background-attachment: fixed;
+  overflow-x: hidden;
 }
 
 #root {
