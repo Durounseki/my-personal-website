@@ -1,5 +1,6 @@
 import suruImg from "../assets/projects/suru-og.png";
-import alnutriologoImg from "../assets/projects/alnutriologo.png";
+import alfonsoLibrerosImg from "../assets/projects/alfonso-libreros-og.png";
+import alnutriologoImg from "../assets/projects/alnutriologo-og.png";
 import goldenwingsImg from "../assets/projects/goldenwings.png";
 import viajerasporsiempreImg from "../assets/projects/viajerasporsiempre.png";
 
@@ -52,6 +53,54 @@ const fallbackProjects = [
     ],
   },
   {
+    id: "alnutriologo",
+    name: "alnutriologo.com",
+    date: "2026-02",
+    category: "Fullstack / SEO",
+    description:
+      "A high-performance, SEO-first directory for nutritionists in Mexico, leveraging Edge Computing to deliver instant search results and verified specialist profiles.",
+    technologies: [
+      "React",
+      "JavaScript",
+      "Cloudflare Workers",
+      "Hono",
+      "TanStack Router",
+      "TailwindCSS",
+    ],
+    repository: "",
+    live: "https://alnutriologo.com/",
+    more: "/projects/alnutriologo",
+    image: alnutriologoImg,
+    technicalHighlights: [
+      {
+        title: "Edge-Native Server Side Rendering (SSR)",
+        detail:
+          "Implemented standard SSR using TanStack Router on Cloudflare Workers to deliver fully hydrated HTML with dynamic JSON-LD schemas, achieving 100/100 Core Web Vitals.",
+      },
+      {
+        title: "Semantic SEO & URL Architecture",
+        detail:
+          "Engineered a collision-resistant URL slug system (handling duplicate names via geolocation logic) and dynamic meta-tag injection to maximize 'long-tail' search visibility for 500+ unique profiles.",
+      },
+      {
+        title: "High-Performance Data Pipeline",
+        detail:
+          "Built a lightweight API layer in JavaScript that handles server-side filtering (accent-insensitive), pagination, and sanitization, ensuring the client receives minimal payloads for maximum speed.",
+      },
+    ],
+    problem:
+      "Finding a specialized nutritionist in CDMX is frustrating due to fragmented information. Generic directories are bloated, slow, and lack crucial niche filters like 'LGBTQ+ safe spaces', 'bilingual services', or specific clinical specialties.",
+    solution:
+      "alnutriologo.com provides a centralized, hyper-fast ecosystem for health professionals. By leveraging Edge computing and a clean React architecture, we provide patients with instant access to verified professionals, filtered by their specific needs rather than just proximity.",
+    results:
+      "Successfully indexed and rendered 500+ specialized profiles in Mexico City with zero layout shift. The platform's scalable architecture is ready to handle multi-city expansion without performance degradation.",
+    futureSteps: [
+      "Scaling the directory to major hubs (Monterrey, Guadalajara) using the established dynamic route architecture.",
+      "Integration of utility tools (TDEE/Macro calculators) to drive organic traffic and extend user session duration.",
+      "Implementation of a direct booking system and supplement marketplace leveraging my existing Stripe infrastructure.",
+    ],
+  },
+  {
     id: "goldenwings",
     name: "Golden Wings Chicken",
     date: "2023-05",
@@ -90,17 +139,17 @@ const fallbackProjects = [
     ],
   },
   {
-    id: "alnutriologo",
-    name: "ALNutriologo",
+    id: "alfonso-libreros",
+    name: "Nutritionist Professional Website",
     date: "2024-05",
     category: "Frontend",
     description:
       "A professional healthcare landing page that evolved from a static multi-page site into a high-performance Single Page Application.",
     technologies: ["React", "Tanstack", "Cloudflare"],
     repository: "https://github.com/Durounseki/libreros_nutricion",
-    live: "https://durounseki.github.io/libreros_nutricion/",
-    more: "/projects/alnutriologo",
-    image: alnutriologoImg,
+    live: "https://alfonsolibreros.alnutriologo.com",
+    more: "/projects/alfonso-libreros",
+    image: alfonsoLibrerosImg,
     technicalHighlights: [
       {
         title: "Architecture Evolution",
